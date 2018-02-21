@@ -1,0 +1,73 @@
+package com.omniesoft.commerce.persistence.repository.admin.impl;
+
+import com.omniesoft.commerce.persistence.entity.admin.AdminRoleEntity;
+import com.omniesoft.commerce.persistence.repository.admin.AdminRoleRepositoryCustom;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
+
+/**
+ * @author Vitalii Martynovskyi
+ * @since 12.10.17
+ */
+@Transactional
+public class AdminRoleRepositoryImpl implements AdminRoleRepositoryCustom {
+    @PersistenceContext
+    private EntityManager em;
+
+    @Override
+    public void delete(UUID organizationId, UUID roleId) {
+        em.createQuery(
+                "delete from AdminRoleEntity r" +
+                        " where r.id = :id" +
+                        " and r.organization.id = :organizationId")
+                .setParameter("id", roleId)
+                .setParameter("organizationId", organizationId)
+                .executeUpdate();
+    }
+
+    @Override
+    public Set<AdminRoleEntity> findByRolesOrganizationId(UUID organizationId) {
+        List<AdminRoleEntity> list = em.createQuery(
+                "select r from AdminRoleEntity r" +
+                        " left join fetch r.permissions" +
+                        " where r.organization.id = :organizationId",
+                AdminRoleEntity.class)
+                .setParameter("organizationId", organizationId)
+                .getResultList();
+
+        return new HashSet<>(list);
+    }
+
+    @Override
+    public Set<AdminRoleEntity> findByOrganizationIdWithPermissionsAndAdmins(UUID organizationId) {
+        List<AdminRoleEntity> roles = em.createQuery(
+                "select r from AdminRoleEntity r" +
+                        " left join r.permissions" +
+                        " left join r.admins" +
+                        " where r.organization.id = :organizationId",
+                AdminRoleEntity.class)
+                .setParameter("organizationId", organizationId)
+                .getResultList();
+        return new HashSet<>(roles);
+    }
+
+    @Override
+    public void updateRoleName(UUID organizationId, UUID roleId, String name) {
+        em.createQuery(
+                "update AdminRoleEntity r" +
+                        " set r.name =:name" +
+                        " where r.id = :id" +
+                        " and r.organization.id = :organizationId")
+                .setParameter("id", roleId)
+                .setParameter("organizationId", organizationId)
+                .setParameter("name", name)
+                .executeUpdate();
+
+    }
+}

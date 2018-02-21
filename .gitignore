@@ -1,0 +1,12 @@
+.idea/
+*.iml
+*.class
+target/*
+**/target/*
+out/
+
+# System Files
+.DS_Store
+Thumbs.db
+/src/test/java/com/omniesoft/JpaTest.java
+/src/test/java/com/omniesoft/H2Configuration.java

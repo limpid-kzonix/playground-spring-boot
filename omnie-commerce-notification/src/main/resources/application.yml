@@ -1,0 +1,145 @@
+
+
+#
+# [ Server Configuration Attributes ]
+#
+server:
+ port: 9090
+ context-path: /api
+
+#
+# [ Database Configuration Attributes ]
+#
+spring:
+  application:
+    name: omnie-notification
+  jpa:
+    generate-ddl: false
+    show-sql: false
+    database: postgresql
+    hibernate:
+      ddl-auto: validate
+      naming:
+        strategy: org.hibernate.cfg.ImprovedNamingStrategy
+  datasource:
+    platform: POSTGRESQL
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/omnie_commerce
+    username: postgres
+    password: geek
+  jackson:
+    date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
+  output:
+    ansi:
+      enabled: always
+  cache:
+    ehcache:
+      config: classpath:ehcache.xml
+
+#
+# [ Security Configuration Attributes ]
+#
+
+security:
+  basic:
+    enabled: false
+  oauth2:
+    client:
+      clientId: web-client
+      clientSecret: secret
+      accessTokenUri: http://localhost:9999/omnie-security/api/oauth/check_token
+      userAuthorizationUri: http://localhost:9999/omnie-security/api/oauth/authorize
+    resource:
+      filter-order: 3
+      jwt:
+        keyUri: http://localhost:9999/omnie-security/api/oauth/token_key
+
+#
+# [ Logging Configuration Attributes ]
+#
+log4jdbc:
+  trim:
+    sql: false
+  dump:
+    sql:
+      maxlinelength: 90
+      select: true
+
+logging:
+  level:
+    root: info
+    com.omniesoft: info
+    org.springframework: info
+    org.hibernate: info
+    jdbc: info
+    org.apache: info
+    jdbc.audit: info
+    jdbc.resultset: warn
+
+#
+# [ Eureka]
+#
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${service.discovery.client.user}:${service.discovery.client.password}@${service.discovery.host}:9998/eureka/
+    healthcheck:
+      enabled: true
+# Custom
+service:
+  discovery:
+    host: localhost
+    client:
+      user: eureka-client
+      password: EuReKaPasSs
+
+---
+###
+### Profile: dev
+###
+spring:
+    profiles: dev
+    datasource:
+      url: jdbc:postgresql://db:5432/omnie_commerce
+
+#
+# [ Security Configuration Attributes ]
+#
+security:
+  oauth2:
+    client:
+      clientId: web-client
+      clientSecret: secret
+      accessTokenUri: http://omnie-gateway:9999/omnie-security/api/oauth/check_token
+      userAuthorizationUri: http://omnie-gateway:9999/omnie-security/api/oauth/authorize
+    resource:
+      filter-order: 3
+      jwt:
+        keyUri: http://omnie-gateway:9999/omnie-security/api/oauth/token_key
+
+#
+# [ Logging Configuration Attributes ]
+#
+log4jdbc:
+  trim:
+    sql: false
+  dump:
+    sql:
+      maxlinelength: 120
+      select: true
+logging:
+  config: classpath:logger-to-file.xml
+
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    securePortEnabled: false
+    prefer-ip-address: true
+
+service:
+  discovery:
+    host: omnie-discovery
+    client:
+      user: eureka-client
+      password: EuReKaPasSs
+

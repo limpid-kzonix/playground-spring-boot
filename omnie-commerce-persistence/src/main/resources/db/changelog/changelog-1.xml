@@ -1,0 +1,301 @@
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+
+    <changeSet id="2" author="limpid">
+        <sql dbms="postgresql">
+            CREATE TABLE authority (
+            uuid UUID NOT NULL DEFAULT uuid_generate_v4() PRIMARY KEY,
+            name VARCHAR(50) NOT NULL
+            );
+        </sql>
+
+        <rollback>
+            <sql>
+                DROP TABLE authority CASCADE;
+            </sql>
+        </rollback>
+        <comment>Table for users grant</comment>
+    </changeSet>
+    <changeSet id="3" author="limpid">
+        <sql dbms="postgresql">
+            CREATE TABLE user_authority (
+            user_id UUID NOT NULL REFERENCES users(uuid) ON DELETE CASCADE,
+            authority_id UUID DEFAULT NULL REFERENCES authority (uuid) ON DELETE CASCADE,
+            PRIMARY KEY (user_id, authority_id)
+            );
+        </sql>
+
+        <rollback>
+            <sql>
+                DROP TABLE user_authority CASCADE;
+            </sql>
+        </rollback>
+        <comment>Many to many relation for users and authority</comment>
+    </changeSet>
+    <changeSet id="4" author="limpid">
+        <sql dbms="postgresql">
+            ALTER TABLE users
+            ADD COLUMN last_password_reset_date TIMESTAMP NOT NULL DEFAULT now(),
+            ADD COLUMN enabled BOOLEAN NOT NULL DEFAULT TRUE;
+        </sql>
+
+        <rollback>
+            <sql>
+                ALTER TABLE users
+                DROP COLUMN last_password_reset_date,
+                DROP COLUMN enabled
+            </sql>
+        </rollback>
+        <comment>Many to many relation for users and authority</comment>
+    </changeSet>
+    <changeSet id="5" author="limpid">
+        <sql dbms="postgresql">
+            ALTER TABLE users
+            DROP COLUMN access_token,
+            DROP COLUMN salt;
+        </sql>
+
+        <rollback>
+            <sql>
+                ALTER TABLE users
+                ADD COLUMN access_token VARCHAR(100) DEFAULT NULL,
+                ADD COLUMN salt VARCHAR(100) NOT NULL;
+            </sql>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="5" author="omnie46">
+        <sql dbms="postgresql">
+            ALTER TABLE user_profile ALTER COLUMN gender TYPE INT;
+        </sql>
+    </changeSet>
+
+    <changeSet id="6" author="limpid">
+        <sqlFile encoding="UTF-8"
+                 path="db/changelog/functions/initial-functions.sql" splitStatements="false"/>
+    </changeSet>
+
+
+    <changeSet id="7" author="omnie46">
+        <sql dbms="postgresql">
+            ALTER TABLE organization
+            ADD COLUMN freeze_status BOOLEAN NOT NULL DEFAULT FALSE,
+            ADD COLUMN delete_status BOOLEAN NOT NULL DEFAULT FALSE,
+            ADD COLUMN reason TEXT DEFAULT NULL,
+            DROP COLUMN setting_id;
+            DROP TABLE organization_setting;
+        </sql>
+        <rollback>
+            <sql>
+                ALTER TABLE organization
+                DROP COLUMN freeze_status,
+                DROP COLUMN delete_status,
+                DROP COLUMN reason;
+                CREATE TABLE organization_setting (
+                uuid UUID NOT NULL DEFAULT uuid_generate_v4() PRIMARY KEY,
+                freeze_status BOOLEAN NOT NULL DEFAULT FALSE,
+                delete_status BOOLEAN NOT NULL DEFAULT FALSE,
+                reason TEXT DEFAULT NULL
+                );
+                ALTER TABLE organization
+                ADD COLUMN setting_id UUID REFERENCES organization_setting (uuid) ON DELETE SET NULL;
+            </sql>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="8" author="limpid">
+        <sql dbms="postgresql">
+            ALTER TABLE service
+            ADD COLUMN freeze_status boolean default false not null,
+            ADD COLUMN delete_status boolean default false not null,
+            ADD COLUMN reason text,
+            DROP COLUMN setting_id CASCADE;
+
+            DROP TABLE service_setting;
+        </sql>
+        <rollback>
+            <sql>
+                ALTER TABLE service
+                DROP COLUMN freeze_status,
+                DROP COLUMN delete_status,
+                DROP COLUMN reason;
+                CREATE TABLE service_setting (
+                uuid UUID NOT NULL DEFAULT uuid_generate_v4() PRIMARY KEY,
+                freeze_status BOOLEAN NOT NULL DEFAULT FALSE,
+                delete_status BOOLEAN NOT NULL DEFAULT FALSE,
+                reason TEXT DEFAULT NULL
+                );
+                ALTER TABLE service
+                ADD COLUMN setting_id UUID REFERENCES service_setting (uuid) ON DELETE SET NULL;
+            </sql>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="9" author="limpid">
+        <sql dbms="postgresql">
+            ALTER TABLE service_timing ADD COLUMN max_discount DOUBLE PRECISION NOT NULL DEFAULT 0;
+        </sql>
+        <rollback>
+            <sql>
+                ALTER TABLE service_timing DROP COLUMN max_discount;
+            </sql>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="8" author="omnie46">
+        <sql dbms="postgresql">
+            DROP TABLE admin_role_to_permission;
+            DROP TABLE admin_permission;
+            CREATE TABLE admin_role_permission (
+            uuid UUID NOT NULL DEFAULT uuid_generate_v4() PRIMARY KEY,
+            admin_role_id UUID NOT NULL REFERENCES admin_role (uuid) ON DELETE CASCADE,
+            permission INT NOT NULL
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="10" author="omnie46">
+        <sql dbms="postgresql">
+            ALTER TABLE admin_role_permission ADD CONSTRAINT admin_role_permission_admin_role_id_permission_unique
+            UNIQUE (admin_role_id, permission);
+        </sql>
+    </changeSet>
+
+    <changeSet id="11" author="omnie46">
+        <sql dbms="postgresql">
+            DROP TABLE admin_to_service;
+            DROP TABLE admin;
+            CREATE TABLE admin (
+            user_id UUID NOT NULL REFERENCES users (uuid) ON DELETE CASCADE,
+            role_id UUID NOT NULL REFERENCES admin_role (uuid) ON DELETE CASCADE,
+            PRIMARY KEY (user_id, role_id)
+            );
+
+            CREATE TABLE admin_to_service (
+            user_id UUID NOT NULL REFERENCES users (uuid) ON DELETE CASCADE,
+            service_id UUID NOT NULL REFERENCES service (uuid) ON DELETE CASCADE,
+            PRIMARY KEY (user_id, service_id)
+            );
+        </sql>
+    </changeSet>
+
+    <changeSet id="11" author="limpid">
+        <sql dbms="postgresql">
+            ALTER TABLE sub_service ADD COLUMN delete_status BOOLEAN DEFAULT FALSE;
+        </sql>
+        <rollback>
+            <sql>
+                ALTER TABLE sub_service DROP COLUMN delete_status;
+            </sql>
+        </rollback>
+        <comment>😒 delete status for sub-service 😒</comment>
+    </changeSet>
+
+    <changeSet id="12" author="omnie46">
+        <sql dbms="postgresql">
+            ALTER TABLE admin_role_permission ALTER COLUMN permission TYPE VARCHAR(64);
+        </sql>
+        <comment>Change type of permission to string for prevent problem when order of AdminPermission enum changed
+        </comment>
+    </changeSet>
+
+    <changeSet id="13" author="limpid">
+        <sql dbms="postgresql">
+            ALTER TABLE message ADD COLUMN sent_by VARCHAR(30) NOT NULL DEFAULT ''
+        </sql>
+        <comment>Need for detect who sent message (in case if user (from client part) send message for organization,
+            which he is administrated(admin part)
+        </comment>
+    </changeSet>
+
+    <changeSet id="14" author="limpid">
+        <sql dbms="postgresql">
+            ALTER TABLE message
+            DROP COLUMN read_status CASCADE,
+            ADD COLUMN read_user_status BOOLEAN NOT NULL DEFAULT FALSE,
+            ADD COLUMN read_org_status BOOLEAN NOT NULL DEFAULT FALSE;
+        </sql>
+        <comment>Need for determine read status for user/org
+        </comment>
+    </changeSet>
+
+    <changeSet id="15" author="omnie46">
+        <sql dbms="postgresql">
+            ALTER TABLE order_to_sub_service ADD COLUMN duration BIGINT DEFAULT 0;
+        </sql>
+        <rollback>
+            <sql>
+                ALTER TABLE order_to_sub_service DROP COLUMN duration;
+            </sql>
+        </rollback>
+        <comment></comment>
+    </changeSet>
+
+    <changeSet id="16" author="limpid">
+        <sql dbms="postgresql">
+            ALTER TABLE service_price ALTER COLUMN price_unit TYPE VARCHAR(50);
+        </sql>
+        <rollback>
+            <sql>
+                ALTER TABLE service_price ALTER COLUMN price_unit TYPE INTEGER;
+            </sql>
+        </rollback>
+        <comment></comment>
+    </changeSet>
+
+    <changeSet id="17" author="limpid">
+        <sql dbms="postgresql">
+            ALTER TABLE service_price ALTER COLUMN day_mask TYPE VARCHAR(50);
+        </sql>
+        <rollback>
+            <sql>
+                ALTER TABLE service_price ALTER COLUMN day_mask TYPE INTEGER;
+            </sql>
+        </rollback>
+        <comment></comment>
+    </changeSet>
+
+    <changeSet id="18" author="limpid">
+        <sql dbms="postgresql">
+            ALTER TABLE sub_service_price ALTER COLUMN measurement_unit TYPE VARCHAR(50);
+        </sql>
+        <rollback>
+            <sql>
+                ALTER TABLE sub_service_price ALTER COLUMN measurement_unit TYPE INTEGER;
+            </sql>
+        </rollback>
+        <comment></comment>
+    </changeSet>
+    <changeSet id="19" author="limpid">
+        <sql dbms="postgresql">
+            ALTER TABLE owner ADD UNIQUE (user_id);
+        </sql>
+        <comment></comment>
+    </changeSet>
+    <changeSet id="20" author="limpid">
+        <sql dbms="postgresql">
+            ALTER TABLE organization_timesheet ALTER COLUMN day TYPE VARCHAR(50);
+        </sql>
+        <rollback>
+            <sql>
+                ALTER TABLE organization_timesheet ALTER COLUMN day TYPE INTEGER;
+            </sql>
+        </rollback>
+        <comment></comment>
+    </changeSet>
+    <changeSet id="21" author="limpid">
+        <sql dbms="postgresql">
+            ALTER TABLE service_price RENAME day_mask TO day;
+        </sql>
+        <rollback>
+            <sql>
+                ALTER TABLE service_price RENAME day TO day_mask;
+            </sql>
+        </rollback>
+        <comment></comment>
+    </changeSet>
+
+</databaseChangeLog>

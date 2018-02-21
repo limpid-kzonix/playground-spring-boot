@@ -1,0 +1,93 @@
+server:
+  port: 9999
+security:
+  basic:
+    enabled: false
+spring:
+  redis:
+    host: localhost
+    port: 6379
+    password: cISePhIrChOrMACkeTICiAhECludeWha
+  application:
+    name: omnie-commerce-gateway
+
+zuul:
+  add-proxy-headers: true
+  add-host-header: true
+  sensitiveHeaders: Cookie,Set-Cookie
+  host:
+    connect-timeout-millis: 2000
+    max-per-route-connections: 50
+    max-total-connections: 200
+    socket-timeout-millis: 10000
+  retryable: true
+  ribbon-isolation-strategy: semaphore
+  semaphore:
+    max-semaphores: 100
+  ratelimit:
+    key-prefix: omnie-rate-limiter
+    enabled: true
+    repository: REDIS
+    behind-proxy: true
+    default-policy: #deprecated - please use "default-policy-list"
+      limit: 300 #optional - request number limit per refresh interval window
+      quota: 30 #optional - request time limit per refresh interval window (in seconds)
+      refresh-interval: 10 #default value (in seconds)
+      type: #optional
+        - user
+        - origin
+        - url
+
+
+logging:
+  level:
+    root: info
+#    com.omniesoft: info
+#    org.springframework.cloud: info
+#    org.springframework: warn
+#    org.springframework.security: warn
+
+ribbon:
+  eureka:
+    enabled: true
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${service.discovery.client.user}:${service.discovery.client.password}@${service.discovery.host}:9998/eureka/
+# Custom
+service:
+  discovery:
+    host: localhost
+    client:
+      user: eureka-client
+      password: EuReKaPasSs
+
+---
+###
+### Profile: dev
+###
+spring:
+  profiles: dev
+  redis:
+    host: redis
+    port: 6379
+
+logging:
+  config: classpath:logger-to-file.xml
+
+service:
+  discovery:
+    host: omnie-discovery
+    client:
+      user: eureka-client
+      password: EuReKaPasSs
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    securePortEnabled: false
+    prefer-ip-address: true
+
+
+
+
+

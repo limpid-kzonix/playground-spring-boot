@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="ehcache.xsd"
+         updateCheck="true" monitoring="autodetect"
+         dynamicConfig="true">
+    <defaultCache
+            maxEntriesLocalHeap="0"
+            eternal="false"
+            timeToIdleSeconds="1200"
+            timeToLiveSeconds="1200">
+        <terracotta/>
+    </defaultCache>
+    <cache name="user_settings"
+           maxEntriesLocalHeap="200"
+           timeToLiveSeconds="900">
+    </cache>
+    <cache name="buckets"
+           maxEntriesLocalHeap="10000"
+           timeToLiveSeconds="900">
+    </cache>
+</ehcache>

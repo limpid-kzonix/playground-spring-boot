@@ -1,0 +1,193 @@
+
+
+#
+# [ Server Configuration Attributes ]
+#
+server:
+  port: 9010 # 901x -902x
+  context-path: /api
+
+jwt:
+  keystore:
+    name: jwt.jks
+    alias: jwt
+    storepass: omniedev
+
+  header: Authorization
+  secret: iuqAEJACWXgEh5N8
+  expiration: 604800
+
+keystore:
+  password: xjS9GwYKV3uxEN23
+
+
+super:
+  user:
+    login: felgeate
+    password: HiriNARYPTibLefRAtENeOuTHdatEnIC
+
+
+#
+# [ Spring Configuration Attributes ]
+#
+spring:
+  application:
+    name: omnie-security
+  jpa:
+    generate-ddl: false
+    show-sql: false
+    database: postgresql
+    hibernate:
+      ddl-auto: validate
+      naming:
+        strategy: org.hibernate.cfg.ImprovedNamingStrategy
+  datasource:
+    platform: POSTGRESQL
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/omnie_commerce
+    username: postgres
+    password: geek
+  jackson:
+    date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
+  output:
+    ansi:
+      enabled: always
+  social:
+      facebook:
+        appId: 1235917206525665
+        appSecret: 0f61ff4c1f6705b7941c3bbe88040d82
+      google:
+        appId: 546512203555-sgb559s5efbnbejcj7q17l6krilhq7dl.apps.googleusercontent.com
+        appSecret: LP8NXqc96Eh_mcEl66k_OE0w
+  cloud:
+    discovery:
+      client:
+        simple:
+          local:
+            service-id: omnie-security
+
+
+#
+# [ Logging Configuration Attributes ]
+#
+log4jdbc:
+  trim:
+    sql: false
+  dump:
+    sql:
+      maxlinelength: 90
+      select: true
+
+logging:
+  level:
+#    root: debug
+    com.omniesoft: info
+    org.springframework: info
+    org.springframework.security: debug
+    org.hibernate: info
+    jdbc: info
+    org.apache: info
+    jdbc.audit: warn
+    jdbc.sqlonly: warn
+    jdbc.resultset: warn
+
+
+#
+# [ Eureka]
+#
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${service.discovery.client.user}:${service.discovery.client.password}@${service.discovery.host}:9998/eureka/
+    healthcheck:
+      enabled: true
+  instance:
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 2
+# Custom
+service:
+  discovery:
+    host: localhost
+    client:
+      user: eureka-client
+      password: EuReKaPasSs
+
+
+---
+### Profile: dev
+spring:
+  profiles: dev
+  datasource:
+    url: jdbc:postgresql://db:5432/omnie_commerce
+
+#
+# [ Logging Configuration Attributes ]
+#
+log4jdbc:
+  trim:
+    sql: false
+  dump:
+    sql:
+      maxlinelength: 90
+      select: true
+logging:
+  config: classpath:logger-to-file.xml
+
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    securePortEnabled: false
+    prefer-ip-address: true
+
+service:
+  discovery:
+    host: omnie-discovery
+    client:
+      user: eureka-client
+      password: EuReKaPasSs
+
+---
+### Profile: test
+spring:
+  profiles: test
+  datasource:
+    username: postgres
+    password: WrMlCyebTMF7frgT
+
+
+
+---
+### Profile: devclone1
+spring:
+  profiles: devclone1
+  datasource:
+    url: jdbc:postgresql://db:5432/omnie_commerce
+server:
+  port: 9011
+#
+# [ Logging Configuration Attributes ]
+#
+log4jdbc:
+  trim:
+    sql: false
+  dump:
+    sql:
+      maxlinelength: 90
+      select: true
+logging:
+  config: classpath:logger-to-file.xml
+
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    securePortEnabled: false
+    prefer-ip-address: true
+
+service:
+  discovery:
+    host: omnie-discovery
+    client:
+      user: eureka-client
+      password: EuReKaPasSs
+
+

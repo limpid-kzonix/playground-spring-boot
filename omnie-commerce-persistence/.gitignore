@@ -1,0 +1,9 @@
+.idea/
+*.iml
+*.class
+target/*
+out/
+
+# System Files
+.DS_Store
+Thumbs.db

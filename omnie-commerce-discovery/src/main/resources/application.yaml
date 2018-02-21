@@ -1,0 +1,54 @@
+server:
+  port: 9998
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    securePortEnabled: true
+    hostname: localhost
+  server:
+    enable-self-preservation: true
+    waitTimeInMsWhenSyncEmpty: 0
+  client:
+    registryFetchIntervalSeconds: 5
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+security:
+  basic:
+    enabled: true
+  user:
+    name: = eureka-client
+    password: EuReKaPasSs
+spring:
+  application:
+    name: omnie-discovery
+
+
+logging:
+  level:
+    root: warn
+    com.omniesoft: info
+    org.springframework.cloud: info
+    org.springframework: warn
+    org.springframework.security: warn
+
+---
+###
+### Profile: dev
+###
+
+
+
+spring:
+  profiles: dev
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    securePortEnabled: true
+    hostname: omnie-discovery
+    prefer-ip-address: true
+logging:
+  config: classpath:logger-to-file.xml
+
+

@@ -1,0 +1,20 @@
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+
+    <changeSet id="1" author="omnie46">
+        <sqlFile encoding="UTF-8"
+                 path="db/changelog/initial/initial-dll.sql"/>
+        <sqlFile encoding="UTF-8"
+                 path="db/changelog/initial/initial-functions.sql" splitStatements="false"/>
+        <rollback>
+            <sql>
+                DROP SCHEMA IF EXISTS public CASCADE;
+            </sql>
+        </rollback>
+        <comment>initial database</comment>
+    </changeSet>
+    <include file="db/changelog/changelog-1.xml"/>
+</databaseChangeLog>

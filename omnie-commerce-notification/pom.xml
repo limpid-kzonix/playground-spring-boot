@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.omniesoft.commerce.root</groupId>
+        <artifactId>omnie-commerce-parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath> <!-- lookup parent from repository -->
+    </parent>
+
+    <groupId>com.omniesoft.commerce.notification</groupId>
+    <artifactId>omnie-commerce-notification</artifactId>
+    <version>${omcom.version}</version>
+    <packaging>jar</packaging>
+
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <java.version>1.8</java.version>
+        <spring-boot.version>1.5.9.RELEASE</spring-boot.version>
+        <spring.version>4.3.11.RELEASE</spring.version>
+        <junit4.version>4.12</junit4.version>
+        <guava.version>23.0</guava.version>
+        <log4jdbc-spring-boot-starter.version>1.0.1</log4jdbc-spring-boot-starter.version>
+        <spring-cloud.version>Edgware.SR1</spring-cloud.version>
+    </properties>
+
+    <dependencies>
+
+        <!---->
+        <dependency>
+            <groupId>com.omniesoft.commerce</groupId>
+            <artifactId>omnie-commerce-persistence</artifactId>
+            <version>${omcom.version}</version>
+        </dependency>
+        <!---->
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+
+
+        <!-- Loggers -->
+        <dependency>
+            <groupId>com.integralblue</groupId>
+            <artifactId>log4jdbc-spring-boot-starter</artifactId>
+            <version>${log4jdbc-spring-boot-starter.version}</version>
+        </dependency>
+
+        <!--Database-->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.omniesoft.commerce.root</groupId>
+            <artifactId>omnie-commerce-secured-parent</artifactId>
+            <version>${omcom.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.omniesoft.commerce</groupId>
+            <artifactId>omnie-commerce-common-lib</artifactId>
+            <version>${omcom.version}</version>
+        </dependency>
+
+    </dependencies>
+
+
+    <build>
+        <finalName>omniecom-notification</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
+                <configuration>
+                    <mainClass>com.omniesoft.commerce.notification.NotificationApplication</mainClass>
+                    <addResources>true</addResources>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+
+</project>

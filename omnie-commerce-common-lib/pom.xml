@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.omniesoft.commerce.root</groupId>
+        <artifactId>omnie-commerce-parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath> <!-- lookup parent from repository -->
+    </parent>
+
+    <groupId>com.omniesoft.commerce</groupId>
+    <artifactId>omnie-commerce-common-lib</artifactId>
+    <version>${omcom.version}</version>
+    <packaging>jar</packaging>
+
+    <name>omnie-commerce-common-lib</name>
+    <description>OmnieSoft : OmnieCommerce common library</description>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>com.omniesoft.commerce</groupId>
+            <artifactId>omnie-commerce-persistence</artifactId>
+            <version>${omcom.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security.oauth</groupId>
+            <artifactId>spring-security-oauth2</artifactId>
+        </dependency>
+
+    </dependencies>
+
+</project>
