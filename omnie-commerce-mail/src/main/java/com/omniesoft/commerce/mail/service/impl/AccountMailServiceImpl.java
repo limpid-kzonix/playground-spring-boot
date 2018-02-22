@@ -5,6 +5,7 @@ import com.omniesoft.commerce.mail.service.AccountMailService;
 import com.omniesoft.commerce.mail.service.MailService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
@@ -14,11 +15,20 @@ import java.time.LocalDateTime;
 @Service
 public class AccountMailServiceImpl implements AccountMailService {
 
-    @Autowired
     private MailService mailService;
-
-    @Autowired
     private MailMessageBuilder builder;
+
+    @Required
+    @Autowired
+    public void setMailService(MailService mailService) {
+        this.mailService = mailService;
+    }
+
+    @Required
+    @Autowired
+    public void setBuilder(MailMessageBuilder builder) {
+        this.builder = builder;
+    }
 
     @Override
     public void sendRegistrationMessage(String recipientAddress, String confirmationLink) throws MessagingException {

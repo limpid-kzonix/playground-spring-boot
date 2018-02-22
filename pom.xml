@@ -235,11 +235,13 @@
     <modules>
         <module>omnie-commerce-secured-parent</module>
 
+        <module>omnie-commerce-persistence</module>
         <module>omnie-commerce-common-lib</module>
+        <module>omnie-commerce-mail</module>
+
         <module>omnie-commerce-discovery</module>
         <module>omnie-commerce-gateway</module>
-        <module>omnie-commerce-mail</module>
-        <module>omnie-commerce-persistence</module>
+
         <module>omnie-commerce-security</module>
         <module>omnie-commerce-imagestorage</module>
         <module>omnie-commerce-notification</module>
