@@ -46,7 +46,6 @@ eureka:
   instance:
     leaseRenewalIntervalInSeconds: 10
     securePortEnabled: true
-    hostname: omnie-discovery
     prefer-ip-address: true
 logging:
   config: classpath:logger-to-file.xml
