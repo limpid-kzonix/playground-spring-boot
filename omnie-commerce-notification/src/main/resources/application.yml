@@ -110,12 +110,12 @@ security:
     client:
       clientId: web-client
       clientSecret: secret
-      accessTokenUri: http://omnie_gateway:9999/omnie-security/api/oauth/check_token
-      userAuthorizationUri: http://omnie_gateway:9999/omnie-security/api/oauth/authorize
+      accessTokenUri: http://omnie-gateway:9999/omnie-security/api/oauth/check_token
+      userAuthorizationUri: http://omnie-gateway:9999/omnie-security/api/oauth/authorize
     resource:
       filter-order: 3
       jwt:
-        keyUri: http://omnie_gateway:9999/omnie-security/api/oauth/token_key
+        keyUri: http://omnie-gateway:9999/omnie-security/api/oauth/token_key
 
 #
 # [ Logging Configuration Attributes ]
