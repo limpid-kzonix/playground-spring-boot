@@ -31,7 +31,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
@@ -44,7 +43,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import java.util.concurrent.Executor;
 
 @Configuration
-@PropertySource("classpath:application.yml")
 @Import(MailConfiguration.class)
 public class BeanDefinitionConfig {
 
@@ -189,7 +187,7 @@ public class BeanDefinitionConfig {
         return executor;
     }
 
-    @Bean
+    @Bean("remoteTokenService")
     public RemoteTokenServices remoteTokenServices(final @Value("${security.oauth2.client.accessTokenUri}") String checkTokenUrl,
                                                    final @Value("${security.oauth2.client.clientId}") String clientId,
                                                    final @Value("${security.oauth2.client.clientSecret}") String clientSecret) {

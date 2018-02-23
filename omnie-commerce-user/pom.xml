@@ -22,12 +22,6 @@
         <!---->
         <dependency>
             <groupId>com.omniesoft.commerce</groupId>
-            <artifactId>omnie-commerce-persistence</artifactId>
-            <version>${omcom.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.omniesoft.commerce</groupId>
             <artifactId>omnie-commerce-mail</artifactId>
             <version>${omcom.version}</version>
         </dependency>
@@ -40,13 +34,6 @@
         <!---->
         <!---->
 
-
-        <!--Spring Boot-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>com.omniesoft.commerce.root</groupId>
             <artifactId>omnie-commerce-secured-parent</artifactId>
@@ -58,12 +45,6 @@
             <groupId>com.integralblue</groupId>
             <artifactId>log4jdbc-spring-boot-starter</artifactId>
             <version>${log4jdbc-spring-boot-starter.version}</version>
-        </dependency>
-
-        <!--Database-->
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
         </dependency>
 
         <!--Icegreen Mail Test-->

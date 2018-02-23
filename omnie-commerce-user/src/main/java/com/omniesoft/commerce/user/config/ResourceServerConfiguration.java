@@ -22,7 +22,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     private RemoteTokenServices remoteTokenServices;
 
 
-    public ResourceServerConfiguration(@Qualifier("remoteTokenServices") RemoteTokenServices remoteTokenServices) {
+    public ResourceServerConfiguration(@Qualifier("remoteTokenService") RemoteTokenServices remoteTokenServices) {
 
         this.remoteTokenServices = remoteTokenServices;
     }
