@@ -1,5 +1,10 @@
 #!/bin/sh
-echo "Try to connect to the discovery service"
-while [[ "$(curl -w ''%{http_code}'' http://omnie-discovery:9998/status)" != "200" ]] ; do sleep 50s; done
-echo "Connected to the discovery service"
+
+printf 'Connecting ...'
+until $(curl --output /dev/null --silent --head --fail http://omnie-discovery:9998/status); do
+    printf '.'
+    sleep 1
+done
+echo 'OmnieGateway: Try to connect to Eureka'
+
 java $JAVA_OPTS -jar /app.jar $APP_OPTS

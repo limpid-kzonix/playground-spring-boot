@@ -1,4 +1,11 @@
 #!/bin/sh
-while [[ "$(curl -w ''%{http_code}'' http://omnie-gateway:9999/omnie-security/api/status)" != "200" ]]; do sleep 50s; done
 
+printf 'Connecting ...'
+until $(curl --output /dev/null --silent --head --fail http://omnie-gateway:9999/omnie-security/api/status); do
+    printf '.'
+    sleep 1
+done
+
+echo 'OmnieUser service is starting... '
+echo 'Try to connect to Eureka'
 java $JAVA_OPTS -jar /app.jar $APP_OPTS

@@ -155,39 +155,3 @@ spring:
     password: WrMlCyebTMF7frgT
 
 
-
----
-### Profile: devclone1
-spring:
-  profiles: devclone1
-  datasource:
-    url: jdbc:postgresql://db:5432/omnie_commerce
-server:
-  port: 9011
-#
-# [ Logging Configuration Attributes ]
-#
-log4jdbc:
-  trim:
-    sql: false
-  dump:
-    sql:
-      maxlinelength: 90
-      select: true
-logging:
-  config: classpath:logger-to-file.xml
-
-eureka:
-  instance:
-    leaseRenewalIntervalInSeconds: 10
-    securePortEnabled: false
-    prefer-ip-address: true
-
-service:
-  discovery:
-    host: omnie-discovery
-    client:
-      user: eureka-client
-      password: EuReKaPasSs
-
-

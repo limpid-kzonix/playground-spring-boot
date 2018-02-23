@@ -106,9 +106,7 @@ public interface OrganizationRepository extends PagingAndSortingRepository<Organ
                     "   and (category.id = :c and :user <> null" +
                     "   or subcategory.id = :c) " +
                     "group by " +
-                    "       org.id" +
-                    "       category.id," +
-                    "       subcategory.id"
+                    "       org.id"
     )
     Page<OrganizationRowExtendDto> getOrganizationsByFilterAndCategoryAndUserEntity(@Param("filter") String filter, @Param("c") UUID category, @Param("user") UserEntity user, Pageable pageable);
 

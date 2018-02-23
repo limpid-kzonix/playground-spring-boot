@@ -38,6 +38,20 @@
         <spring-cloud.version>Edgware.SR1</spring-cloud.version>
         <validation-api.version>2.0.1.Final</validation-api.version>
         <commons-text.version>1.2</commons-text.version>
+
+        <gib.enabled>true</gib.enabled>
+        <gib.repositorySshKey>/</gib.repositorySshKey>
+        <gib.referenceBranch>refs/remotes/origin/master</gib.referenceBranch>
+        <gib.baseBranch>HEAD</gib.baseBranch>
+        <gib.uncommited>true</gib.uncommited>
+        <gib.skipTestsForNotImpactedModules>false</gib.skipTestsForNotImpactedModules>
+        <gib.buildAll>false</gib.buildAll>
+        <gib.compareToMergeBase>true</gib.compareToMergeBase>
+        <gib.fetchBaseBranch>false</gib.fetchBaseBranch>
+        <gib.fetchReferenceBranch>false</gib.fetchReferenceBranch>
+        <gib.excludePathRegex>(?!x)x</gib.excludePathRegex>
+        <gib.failOnMissingGitDir>true</gib.failOnMissingGitDir>
+        <gib.failOnError>true</gib.failOnError>
     </properties>
 
     <dependencyManagement>
@@ -251,5 +265,15 @@
         <module>omnie-commerce-user</module>
 
     </modules>
+
+    <build>
+        <extensions>
+            <extension>
+                <groupId>com.vackosar.gitflowincrementalbuilder</groupId>
+                <artifactId>gitflow-incremental-builder</artifactId>
+                <version>3.4</version>
+            </extension>
+        </extensions>
+    </build>
 
 </project>
