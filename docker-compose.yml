@@ -1,0 +1,149 @@
+version: '3.3'
+
+services:
+  omnie-discovery:
+    build: ./omnie-commerce-discovery/
+    image: omnie_discovery
+    ports:
+      - "9998:9998"
+    volumes:
+      - /tmp/omnie:/log
+    extra_hosts: 
+      - "db:172.17.0.1"
+    
+
+  omnie-gateway:
+    build: ./omnie-commerce-gateway/
+    image: omnie_gateway
+    ports:
+      - "9999:9999"
+    volumes:
+      - /tmp/omnie:/log
+    extra_hosts:
+      - "db:172.17.0.1"
+    
+
+  omnie-security:
+    build: ./omnie-commerce-security/
+    image: omnie_security
+    ports:
+      - "9010:9010"
+    volumes:
+       - /tmp/omnie:/log
+    extra_hosts:
+       - "db:172.17.0.1"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.2'
+          memory: 2000M
+        reservations:
+          cpus: '0.15'
+          memory: 2000M
+    
+
+  omnie-user:
+    build: ./omnie-commerce-user/
+    image: omnie_user
+    ports:
+      - "9030:9030"
+    volumes:
+       - /tmp/omnie:/log
+    depends_on:
+      - omnie-security
+    extra_hosts:
+       - "db:172.17.0.1"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.2'
+          memory: 2000M
+        reservations:
+          cpus: '0.15'
+          memory: 2000M
+    
+
+  omnie-owner:
+    build: ./omnie-commerce-owner/
+    image: omnie_owner
+    ports:
+      - "9050:9050"
+    volumes:
+      - /tmp/omnie:/log
+    depends_on:
+      - omnie-security
+    extra_hosts:
+       - "db:172.17.0.1"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.2'
+          memory: 2000M
+        reservations:
+          cpus: '0.15'
+          memory: 2000M
+    
+  omnie-notification:
+    build: ./omnie-commerce-notification/
+    image: omnie_notification
+    ports:
+      - "9090:9090"
+    volumes:
+       - /tmp/omnie:/log
+    depends_on:
+      - omnie-security
+    extra_hosts:
+       - "db:172.17.0.1"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.2'
+          memory: 2000M
+        reservations:
+          cpus: '0.15'
+          memory: 2000M
+    
+
+  omnie-statistic:
+    build: ./omnie-commerce-statistic/
+    image: omnie_statistic
+    ports:
+      - "9070:9070"
+    volumes:
+       - /tmp/omnie:/log
+    depends_on:
+      - omnie-security
+    extra_hosts:
+       - "db:172.17.0.1"
+       - "mongo:172.17.0.1"
+    deploy:
+      resources:
+        limits:
+          cpus: '0.2'
+          memory: 2000M
+        reservations:
+          cpus: '0.15'
+          memory: 2000M
+    
+
+  omnie-imagestorage:
+    build: ./omnie-commerce-imagestorage/
+    image: omnie_imagestorage
+    ports:
+      - "9110:9110"
+    volumes:
+       - /tmp/omnie:/log
+    depends_on:
+      - omnie-security
+    extra_hosts:
+       - "mongo:172.17.0.1"
+    
+    deploy:
+      resources:
+        limits:
+          cpus: '0.2'
+          memory: 2000M
+        reservations:
+          cpus: '0.15'
+          memory: 2000M
+
