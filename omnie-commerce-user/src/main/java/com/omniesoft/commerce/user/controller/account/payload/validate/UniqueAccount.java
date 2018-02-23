@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = UniqueAccountValidator.class)
 public @interface UniqueAccount {
-    String message() default "";
+    String message() default "Some fields are incorrect";
 
     Class<?>[] groups() default {};
 

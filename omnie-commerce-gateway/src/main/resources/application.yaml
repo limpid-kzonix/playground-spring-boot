@@ -10,6 +10,11 @@ spring:
     password: cISePhIrChOrMACkeTICiAhECludeWha
   application:
     name: omnie-commerce-gateway
+  jackson:
+    date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
+  output:
+    ansi:
+      enabled: always
 
 zuul:
   add-proxy-headers: true
@@ -42,10 +47,13 @@ zuul:
 logging:
   level:
     root: info
-#    com.omniesoft: info
-#    org.springframework.cloud: info
-#    org.springframework: warn
-#    org.springframework.security: warn
+    com.omniesoft: info
+    org.springframework.cloud: info
+    org.springframework: info
+    org.springframework.security: warn
+
+server.error.whitelabel.enabled: false
+spring.mvc.throw-exception-if-no-handler-found: true
 
 ribbon:
   eureka:

@@ -46,7 +46,7 @@ public class AccountServiceImpl implements AccountService {
 
     private UserEntity prepareUserEntity(UserRegisterPayload user) {
         UserEntity userEntity = new UserEntity();
-        userEntity.setLogin(user.getLogin());
+        userEntity.setLogin(user.getLogin().toLowerCase());
         userEntity.setAuthorities(Lists.newArrayList(authorityService.getAuthority(ROLE_USER)));
         userEntity.setEmail(user.getEmail());
         userEntity.setEncryptPassword(passwordEncoder.encode(user.getPassword()));

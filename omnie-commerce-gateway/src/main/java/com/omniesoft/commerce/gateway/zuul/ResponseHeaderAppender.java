@@ -53,8 +53,7 @@ public class ResponseHeaderAppender extends ZuulFilter {
     private String preformHeaderValue() {
         try {
             byte[] bytes = Hex.decodeHex(INFO.trim().toCharArray());
-            String s = new String(bytes, "UTF-16");
-            return s;
+            return new String(bytes, "UTF-16");
         } catch (DecoderException | UnsupportedEncodingException e) {
             return "undefined";
         }

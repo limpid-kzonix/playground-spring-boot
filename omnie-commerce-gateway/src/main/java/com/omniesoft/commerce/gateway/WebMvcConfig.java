@@ -1,4 +1,4 @@
-package com.omniesoft.commerce.imagestorage.config;
+package com.omniesoft.commerce.gateway;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;

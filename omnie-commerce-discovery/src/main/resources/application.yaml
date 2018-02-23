@@ -30,8 +30,8 @@ logging:
     root: warn
     com.omniesoft: info
     org.springframework.cloud: info
-    org.springframework: warn
-    org.springframework.security: warn
+    org.springframework: info
+    org.springframework.security: info
 
 ---
 ###
