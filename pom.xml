@@ -45,11 +45,10 @@
         <gib.baseBranch>HEAD</gib.baseBranch>
         <gib.uncommited>true</gib.uncommited>
         <gib.skipTestsForNotImpactedModules>false</gib.skipTestsForNotImpactedModules>
-        <gib.buildAll>false</gib.buildAll>
+        <gib.buildAll>true</gib.buildAll>
         <gib.compareToMergeBase>true</gib.compareToMergeBase>
-        <gib.fetchBaseBranch>false</gib.fetchBaseBranch>
+        <gib.fetchBaseBranch>true</gib.fetchBaseBranch>
         <gib.fetchReferenceBranch>false</gib.fetchReferenceBranch>
-        <gib.excludePathRegex>(?!x)x</gib.excludePathRegex>
         <gib.failOnMissingGitDir>true</gib.failOnMissingGitDir>
         <gib.failOnError>true</gib.failOnError>
     </properties>
