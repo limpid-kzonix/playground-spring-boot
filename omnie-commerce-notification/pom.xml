@@ -4,17 +4,17 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <groupId>com.omniesoft.commerce.notification</groupId>
+    <artifactId>omnie-commerce-notification</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
     <parent>
         <groupId>com.omniesoft.commerce.root</groupId>
         <artifactId>omnie-commerce-parent</artifactId>
         <version>1.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath> <!-- lookup parent from repository -->
     </parent>
-
-    <groupId>com.omniesoft.commerce.notification</groupId>
-    <artifactId>omnie-commerce-notification</artifactId>
-    <version>${omcom.version}</version>
-    <packaging>jar</packaging>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -30,13 +30,22 @@
 
     <dependencies>
 
-        <!---->
         <dependency>
-            <groupId>com.omniesoft.commerce</groupId>
-            <artifactId>omnie-commerce-persistence</artifactId>
-            <version>${omcom.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
-        <!---->
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-messaging</artifactId>
+            <version>${spring-messaging.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-messaging</artifactId>
+            <version>${spring-messaging.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -50,9 +59,9 @@
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-websocket</artifactId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
         </dependency>
-
 
         <!-- Loggers -->
         <dependency>
@@ -61,19 +70,11 @@
             <version>${log4jdbc-spring-boot-starter.version}</version>
         </dependency>
 
-        <!--Database-->
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-        </dependency>
-
-
         <dependency>
             <groupId>com.omniesoft.commerce.root</groupId>
             <artifactId>omnie-commerce-secured-parent</artifactId>
             <version>${omcom.version}</version>
         </dependency>
-
         <dependency>
             <groupId>com.omniesoft.commerce</groupId>
             <artifactId>omnie-commerce-common-lib</artifactId>
@@ -81,7 +82,6 @@
         </dependency>
 
     </dependencies>
-
 
     <build>
         <finalName>omniecom-notification</finalName>

@@ -1,12 +1,13 @@
 package com.omniesoft.commerce.notification.config;
 
-import com.omniesoft.commerce.persistence.entity.enums.AuthorityName;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.messaging.MessageSecurityMetadataSourceRegistry;
 import org.springframework.security.config.annotation.web.socket.AbstractSecurityWebSocketMessageBrokerConfigurer;
 
 import static org.springframework.messaging.simp.SimpMessageType.MESSAGE;
 import static org.springframework.messaging.simp.SimpMessageType.SUBSCRIBE;
 
+@Configuration
 public class WebSocketSecurityConfig extends AbstractSecurityWebSocketMessageBrokerConfigurer {
 
     @Override
@@ -15,8 +16,8 @@ public class WebSocketSecurityConfig extends AbstractSecurityWebSocketMessageBro
         messages
                 .nullDestMatcher().authenticated()
                 .simpSubscribeDestMatchers("/user/queue/errors").permitAll()
-                .simpDestMatchers("/app/**").hasRole(AuthorityName.ROLE_USER.name())
-                .simpSubscribeDestMatchers("/user/**", "/topic/friends/*").hasRole(AuthorityName.ROLE_USER.name())
+                .simpDestMatchers("/app/**").authenticated()
+                .simpSubscribeDestMatchers("/user/**", "/topic/friends/*").authenticated()
                 .simpTypeMatchers(MESSAGE, SUBSCRIBE).denyAll()
                 .anyMessage().denyAll();
 

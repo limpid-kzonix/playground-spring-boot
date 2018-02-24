@@ -5,7 +5,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
@@ -17,8 +18,8 @@ import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
  * @since 18.09.17
  */
 
+@Order(Ordered.HIGHEST_PRECEDENCE)
 @Configuration
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableResourceServer
 public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
 
@@ -53,7 +54,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
                 .anyRequest().authenticated();
     }
 
-    @Bean
+    @Bean("remoteTokenServices")
     public RemoteTokenServices remoteTokenServices(
             final @Value("${security.oauth2.client.accessTokenUri}") String checkTokenUrl,
             final @Value("${security.oauth2.client.clientId}") String clientId,
@@ -65,5 +66,6 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
         remoteTokenServices.setClientSecret(clientSecret);
         return remoteTokenServices;
     }
+
 
 }
