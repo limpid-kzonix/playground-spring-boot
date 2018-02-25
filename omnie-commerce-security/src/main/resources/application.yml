@@ -95,12 +95,15 @@ logging:
 #
 # [ Eureka]
 #
+
 eureka:
   client:
+    enabled: true
     serviceUrl:
       defaultZone: http://${service.discovery.client.user}:${service.discovery.client.password}@${service.discovery.host}:9998/eureka/
     healthcheck:
       enabled: true
+
   instance:
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
@@ -111,7 +114,6 @@ service:
     client:
       user: eureka-client
       password: EuReKaPasSs
-
 
 ---
 ### Profile: dev

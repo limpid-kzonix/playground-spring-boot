@@ -111,10 +111,10 @@ communication:
       api:
         baseUrl: http://localhost:9999/omnie-notification/api
 
-
 #
 # [ Eureka]
 #
+
 eureka:
   client:
     serviceUrl:
