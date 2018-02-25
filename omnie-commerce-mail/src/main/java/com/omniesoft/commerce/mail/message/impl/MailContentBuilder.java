@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import java.net.URI;
 import java.time.LocalDateTime;
 
 @Service
@@ -19,26 +20,28 @@ public class MailContentBuilder implements MailMessageBuilder {
     /**
      * Build message with header, title and link
      *
-     * @param header String :
-     * @param title  String :
-     * @param link   String :
+     * @param header        String :
+     * @param title         String :
+     * @param link          String :
+     * @param localDateTime LocalDateTime
      */
     @Override
-    public String build(String header, String title, String link) {
+    public String build(String header, String title, URI link, LocalDateTime localDateTime) {
         Context context = new Context();
-        initializeContext(context, header, title, link, null, null);
+        initializeContext(context, header, title, link.toASCIIString(), null, null);
         return templateEngine.process(TEMPLATE_NAME, context);
     }
 
     /**
      * Build message with header, title and code
      *
-     * @param header String :
-     * @param title  String :
-     * @param code   Integer :
+     * @param header        String :
+     * @param title         String :
+     * @param code          Integer :
+     * @param localDateTime LocalDateTime
      */
     @Override
-    public String build(String header, String title, Integer code) {
+    public String build(String header, String title, Integer code, LocalDateTime localDateTime) {
         Context context = new Context();
         initializeContext(context, header, title, null, null, code);
         return templateEngine.process(TEMPLATE_NAME, context);
@@ -47,27 +50,18 @@ public class MailContentBuilder implements MailMessageBuilder {
     /**
      * Build message with header, title and code
      *
-     * @param header       String :
-     * @param title        String :
-     * @param message      String :
-     * @param username     String :
-     * @param organization String :
+     * @param header        String :
+     * @param title         String :
+     * @param message       String :
+     * @param localDateTime LocalDateTime
      */
     @Override
-    public String build(String header, String title, String message, String username, String organization) {
+    public String build(String header, String title, String message, LocalDateTime localDateTime) {
         Context context = new Context();
-        String info = String.format("%s %s %s", username, message, organization);
-        initializeContext(context, header, title, null, info, null);
+        initializeContext(context, header, title, null, message, null);
         return templateEngine.process(TEMPLATE_NAME, context);
     }
 
-    @Override
-    public String build(String header, String title, String username, LocalDateTime dateTime) {
-        Context context = new Context();
-        String notify = String.format("В обіковому записі %s було змінено пароль ( %s )", username, dateTime.toString());
-        initializeContext(context, header, title, null, notify, null);
-        return templateEngine.process(TEMPLATE_NAME, context);
-    }
 
     /**
      *

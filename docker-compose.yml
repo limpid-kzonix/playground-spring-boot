@@ -10,7 +10,6 @@ services:
       - /tmp/omnie:/log
     extra_hosts: 
       - "db:172.17.0.1"
-    
 
   omnie-gateway:
     build: ./omnie-commerce-gateway/
@@ -21,7 +20,6 @@ services:
       - /tmp/omnie:/log
     extra_hosts:
       - "db:172.17.0.1"
-    
 
   omnie-security:
     build: ./omnie-commerce-security/
@@ -40,7 +38,6 @@ services:
         reservations:
           cpus: '0.15'
           memory: 2000M
-    
 
   omnie-user:
     build: ./omnie-commerce-user/
@@ -61,7 +58,6 @@ services:
         reservations:
           cpus: '0.15'
           memory: 2000M
-    
 
   omnie-owner:
     build: ./omnie-commerce-owner/
@@ -102,7 +98,6 @@ services:
         reservations:
           cpus: '0.15'
           memory: 2000M
-    
 
   omnie-statistic:
     build: ./omnie-commerce-statistic/
@@ -124,7 +119,6 @@ services:
         reservations:
           cpus: '0.15'
           memory: 2000M
-    
 
   omnie-imagestorage:
     build: ./omnie-commerce-imagestorage/

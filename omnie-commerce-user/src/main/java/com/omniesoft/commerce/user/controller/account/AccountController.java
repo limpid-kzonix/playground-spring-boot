@@ -38,14 +38,16 @@ public class AccountController {
         return accountService.register(user);
     }
 
+    @GetMapping(path = "/confirmation/reply")
+    public void sendRegistrationConfirmation(@RequestParam String email) {
+        emailConfirmationService.replyEmailTokenSending(email);
+    }
+
     @GetMapping(path = "/confirmation/{token}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void confirmRegister(@PathVariable("token") @Size(min = 19) String token) {
         emailConfirmationService.verifyEmailToken(token);
     }
 
-    @GetMapping(path = "/confirmation/reply")
-    public void sendRegistrationConfirmation(@RequestParam String email) {
-        emailConfirmationService.replyEmailTokenSending(email);
-    }
+
 }
