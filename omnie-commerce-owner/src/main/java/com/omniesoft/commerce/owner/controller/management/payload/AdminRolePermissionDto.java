@@ -4,6 +4,7 @@ import com.omniesoft.commerce.persistence.entity.enums.AdminPermission;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import java.util.UUID;
 
@@ -12,6 +13,7 @@ import java.util.UUID;
  * @since 17.10.17
  */
 @Data
+@Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
 public class AdminRolePermissionDto {

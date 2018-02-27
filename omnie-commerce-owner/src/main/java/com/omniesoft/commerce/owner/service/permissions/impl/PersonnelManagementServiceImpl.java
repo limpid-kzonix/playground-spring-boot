@@ -9,12 +9,12 @@
  * “Attention: Permissions Coordinator,” at the address below.
  */
 
-package com.omniesoft.commerce.owner.service.organization.impl;
+package com.omniesoft.commerce.owner.service.permissions.impl;
 
 import com.omniesoft.commerce.common.handler.exception.custom.UsefulException;
 import com.omniesoft.commerce.common.handler.exception.custom.enums.InternalErrorCodes;
 import com.omniesoft.commerce.owner.converter.PersonnelManagementConverter;
-import com.omniesoft.commerce.owner.service.organization.PersonnelManagementService;
+import com.omniesoft.commerce.owner.service.permissions.PersonnelManagementService;
 import com.omniesoft.commerce.persistence.entity.account.UserEntity;
 import com.omniesoft.commerce.persistence.entity.admin.AdminRoleEntity;
 import com.omniesoft.commerce.persistence.entity.admin.AdminRolePermissionEntity;
