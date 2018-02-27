@@ -42,11 +42,11 @@ public class PermissionsServiceImpl implements PermissionsService {
         Set<AdminRolePermissionDto> allPermissions = getAllPermissions();
         for (OrganizationEntity organization : organizations) {
             if (organization.getOwner().getUser().equals(user)) {
-                result.add(new PermissionByOrganizationPayload()
-                        .setOrganizationId(organization.getId())
-                        .setOrganizationName(organization.getName())
-                        .setPermissions(allPermissions)
-                );
+                PermissionByOrganizationPayload e = new PermissionByOrganizationPayload();
+                e.setOrganizationId(organization.getId());
+                e.setOrganizationName(organization.getName());
+                e.setPermissions(allPermissions);
+                result.add(e);
 
             }
 
@@ -57,9 +57,10 @@ public class PermissionsServiceImpl implements PermissionsService {
     private Set<AdminRolePermissionDto> getAllPermissions() {
         Set<AdminRolePermissionDto> result = new HashSet<>();
         for (AdminRolePermissionEntity permissionEntity : adminRolePermissionRepository.findAll()) {
-            result.add(new AdminRolePermissionDto()
-                    .setId(permissionEntity.getId())
-                    .setPermission(permissionEntity.getPermission()));
+            AdminRolePermissionDto e = new AdminRolePermissionDto();
+            e.setId(permissionEntity.getId());
+            e.setPermission(permissionEntity.getPermission());
+            result.add(e);
         }
 
         return result;
