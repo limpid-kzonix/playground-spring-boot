@@ -39,7 +39,7 @@ public class AccountPasswordController {
         return accountPasswordService.verifyResetPasswordCode(resetPasswordCode);
     }
 
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @PatchMapping(path = "/forgot/change", produces = MediaType.APPLICATION_JSON_VALUE)
     public void setNewPassword(@Valid @RequestBody ResetPassword resetPassword) {
         accountPasswordService.resetPassword(resetPassword);
