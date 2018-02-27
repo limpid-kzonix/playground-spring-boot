@@ -111,7 +111,9 @@ communication:
       api:
         baseUrl: http://localhost:9999/omnie-notification/api
 
-
+front-end:
+  application:
+    url: http://dev.omniecom.com
 #
 # [ Eureka]
 #

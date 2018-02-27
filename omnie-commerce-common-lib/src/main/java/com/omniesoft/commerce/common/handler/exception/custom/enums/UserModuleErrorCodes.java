@@ -12,17 +12,12 @@
 package com.omniesoft.commerce.common.handler.exception.custom.enums;
 
 public enum UserModuleErrorCodes implements ErrorCode {
-    NOT_ALLOWED_CREATE_REVIEW(2110),
-    NOT_ALLOWED_EDIT_REVIEW(2109),
-    HANDBOOK_ITEM_NOT_EXIST(2108),
-    USER_NOT_ACTIVE(2107),
-    PASSWORD_CHANGE(2106),
-    NOT_CONFIRMED_ACCOUNT(2105),
-    SETTINGS_NOT_EXIST(2104),
-    USER_EXIST(2103),
-    USER_NOT_EXIST(2102),
-    PROFILE_NOT_EXIST(2101);
-
+    NOT_ALLOWED_CREATE_REVIEW(2106),
+    NOT_ALLOWED_EDIT_REVIEW(2105),
+    HANDBOOK_ITEM_NOT_EXIST(2104),
+    USER_NOT_ACTIVE(2103),
+    SETTINGS_NOT_EXIST(2102),
+    USER_NOT_EXIST(2101);
 
     private Integer code;
 

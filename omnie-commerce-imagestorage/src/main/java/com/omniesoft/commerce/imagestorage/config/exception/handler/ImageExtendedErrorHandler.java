@@ -30,7 +30,7 @@ public class ImageExtendedErrorHandler extends RestResponseEntityExceptionHandle
 
         log.error(this.getClass().getSimpleName(), ex);
         String bodyOfResponse = "Image service unavailable";
-        return getObjectResponseEntity(ex, HttpStatus.SERVICE_UNAVAILABLE, bodyOfResponse, ImageModuleErrorCodes.SERVICE_UNAVAILABLE);
+        return getObjectResponseEntity(ex, HttpStatus.SERVICE_UNAVAILABLE, bodyOfResponse, ImageModuleErrorCodes.IAMGE_SERVICE_UNAVAILABLE);
     }
 
 }

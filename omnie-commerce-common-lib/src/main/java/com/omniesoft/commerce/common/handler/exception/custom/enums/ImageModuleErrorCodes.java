@@ -12,7 +12,7 @@
 package com.omniesoft.commerce.common.handler.exception.custom.enums;
 
 public enum ImageModuleErrorCodes implements ErrorCode {
-    SERVICE_UNAVAILABLE(8103),
+    IAMGE_SERVICE_UNAVAILABLE(8103),
     IMAGE_PROCESSING_ERROR(8102),
     CAN_NOT_FETCH_IMAGE_FROM_DB(8101);
 

@@ -59,7 +59,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         ApiError apiError = new ApiError(HttpStatus.CONFLICT);
         apiError.setMessage("OAuth error");
         apiError.setDebugMessage(ex.getLocalizedMessage());
-        apiError.setDetailedCode(SecurityModuleErrorCodes.CLIENT_CREDENTIALS);
+        apiError.setDetailedCode(SecurityModuleErrorCodes.INVALID_CLIENT_CREDENTIALS);
         return buildResponseEntity(apiError);
     }
 

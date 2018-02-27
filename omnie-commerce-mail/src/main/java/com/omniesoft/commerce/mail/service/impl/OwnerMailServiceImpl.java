@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
+import java.time.LocalDateTime;
 
 @Service
 public class OwnerMailServiceImpl implements OwnerMailService {
@@ -29,17 +30,17 @@ public class OwnerMailServiceImpl implements OwnerMailService {
 
     @Override
     public void sendInvite(String recipientAddress, String confirmationLink) throws MessagingException {
-        mailService.sendMessage(recipientAddress, "", builder.build("", "", confirmationLink));
+        mailService.sendMessage(recipientAddress, "", builder.build("", "", confirmationLink, LocalDateTime.now()));
     }
 
     @Override
     public void sendResetPasswordMessage(String recipientAddress, String code) throws MessagingException {
-        mailService.sendMessage(recipientAddress, "", builder.build("", "", code));
+        mailService.sendMessage(recipientAddress, "", builder.build("", "", code, LocalDateTime.now()));
 
     }
 
     @Override
     public void sendChangeEmailMessage(String recipientAddress, String newEmailAddress) throws MessagingException {
-        mailService.sendMessage(recipientAddress, "", builder.build("", "", ""));
+        mailService.sendMessage(recipientAddress, "", builder.build("", "", "", LocalDateTime.now()));
     }
 }

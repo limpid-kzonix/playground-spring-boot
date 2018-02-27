@@ -12,7 +12,7 @@ public interface AccountMailService {
      * @param recipientAddress String : Email of recipient
      * @param confirmationLink String : Link for handling user account confirmation
      */
-    void sendRegistrationMessage(String recipientAddress, String confirmationLink) throws MessagingException;
+    void sendRegistrationMessage(String recipientAddress, String confirmationToken) throws MessagingException;
 
     /**
      * Send email with code for using in change password of account. .
