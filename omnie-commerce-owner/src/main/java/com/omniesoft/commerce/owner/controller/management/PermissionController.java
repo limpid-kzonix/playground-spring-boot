@@ -11,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class PermissionController {
     }
 
     @GetMapping(path = "/my", produces = APPLICATION_JSON_VALUE)
-    public List<PermissionByOrganizationPayload> myPermissions(UserEntity user) {
+    public List<PermissionByOrganizationPayload> myPermissions(@ApiIgnore UserEntity user) {
 
         // FIXME: 27.02.18 impl to admins
         return permissionsService.getAllPermissionsByUser(user);
