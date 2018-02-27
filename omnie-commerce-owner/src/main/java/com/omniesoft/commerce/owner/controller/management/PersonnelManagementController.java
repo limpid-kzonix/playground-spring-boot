@@ -3,7 +3,7 @@ package com.omniesoft.commerce.owner.controller.management;
 import com.omniesoft.commerce.common.responce.ResponseMessage;
 import com.omniesoft.commerce.owner.controller.AbstractOrganizationController;
 import com.omniesoft.commerce.owner.service.organization.OwnerAccessControlService;
-import com.omniesoft.commerce.owner.service.organization.PersonnelManagementService;
+import com.omniesoft.commerce.owner.service.permissions.PersonnelManagementService;
 import com.omniesoft.commerce.persistence.entity.account.UserEntity;
 import com.omniesoft.commerce.persistence.entity.enums.AdminPermission;
 import com.omniesoft.commerce.persistence.projection.admin.AdminRoleSummary;

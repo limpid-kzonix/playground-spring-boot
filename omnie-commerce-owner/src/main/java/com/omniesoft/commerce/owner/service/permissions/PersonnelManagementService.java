@@ -9,7 +9,7 @@
  * “Attention: Permissions Coordinator,” at the address below.
  */
 
-package com.omniesoft.commerce.owner.service.organization;
+package com.omniesoft.commerce.owner.service.permissions;
 
 import com.omniesoft.commerce.persistence.entity.account.UserEntity;
 import com.omniesoft.commerce.persistence.entity.enums.AdminPermission;
