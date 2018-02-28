@@ -39,9 +39,7 @@ public class ImageStorageServiceImpl implements ImageStorageService {
 
         BufferedImage read = getBufferedImage(file);
         DB db = mongoTemplate.getDb();
-        if (!db.command("{ getLastError: 1 }").ok()) {
-            throw new UsefulException();
-        }
+       
         String generated = randomStringGenerator.generate(40);
         try {
             prepareAndSave(file, read, generated).get();
