@@ -11,8 +11,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @AllArgsConstructor
@@ -34,23 +36,42 @@ public class PictureOperationsController {
 
     }
 
+    // TODO: decide what type of image fetching is needed
+    // Secured - with ability to get user-data from request-context
     @GetMapping(path = "/fetch")
     public ResponseEntity<byte[]> fetchImage(@RequestParam("image_identifier") String imageId,
-                                             @RequestParam("image_type") ImageType type) {
+                                             @RequestParam("image_type") ImageType type,
+                                             @ApiIgnore Authentication authentication) {
 
-        ImageDto imageDto = service.fetchImageByIdAndType(imageId, type);
-
-
-        return getResponseEntity(
-                imageDto.getStream(),
-                imageDto.getContentType(),
-                imageDto.getStream().length
-        );
+        return fetchImageAsByteArray(imageId, type);
     }
 
-    @GetMapping(path = "/fetch/base64")
-    public ResponseEntity<String> fetchBase64EncodeImage(@RequestParam("image_identifier") String imageId, @RequestParam("image_type") ImageType type) {
+    // TODO: decide what type of image fetching is needed
+    // Unsecured - without ability to get user-data from request-context
+    @GetMapping(path = "/fetch/open")
+    public ResponseEntity<byte[]> fetchOpenImage(@RequestParam("image_identifier") String imageId,
+                                                 @RequestParam("image_type") ImageType type) {
 
+        return fetchImageAsByteArray(imageId, type);
+    }
+
+    // TODO: decide what type of image fetching is needed
+    // Secured - with ability to get user-data from request-context
+    // Response model - image as base64 encoded string
+    @GetMapping(path = "/fetch/base64")
+    public ResponseEntity<String> fetchBase64EncodeImage(
+            @RequestParam("image_identifier") String imageId,
+            @RequestParam("image_type") ImageType type,
+            @ApiIgnore Authentication authentication) {
+
+        return fetchImageAsBase64EncodedString(imageId, type);
+    }
+
+
+    // --------------------------PRIVATE METHODS---------------------------------
+
+
+    private ResponseEntity<String> fetchImageAsBase64EncodedString(@RequestParam("image_identifier") String imageId, @RequestParam("image_type") ImageType type) {
         ImageDto imageDto = service.fetchImageByIdAndType(imageId, type);
         String base64EncodedImage = Base64.encodeBase64String(imageDto.getStream());
 
@@ -58,6 +79,17 @@ public class PictureOperationsController {
                 base64EncodedImage,
                 ContentType.DEFAULT_TEXT.getMimeType(),
                 base64EncodedImage.length()
+        );
+    }
+
+
+    private ResponseEntity<byte[]> fetchImageAsByteArray(@RequestParam("image_identifier") String imageId, @RequestParam("image_type") ImageType type) {
+        ImageDto imageDto = service.fetchImageByIdAndType(imageId, type);
+
+        return getResponseEntity(
+                imageDto.getStream(),
+                imageDto.getContentType(),
+                imageDto.getStream().length
         );
     }
 
