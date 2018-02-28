@@ -1,5 +1,6 @@
 package com.omniesoft.commerce.gateway.handler;
 
+import com.omniesoft.commerce.common.handler.exception.custom.enums.InternalErrorCodes;
 import com.omniesoft.commerce.common.handler.exception.message.ApiError;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.web.AbstractErrorController;
@@ -34,6 +35,6 @@ public class ZuulErrorController extends AbstractErrorController {
     private ApiError getApiError(HttpServletRequest request) {
         final Throwable throwable = (Throwable) request.getAttribute("javax.servlet.error.exception");
         final String message = throwable != null ? throwable.getMessage() : "Unexpected error occurred";
-        return new ApiError(getStatus(request), message, throwable);
+        return new ApiError(getStatus(request), message, throwable).withDetailedCode(InternalErrorCodes.LOAD_BALANCER_PROXY_ERROR);
     }
 }

@@ -29,7 +29,6 @@ public enum SecurityModuleErrorCodes implements ErrorCode {
     INVALID_PASSWORD(4102),
     INVALID_CLIENT_CREDENTIALS(4101);
 
-
     private Integer code;
 
     SecurityModuleErrorCodes(Integer code) {

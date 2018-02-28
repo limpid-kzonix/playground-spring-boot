@@ -1,6 +1,5 @@
 package com.omniesoft.commerce.imagestorage.models.services.impl;
 
-import com.mongodb.DB;
 import com.omniesoft.commerce.common.handler.exception.custom.UsefulException;
 import com.omniesoft.commerce.common.handler.exception.custom.enums.ImageModuleErrorCodes;
 import com.omniesoft.commerce.imagestorage.models.dto.ImageDto;
@@ -38,7 +37,7 @@ public class ImageStorageServiceImpl implements ImageStorageService {
     public String store(MultipartFile file) {
 
         BufferedImage read = getBufferedImage(file);
-        DB db = mongoTemplate.getDb();
+        mongoTemplate.getDb().getStats().throwOnError();
        
         String generated = randomStringGenerator.generate(40);
         try {
@@ -47,8 +46,6 @@ public class ImageStorageServiceImpl implements ImageStorageService {
         } catch (Exception e) {
             throw new UsefulException();
         }
-
-
     }
 
     private BufferedImage getBufferedImage(MultipartFile file) {
