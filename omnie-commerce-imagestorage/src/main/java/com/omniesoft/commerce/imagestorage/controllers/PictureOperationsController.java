@@ -5,6 +5,8 @@ import com.omniesoft.commerce.imagestorage.models.dto.ImageDto;
 import com.omniesoft.commerce.imagestorage.models.services.ImageStorageService;
 import com.omniesoft.commerce.imagestorage.models.services.ImageType;
 import lombok.AllArgsConstructor;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.http.entity.ContentType;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -38,15 +40,36 @@ public class PictureOperationsController {
 
         ImageDto imageDto = service.fetchImageByIdAndType(imageId, type);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.set(HttpHeaders.CONTENT_TYPE, imageDto.getContentType());
 
-        return ResponseEntity.ok()
-                .contentType(MediaType.valueOf(imageDto.getContentType()))
-                .headers(headers)
-                .contentLength(imageDto.getStream().length)
-                .body(imageDto.getStream());
+        return getResponseEntity(
+                imageDto.getStream(),
+                imageDto.getContentType(),
+                imageDto.getStream().length
+        );
     }
 
+    @GetMapping(path = "/fetch/base64")
+    public ResponseEntity<String> fetchBase64EncodeImage(@RequestParam("image_identifier") String imageId, @RequestParam("image_type") ImageType type) {
 
+        ImageDto imageDto = service.fetchImageByIdAndType(imageId, type);
+        String base64EncodedImage = Base64.encodeBase64String(imageDto.getStream());
+
+        return getResponseEntity(
+                base64EncodedImage,
+                ContentType.DEFAULT_TEXT.getMimeType(),
+                base64EncodedImage.length()
+        );
+    }
+
+    private <T> ResponseEntity<T> getResponseEntity(T source, String contentType, int contentLength) {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.CONTENT_TYPE, contentType);
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.valueOf(contentType))
+                .headers(headers)
+                .contentLength(contentLength)
+                .body(source);
+    }
 }
