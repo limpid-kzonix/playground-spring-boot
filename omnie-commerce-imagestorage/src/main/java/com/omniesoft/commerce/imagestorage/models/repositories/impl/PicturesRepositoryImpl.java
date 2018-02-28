@@ -34,7 +34,7 @@ public class PicturesRepositoryImpl implements PicturesRepository {
     public ImageDto fetchPicturesSource(String picturesIdentifier, ImageType type) {
 
         GridFSDBFile file = getGridFSDBFile(picturesIdentifier, type);
-        if (file == null && file.getInputStream() == null) {
+        if (!(file != null && file.getInputStream() != null)) {
             throw new UsefulException("ImageDto with identifier: " + picturesIdentifier, InternalErrorCodes.RESOURCE_NOT_FOUND);
         }
 
