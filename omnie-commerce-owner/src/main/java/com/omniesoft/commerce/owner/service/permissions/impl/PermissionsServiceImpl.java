@@ -1,12 +1,13 @@
 package com.omniesoft.commerce.owner.service.permissions.impl;
 
+import com.google.common.collect.Sets;
 import com.omniesoft.commerce.common.Constants;
-import com.omniesoft.commerce.owner.controller.management.payload.AdminRolePermissionDto;
 import com.omniesoft.commerce.owner.controller.management.payload.PermissionByOrganizationPayload;
 import com.omniesoft.commerce.owner.service.permissions.PermissionsService;
 import com.omniesoft.commerce.persistence.entity.account.UserEntity;
 import com.omniesoft.commerce.persistence.entity.admin.AdminRoleEntity;
 import com.omniesoft.commerce.persistence.entity.admin.AdminRolePermissionEntity;
+import com.omniesoft.commerce.persistence.entity.enums.AdminPermission;
 import com.omniesoft.commerce.persistence.entity.organization.OrganizationEntity;
 import com.omniesoft.commerce.persistence.repository.admin.AdminRolePermissionRepository;
 import com.omniesoft.commerce.persistence.repository.admin.AdminRoleRepository;
@@ -36,7 +37,7 @@ public class PermissionsServiceImpl implements PermissionsService {
     public List<PermissionByOrganizationPayload> getAllPermissionsByUser(UserEntity user) {
         List<OrganizationEntity> organizations = organizationRepository.findByOwnerOrAdmin(user);
         List<PermissionByOrganizationPayload> result = new ArrayList<>();
-        Set<AdminRolePermissionDto> allPermissions = getAllPermissions();
+
         for (OrganizationEntity organization : organizations) {
 
             PermissionByOrganizationPayload e = new PermissionByOrganizationPayload();
@@ -48,7 +49,7 @@ public class PermissionsServiceImpl implements PermissionsService {
             if (organization.getOwner().getUser().equals(user)) {
 
                 e.setRoleType(Constants.Role.TYPE_OWNER)
-                        .setPermissions(allPermissions);
+                        .setPermissions(getAllPermissions());
 
             } else {
 
@@ -62,18 +63,14 @@ public class PermissionsServiceImpl implements PermissionsService {
         return result;
     }
 
-    private Set<AdminRolePermissionDto> getAllPermissions() {
-        Iterable<AdminRolePermissionEntity> all = adminRolePermissionRepository.findAll();
-        return convertToAdminRolePermissionDtos(all);
+    private Set<AdminPermission> getAllPermissions() {
+        return Sets.newHashSet(AdminPermission.values());
     }
 
-    private Set<AdminRolePermissionDto> convertToAdminRolePermissionDtos(Iterable<AdminRolePermissionEntity> all) {
-        Set<AdminRolePermissionDto> result = new HashSet<>();
+    private Set<AdminPermission> convertToAdminRolePermissionDtos(Iterable<AdminRolePermissionEntity> all) {
+        Set<AdminPermission> result = new HashSet<>();
         for (AdminRolePermissionEntity permissionEntity : all) {
-            AdminRolePermissionDto e = new AdminRolePermissionDto();
-            e.setId(permissionEntity.getId());
-            e.setPermission(permissionEntity.getPermission());
-            result.add(e);
+            result.add(permissionEntity.getPermission());
         }
 
         return result;
