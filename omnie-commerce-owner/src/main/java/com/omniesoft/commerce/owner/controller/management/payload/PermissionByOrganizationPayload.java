@@ -1,5 +1,6 @@
 package com.omniesoft.commerce.owner.controller.management.payload;
 
+import com.omniesoft.commerce.persistence.entity.enums.AdminPermission;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
@@ -16,5 +17,5 @@ public class PermissionByOrganizationPayload {
     private String organizationLogoId;
     private String roleType;
     private String roleName;
-    private Set<AdminRolePermissionDto> permissions;
+    private Set<AdminPermission> permissions;
 }
