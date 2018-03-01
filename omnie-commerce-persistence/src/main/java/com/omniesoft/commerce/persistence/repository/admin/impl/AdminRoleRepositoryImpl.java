@@ -1,6 +1,8 @@
 package com.omniesoft.commerce.persistence.repository.admin.impl;
 
+import com.omniesoft.commerce.persistence.entity.account.UserEntity;
 import com.omniesoft.commerce.persistence.entity.admin.AdminRoleEntity;
+import com.omniesoft.commerce.persistence.entity.organization.OrganizationEntity;
 import com.omniesoft.commerce.persistence.repository.admin.AdminRoleRepositoryCustom;
 
 import javax.persistence.EntityManager;
@@ -55,6 +57,19 @@ public class AdminRoleRepositoryImpl implements AdminRoleRepositoryCustom {
                 .setParameter("organizationId", organizationId)
                 .getResultList();
         return new HashSet<>(roles);
+    }
+
+    @Override
+    public AdminRoleEntity findByOrganizationAndUser(OrganizationEntity org, UserEntity admin) {
+        return em.createQuery(
+                "select r from AdminRoleEntity r" +
+                        " left join r.permissions" +
+                        " where r.organization.id = :organizationId" +
+                        " and r.admins.id = :userId",
+                AdminRoleEntity.class)
+                .setParameter("organizationId", org.getId())
+                .setParameter("userId", admin.getId())
+                .getSingleResult();
     }
 
     @Override
