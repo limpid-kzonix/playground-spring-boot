@@ -175,7 +175,7 @@ public class ServiceController extends AbstractOrganizationController {
         return categoryService.getAllCategories();
     }
 
-    @GetMapping(path = "/{organization-id}/service/{service-id}/categories",
+    @GetMapping(path = "/{organization-id}/services/{service-id}/categories",
             produces = MediaType.APPLICATION_JSON_VALUE)
     public List<SubCategorySummary> getServiceCategories(
             @PathVariable("organization-id") UUID organizationId,

@@ -14,5 +14,7 @@ public interface ImageOperationsService {
 
     InputStream prepareOriginal(BufferedImage originalImage) throws IOException;
 
+    BufferedImage compress(BufferedImage original) throws IOException;
+
 
 }

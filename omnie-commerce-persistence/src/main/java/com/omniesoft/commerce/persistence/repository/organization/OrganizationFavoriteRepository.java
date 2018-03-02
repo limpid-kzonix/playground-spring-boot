@@ -42,7 +42,6 @@ public interface OrganizationFavoriteRepository
     @Query(value = "" +
             "select ofe from OrganizationFavoriteEntity ofe " +
             "left join fetch ofe.id.user user " +
-            "left join fetch ofe.id.organization organization " +
             "where user = :user " +
             "", countQuery = "" +
             "select count(ofe) from OrganizationFavoriteEntity ofe " +

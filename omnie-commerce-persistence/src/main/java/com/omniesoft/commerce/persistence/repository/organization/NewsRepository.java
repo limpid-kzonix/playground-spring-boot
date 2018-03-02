@@ -58,7 +58,8 @@ public interface NewsRepository extends PagingAndSortingRepository<NewsEntity, U
             "   and n.organization.id in :orgs " +
             "   and n.postTime <= :currentTime" +
             " " +
-            "  ", countQuery = " select count(n) from NewsEntity n " +
+            "  ",
+            countQuery = " select count (n) from NewsEntity n " +
             " " +
             " where n.promotionStatus     =:status " +
             " and n.organization.id in :orgs" +

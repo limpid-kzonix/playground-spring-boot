@@ -21,6 +21,7 @@ import com.omniesoft.commerce.persistence.repository.organization.NewsRepository
 import com.omniesoft.commerce.persistence.repository.organization.OrganizationFavoriteRepository;
 import com.omniesoft.commerce.user.service.organization.NewsService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class NewsServiceImpl implements NewsService {
@@ -60,10 +62,13 @@ public class NewsServiceImpl implements NewsService {
 
         List<OrganizationFavoriteSummary> allByUser = organizationFavoriteRepository.findAllByUser(userEntity);
 
-        return allByUser
+        List<UUID> collect = allByUser
                 .stream().map(this::key)
                 .collect(Collectors
                         .toList());
+        if (collect.isEmpty())
+            collect.add(UUID.randomUUID());
+        return collect;
 
     }
 

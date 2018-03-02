@@ -15,16 +15,21 @@ spring:
   output:
     ansi:
       enabled: always
+  http:
+    multipart:
+      max-file-size: 4MB
+      max-request-size: 5MB
+      enabled: true
 
 zuul:
   add-proxy-headers: true
   add-host-header: true
   sensitiveHeaders: Cookie,Set-Cookie
   host:
-    connect-timeout-millis: 2000
+    connect-timeout-millis: 5000
     max-per-route-connections: 50
     max-total-connections: 200
-    socket-timeout-millis: 10000
+    socket-timeout-millis: 30000
   retryable: true
   ribbon-isolation-strategy: semaphore
   semaphore:
@@ -55,13 +60,41 @@ logging:
 server.error.whitelabel.enabled: false
 spring.mvc.throw-exception-if-no-handler-found: true
 
+hystrix:
+  threadpool:
+    default:
+      coreSize: 100
+      maxQueueSize: -1
+      queueSizeRejectionThreshold: 5
+  command:
+    default:
+      circuitBreaker:
+        sleepWindowInMilliseconds: 30000
+        requestVolumeThreshold: 3
+      execution:
+        isolation:
+          strategy: THREAD
+          thread:
+            timeoutInMilliseconds: 11000
+
 ribbon:
   eureka:
     enabled: true
+  serverListRefreshInterval: 1000
+  maxAutoRetries: 5
+  maxAutoRetriesNextServer: 5
+  ServerListRefreshInterval: 1000
+  MaxAutoRetries: 1
+  MaxAutoRetriesNextServer: 1
+  connectTimeout: 100
+  readTimeout: 60000
+  ConnectTimeout: 100
+  ReadTimeout: 60000
 eureka:
   client:
     serviceUrl:
       defaultZone: http://${service.discovery.client.user}:${service.discovery.client.password}@${service.discovery.host}:9998/eureka/
+
 # Custom
 service:
   discovery:

@@ -61,11 +61,9 @@ public class PicturesRepositoryImpl implements PicturesRepository {
     }
 
     @Override
-    public String storeSource(InputStream inputStream, String originalFileName, String contentType, ImageType type)
-            throws IOException {
+    public String storeSource(InputStream inputStream, String originalFileName, String contentType, ImageType type) {
 
-        log.info("ORIGINAL FILE NAME (image-identifier): {}", originalFileName);
-
+        log.info("FILE_NAME: {} \nFILE_TYPE: {}", originalFileName, type.name());
 
         Map<String, Object> metaData = metaData(originalFileName, type);
 

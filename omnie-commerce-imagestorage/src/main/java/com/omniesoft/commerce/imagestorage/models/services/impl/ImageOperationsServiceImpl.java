@@ -22,38 +22,11 @@ import java.io.InputStream;
 @Service
 public class ImageOperationsServiceImpl implements ImageOperationsService {
 
-    private BufferedImage crop(BufferedImage bufferedImage, Rectangle2D property) {
-
-        return Scalr.crop(bufferedImage, (int) property.getX(), (int) property.getY(), (int) property.getWidth(),
-                (int) property.getHeight());
-    }
-
-    private Rectangle2D getImageDimension(BufferedImage image) {
-
-        int width = image.getWidth();
-        int height = image.getHeight();
-
-        int hCenter = width / 2;
-        int vCenter = height / 2;
-
-        int dimension = image.getWidth() > image.getHeight
-                () ? image.getHeight() : image.getWidth();
-
-        return new Rectangle(hCenter - dimension / 2, vCenter - dimension / 2, dimension, dimension);
-    }
-
-    private InputStream transform(BufferedImage image) throws IOException {
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ImageIO.write(image, "jpeg", baos);
-        return new ByteArrayInputStream(baos.toByteArray());
-    }
-
     @Override
     public InputStream prepareSmall(BufferedImage originalImage) throws IOException {
 
         return transform(
-                Scalr.resize(crop(compress(originalImage), getImageDimension(originalImage)), Scalr.Method.ULTRA_QUALITY,
+                Scalr.resize(crop(originalImage, getImageDimension(originalImage)), Scalr.Method.ULTRA_QUALITY,
                         Scalr.Mode.AUTOMATIC, 150, 150));
     }
 
@@ -62,7 +35,7 @@ public class ImageOperationsServiceImpl implements ImageOperationsService {
 
 
         return transform(
-                Scalr.resize(crop(compress(originalImage), getImageDimension(originalImage)),
+                Scalr.resize(crop(originalImage, getImageDimension(originalImage)),
                         Scalr.Method.ULTRA_QUALITY,
                         Scalr.Mode.AUTOMATIC, 500, 500)
         );
@@ -73,7 +46,7 @@ public class ImageOperationsServiceImpl implements ImageOperationsService {
     public InputStream prepareLarge(BufferedImage originalImage) throws IOException {
 
         return transform(
-                Scalr.resize(crop(compress(originalImage), getImageDimension(originalImage)),
+                Scalr.resize(crop(originalImage, getImageDimension(originalImage)),
                         Scalr.Method.ULTRA_QUALITY,
                         Scalr.Mode.AUTOMATIC, 1000, 1000)
         );
@@ -84,14 +57,14 @@ public class ImageOperationsServiceImpl implements ImageOperationsService {
 
 
         return transform(
-                Scalr.resize(compress(originalImage),
+                Scalr.resize(originalImage,
                         Scalr.Method.ULTRA_QUALITY,
                         Scalr.Mode.AUTOMATIC, originalImage.getWidth(), originalImage.getHeight())
         );
     }
 
-    private BufferedImage compress(BufferedImage original) throws IOException {
-        log.info("Compress image ::: ImageDto to compress =  {}", original.toString());
+    public BufferedImage compress(BufferedImage original) throws IOException {
+        log.info("Compress image ::: ImageDto to compress =  {}");
         ByteArrayOutputStream compressed = new ByteArrayOutputStream();
         ImageOutputStream outputStream = ImageIO.createImageOutputStream(compressed);
 
@@ -124,5 +97,32 @@ public class ImageOperationsServiceImpl implements ImageOperationsService {
         log.info("Compress image ::: compressed image = {}", compressedBI.toString());
         return compressedBI;
 
+    }
+
+    private BufferedImage crop(BufferedImage bufferedImage, Rectangle2D property) {
+
+        return Scalr.crop(bufferedImage, (int) property.getX(), (int) property.getY(), (int) property.getWidth(),
+                (int) property.getHeight());
+    }
+
+    private Rectangle2D getImageDimension(BufferedImage image) {
+
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        int hCenter = width / 2;
+        int vCenter = height / 2;
+
+        int dimension = image.getWidth() > image.getHeight
+                () ? image.getHeight() : image.getWidth();
+
+        return new Rectangle(hCenter - dimension / 2, vCenter - dimension / 2, dimension, dimension);
+    }
+
+    private InputStream transform(BufferedImage image) throws IOException {
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(image, "jpeg", baos);
+        return new ByteArrayInputStream(baos.toByteArray());
     }
 }

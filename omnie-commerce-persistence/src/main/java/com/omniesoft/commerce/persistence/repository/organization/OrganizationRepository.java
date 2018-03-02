@@ -91,8 +91,7 @@ public interface OrganizationRepository extends PagingAndSortingRepository<Organ
             "group by" +
             "       org.id," +
             "       inUsers.id," +
-            "       mark.rating," +
-            "       subcategory.id"
+            "       mark.id "
             ,
             countQuery = "" +
                     "select " +

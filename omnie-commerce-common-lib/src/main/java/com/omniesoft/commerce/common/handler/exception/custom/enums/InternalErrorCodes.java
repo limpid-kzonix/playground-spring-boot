@@ -20,7 +20,7 @@ public enum InternalErrorCodes implements ErrorCode {
     INCORRECT_MULTIPART_ID(5114),
     MISSING_REQUEST_PATH_VARIABLE(5113),
     HTTP_METHOD_TYPE_NOT_SUPPORTED(5112),
-    RESOURCE_NOT_FOUND(5011),
+    RESOURCE_NOT_FOUND(5111),
     MISSING_SERVLET_REQUEST_PARAMETER(5110),
     HTTP_MEDIA_TYPE_NOT_SUPPORTED(5109),
     METHOD_ARGUMENT_NOT_VALID(5108), // Triggered when an object fails @Valid validation : HibernateValidator exception

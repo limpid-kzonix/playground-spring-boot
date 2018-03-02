@@ -26,6 +26,7 @@ public class OrganizationTimesheetDto {
     @ApiModelProperty(required = true, example = "18:00")
     private LocalTime workEnd;
 
+    @ApiModelProperty(required = false, readOnly = true)
     private DayOfWeek day;
 
     @ApiModelProperty(example = "13:00")
