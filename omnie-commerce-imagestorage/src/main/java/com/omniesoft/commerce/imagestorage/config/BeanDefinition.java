@@ -44,4 +44,16 @@ public class BeanDefinition {
         return executor;
     }
 
+    @Bean(name = "imageProcessableContext")
+    public Executor imageProcessingExecutor() {
+
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(16);
+        executor.setMaxPoolSize(16 * 2);
+        executor.setQueueCapacity(750);
+        executor.setThreadNamePrefix("ImageProcessor-ThreadPool-");
+        executor.initialize();
+        return executor;
+    }
+
 }

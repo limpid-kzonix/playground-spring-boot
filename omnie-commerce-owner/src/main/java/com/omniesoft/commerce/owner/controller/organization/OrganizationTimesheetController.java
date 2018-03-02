@@ -58,9 +58,9 @@ public class OrganizationTimesheetController extends AbstractOrganizationControl
         return organizationService.saveTimesheet(organizationId, day, timesheetDto);
     }
 
-    @PatchMapping(path = "{organization-id}/timesheet/{day}/{timesheet-id}", produces = APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PatchMapping(path = "{organization-id}/timesheet/{day}", produces = APPLICATION_JSON_VALUE)
     public void updateTimesheet(@PathVariable("organization-id") UUID organizationId,
-                                @PathVariable("timesheet-id") UUID timesheetId,
                                 @ApiParam
                                 @RequestBody @Valid SaveTimesheetListDto timesheetDto,
                                 @PathVariable("day") DayOfWeek day,
@@ -70,10 +70,10 @@ public class OrganizationTimesheetController extends AbstractOrganizationControl
         organizationService.updateTimesheet(organizationId, day, timesheetDto);
     }
 
-    @DeleteMapping(path = "{organization-id}/timesheet/{day}/{timesheet-id}", produces = APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping(path = "{organization-id}/timesheet/{day}", produces = APPLICATION_JSON_VALUE)
     public void deleteTimesheet(@PathVariable("organization-id") UUID organizationId,
                                 @ApiParam(required = true)
-                                @PathVariable("timesheet-id") UUID timesheetId,
                                 @PathVariable("day") DayOfWeek day,
                                 @ApiIgnore UserEntity user) {
 
