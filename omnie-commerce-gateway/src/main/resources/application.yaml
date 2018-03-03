@@ -91,6 +91,8 @@ ribbon:
   ConnectTimeout: 100
   ReadTimeout: 60000
 eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 600
   client:
     serviceUrl:
       defaultZone: http://${service.discovery.client.user}:${service.discovery.client.password}@${service.discovery.host}:9998/eureka/
@@ -127,7 +129,9 @@ eureka:
     leaseRenewalIntervalInSeconds: 10
     securePortEnabled: false
     prefer-ip-address: true
-
+  client:
+    healthcheck:
+      enabled: true
 
 
 

@@ -83,7 +83,7 @@ eureka:
     serviceUrl:
       defaultZone: http://${service.discovery.client.user}:${service.discovery.client.password}@${service.discovery.host}:9998/eureka/
     healthcheck:
-      enabled: true
+      enabled: false
 # Custom
 service:
   discovery:
@@ -134,6 +134,9 @@ eureka:
     leaseRenewalIntervalInSeconds: 10
     securePortEnabled: false
     prefer-ip-address: true
+  client:
+    healthcheck:
+      enabled: true
 
 service:
   discovery:
