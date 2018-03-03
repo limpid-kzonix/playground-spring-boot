@@ -6,9 +6,9 @@ import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 
 @EnableEurekaServer
 @SpringBootApplication
-public class OmnieCommerceDiscoveryApplication {
+public class DiscoveryApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(OmnieCommerceDiscoveryApplication.class, args);
+        SpringApplication.run(DiscoveryApplication.class, args);
     }
 }

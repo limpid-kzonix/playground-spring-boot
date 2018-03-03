@@ -74,7 +74,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
                 <configuration>
-                    <mainClass>com.omniesoft.commerce.gateway.OmnieCommerceGatewayApplication</mainClass>
+                    <mainClass>com.omniesoft.commerce.gateway.GatewayApplication</mainClass>
                     <addResources>true</addResources>
                 </configuration>
                 <executions>
