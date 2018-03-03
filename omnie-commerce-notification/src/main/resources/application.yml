@@ -71,10 +71,9 @@ logging:
     com.omniesoft: info
     org.springframework: info
     org.hibernate: info
-    jdbc: info
     org.apache: info
-    jdbc.audit: info
-    jdbc.resultset: warn
+    jdbc: warn
+    jdbc.resultsettable: info
 
 #
 # [ Eureka]
