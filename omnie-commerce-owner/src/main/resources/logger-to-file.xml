@@ -78,6 +78,10 @@
         <appender-ref ref="FILE"/>
     </logger>
 
+    <logger name="jdbc.connection" level="WARN" additivity="false">
+        <appender-ref ref="FILE"/>
+    </logger>
+
     <logger name="jdbc.resultset" level="WARN" additivity="false">
         <appender-ref ref="FILE"/>
     </logger>
