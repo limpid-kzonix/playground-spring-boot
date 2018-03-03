@@ -2,7 +2,7 @@
 # [ Server Configuration Attributes ]
 #
 server:
-  port: 9030
+  port: 9020
   context-path: /api
 
 #
