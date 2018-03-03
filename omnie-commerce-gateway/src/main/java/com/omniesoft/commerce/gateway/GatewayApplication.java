@@ -14,10 +14,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @RestController
 @EnableEurekaClient
 @EnableDiscoveryClient
-public class OmnieCommerceGatewayApplication {
+public class GatewayApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(OmnieCommerceGatewayApplication.class, args);
+        SpringApplication.run(GatewayApplication.class, args);
     }
 
 

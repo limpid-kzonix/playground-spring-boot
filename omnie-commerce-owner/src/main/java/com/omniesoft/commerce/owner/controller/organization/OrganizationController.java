@@ -58,8 +58,7 @@ public class OrganizationController extends AbstractOrganizationController {
     @PostMapping(consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public CardOrganizationDto addOrganization(@RequestBody @Valid SaveOrganizationDto organization,
                                                @ApiIgnore UserEntity user) {
-        CardOrganizationDto organizationCard = organizationService.save(organization, user);
-        return organizationCard;
+        return organizationService.save(organization, user);
     }
 
 
