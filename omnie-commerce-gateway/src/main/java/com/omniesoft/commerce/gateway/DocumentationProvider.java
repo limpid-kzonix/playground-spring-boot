@@ -19,7 +19,7 @@ public class DocumentationProvider implements SwaggerResourcesProvider {
         resources.add(swaggerResource("security-service", "/omnie-security/api/v2/api-docs?group=security-custom-api", "2.0"));
         resources.add(swaggerResource("user-service", "/omnie-user/api/v2/api-docs?group=user-api", "2.0"));
         resources.add(swaggerResource("owner-service", "/omnie-owner/api/v2/api-docs?group=owner-api", "2.0"));
-        resources.add(swaggerResource("support-service", "/omnie-support/api/v2/api-docs?group=owner-api", "2.0"));
+        resources.add(swaggerResource("support-service", "/omnie-support/api/v2/api-docs?group=support-api", "2.0"));
         resources.add(swaggerResource("image-service", "/omnie-imagestorage/api/v2/api-docs?group=image-api", "2.0"));
         resources.add(swaggerResource("notification-service", "/omnie-notification/api/v2/api-docs?group=notification-api", "2.0"));
         return resources;
