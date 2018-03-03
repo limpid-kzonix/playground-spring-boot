@@ -21,7 +21,7 @@ public class SaveOrganizationDto {
     @ApiModelProperty(required = true)
     private String name;
     @Pattern(regexp = Patterns.PHONE)
-    @ApiModelProperty(required = true, notes = Patterns.PHONE)
+    @ApiModelProperty(required = true)
     private String phone;
     private String logoId;
     @Pattern(regexp = Patterns.EMAIL)

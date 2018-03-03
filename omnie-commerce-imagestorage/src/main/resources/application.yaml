@@ -89,12 +89,9 @@ logging:
     org.springframework.security: debug
     org.springframework.cache: debug
     org.hibernate: info
-    jdbc: info
     org.apache: info
-    jdbc.audit: warn
-    jdbc.sqlonly: warn
-    jdbc.resultset: warn
-    jdbc.sqltiming: warn
+    jdbc: warn
+    jdbc.resultsettable: info
 
 
 #
