@@ -87,7 +87,6 @@ public class UserStatisticRestTemplateImpl extends SecuredRestTemplateAbstractio
 
         URI uri = UriComponentsBuilder.fromUriString(baseUrl + "/users/cards/omnie").build().toUri();
 
-        UserLogPayload userLogPayload = prepareUserPayload(userId);
         return wrap(() -> send(uri, HttpMethod.POST, prepareUserPayload(userId)));
     }
 
@@ -100,7 +99,6 @@ public class UserStatisticRestTemplateImpl extends SecuredRestTemplateAbstractio
 
         URI uri = UriComponentsBuilder.fromUriString(baseUrl + "/users/cards/holder").build().toUri();
 
-        UserLogPayload userLogPayload = prepareUserPayload(userId);
         return wrap(() -> send(uri, HttpMethod.POST, prepareUserPayload(userId)));
     }
 
@@ -182,7 +180,7 @@ public class UserStatisticRestTemplateImpl extends SecuredRestTemplateAbstractio
     @Override
     public CompletableFuture<Void> logUserOrganizationSearch(UUID userId, String pattern) {
 
-        if (pattern.length() < 4) return new CompletableFuture<>();
+        if (pattern.length() < 4) return CompletableFuture.completedFuture(null);
 
 
         URI uri = UriComponentsBuilder.fromUriString(baseUrl + "/users/organizations/search").queryParam("pattern",

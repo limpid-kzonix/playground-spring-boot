@@ -42,6 +42,11 @@ public class AccountPasswordServiceImpl implements AccountPasswordService {
     public void setPasswordResetCode(String email) {
 
         UserEntity userEntity = getAndCheckUser(email);
+
+        if (userEntity.getEnabled()) {
+            throw new UsefulException("User with such email is not enabled", UserModuleErrorCodes.USER_NOT_ACTIVE);
+        }
+
         UserPasswordResetEntity userPasswordResetEntity = preformResetPassword(userEntity);
         userPasswordRepository.deleteByUserEmail(email);
         UserPasswordResetEntity saved = userPasswordRepository.save(userPasswordResetEntity);
@@ -72,18 +77,27 @@ public class AccountPasswordServiceImpl implements AccountPasswordService {
     private void checkPasswordEntity(UserPasswordResetEntity byUserEmailAndCode) {
 
         if (byUserEmailAndCode == null) {
-            throw new UsefulException("User with such email does not exist", UserModuleErrorCodes.USER_NOT_EXIST);
+            throw new UsefulException("Invalid credentials", SecurityModuleErrorCodes.INVALID_CLIENT_CREDENTIALS);
+        }
+
+    }
+
+    private void validatePasswordEntity(UserPasswordResetEntity byUserEmailAndCode) {
+
+        checkPasswordEntity(byUserEmailAndCode);
+        if (LocalDateTime.now().isAfter(byUserEmailAndCode.getExpireTime())) {
+            throw new UsefulException("", SecurityModuleErrorCodes.INVALID_CLIENT_CREDENTIALS);
         }
     }
 
     @Override
-    public PasswordResetDto resetPassword(ResetPassword resetPassword) {
+    public void resetPassword(ResetPassword resetPassword) {
 
         UserPasswordResetEntity byUserEmailAndResetToken = userPasswordRepository
                 .findWithUser(resetPassword.getUserEmail(), resetPassword.getToken());
         checkPasswordEntity(byUserEmailAndResetToken);
+        validatePasswordEntity(byUserEmailAndResetToken);
         saveUserWithNewPassword(byUserEmailAndResetToken.getUser(), resetPassword.getNewPassword());
-        return modelMapper.map(byUserEmailAndResetToken, PasswordResetDto.class);
     }
 
     @Override
@@ -92,9 +106,10 @@ public class AccountPasswordServiceImpl implements AccountPasswordService {
         if (isMatches(changePassword, userEntity)) {
             saveUserWithNewPassword(userEntity, changePassword.getNewPassword());
         } else {
-            throw new UsefulException(changePassword.getCurrentPassword(),
-                    SecurityModuleErrorCodes.INVALID_PASSWORD);
+            throw new UsefulException("Incorrect credentials",
+                    SecurityModuleErrorCodes.INVALID_CLIENT_CREDENTIALS);
         }
+
     }
 
     private void saveUserWithNewPassword(UserEntity userEntity, String password) {
