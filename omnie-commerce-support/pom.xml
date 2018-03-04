@@ -16,7 +16,6 @@
     <packaging>jar</packaging>
 
     <name>omnie-commerce-support</name>
-    <description>Demo project for Spring Boot</description>
 
     <dependencies>
 
@@ -25,18 +24,29 @@
             <artifactId>omnie-commerce-common-lib</artifactId>
             <version>${omcom.version}</version>
         </dependency>
+        <!---->
+        <!---->
+        <!---->
+
+        <!-- Loggers -->
+        <dependency>
+            <groupId>com.integralblue</groupId>
+            <artifactId>log4jdbc-spring-boot-starter</artifactId>
+            <version>${log4jdbc-spring-boot-starter.version}</version>
+        </dependency>
+
     </dependencies>
 
 
     <build>
-        <finalName>omniecom-user</finalName>
+        <finalName>omniecom-support</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
                 <configuration>
-                    <mainClass>com.omniesoft.commerce.user.UserApplication</mainClass>
+                    <mainClass>com.omniesoft.commerce.support.SupportApplication</mainClass>
                     <addResources>true</addResources>
                 </configuration>
                 <executions>

@@ -51,7 +51,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
                 <configuration>
-                    <mainClass>com.omniesoft.commerce.discovery.OmnieCommerceDiscoveryApplication</mainClass>
+                    <mainClass>com.omniesoft.commerce.discovery.DiscoveryApplication</mainClass>
                     <addResources>true</addResources>
                 </configuration>
                 <executions>

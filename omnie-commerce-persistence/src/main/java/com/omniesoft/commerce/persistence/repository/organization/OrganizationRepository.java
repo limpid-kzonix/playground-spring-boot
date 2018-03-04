@@ -119,7 +119,7 @@ public interface OrganizationRepository extends PagingAndSortingRepository<Organ
             " inner join owner.user userOwner" +
             " where ( userOwner.id= :userId or admins.id=:userId)" +
             " and  org.deleteStatus = false" +
-            " group by org.id"
+            " group by org"
     )
     Page<OrganizationCardSummary> findAllByOwnerUserIdOrRolesAdminsContains(@Param("userId") UUID user, Pageable pageable);
 

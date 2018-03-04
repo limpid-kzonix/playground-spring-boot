@@ -2,7 +2,7 @@
 # [ Server Configuration Attributes ]
 #
 server:
-  port: 9030
+  port: 9020
   context-path: /api
 
 #
@@ -10,7 +10,7 @@ server:
 #
 spring:
   application:
-    name: omnie-support-system
+    name: omnie-support
   jpa:
     generate-ddl: false
     show-sql: false
@@ -86,11 +86,9 @@ logging:
     com.omniesoft: info
     org.springframework: info
     org.hibernate: info
-    jdbc: info
     org.apache: info
-    jdbc.audit: warn
-    jdbc.sqlonly: warn
-    jdbc.resultset: warn
+    jdbc: warn
+    jdbc.resultsettable: info
 
 
 #
@@ -120,7 +118,7 @@ eureka:
     serviceUrl:
       defaultZone: http://${service.discovery.client.user}:${service.discovery.client.password}@${service.discovery.host}:9998/eureka/
     healthcheck:
-      enabled: true
+      enabled: false
 # Custom
 service:
   discovery:
@@ -164,9 +162,6 @@ log4jdbc:
     sql:
       maxlinelength: 120
       select: false
-#
-# [ Logging Configuration Attributes ]
-#
 logging:
   config: classpath:logger-to-file.xml
 
@@ -193,6 +188,9 @@ eureka:
     leaseRenewalIntervalInSeconds: 10
     securePortEnabled: false
     prefer-ip-address: true
+  client:
+    healthcheck:
+      enabled: true
 
 service:
   discovery:

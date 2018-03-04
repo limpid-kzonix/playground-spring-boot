@@ -18,9 +18,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableAsync
 @EnableScheduling
 @Slf4j
-public class OmnieSupportSystemApplication {
+public class SupportApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(OmnieSupportSystemApplication.class, args);
+        SpringApplication.run(SupportApplication.class, args);
     }
 }

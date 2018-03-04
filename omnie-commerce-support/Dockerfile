@@ -5,7 +5,7 @@ RUN apk add --no-cache curl
 ENV JAVA_OPTS="-server -Xmx1g" \
     APP_OPTS="--spring.profiles.active=dev"
 
-COPY target/omniecom-user.jar  app.jar
+COPY target/omniecom-support.jar  app.jar
 COPY start.sh start.sh
 
 RUN chmod +x start.sh start.sh

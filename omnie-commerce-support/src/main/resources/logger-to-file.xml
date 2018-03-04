@@ -5,7 +5,7 @@
         xmlns="http://ch.qos.logback/xml/ns/logback"
         xsi:schemaLocation="http://ch.qos.logback/xml/ns/logback http://ch.qos.logback/xml/ns/logback/logback.xsd">
 
-    <property name="LOG_FILE" value="statistic-app"/>
+    <property name="LOG_FILE" value="support-app"/>
     <property name="MAX_FILE_SIZE" value="10MB"/>
     <property name="MAX_HISTORY" value="2"/>
     <property name="TOTAL_SIZE_CAP" value="50MB"/>

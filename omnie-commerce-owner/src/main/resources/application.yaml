@@ -86,12 +86,9 @@ logging:
     org.springframework: info
 #    org.springframework.security: debug
     org.hibernate: info
-    jdbc: info
     org.apache: info
-    jdbc.audit: warn
-    jdbc.sqlonly: warn
-    jdbc.resultset: warn
-    jdbc.sqltiming: warn
+    jdbc: warn
+    jdbc.resultsettable: info
 
 #
 # [ Rest Templates ]
@@ -120,7 +117,7 @@ eureka:
     serviceUrl:
       defaultZone: http://${service.discovery.client.user}:${service.discovery.client.password}@${service.discovery.host}:9998/eureka/
     healthcheck:
-      enabled: true
+      enabled: false
 # Custom
 service:
   discovery:
@@ -192,6 +189,9 @@ eureka:
     leaseRenewalIntervalInSeconds: 10
     securePortEnabled: false
     prefer-ip-address: true
+  client:
+    healthcheck:
+      enabled: true
 
 service:
   discovery:

@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @Ignore
-public class OmnieCommerceDiscoveryApplicationTests {
+public class DiscoveryApplicationTests {
 
     @Test
     public void contextLoads() {
