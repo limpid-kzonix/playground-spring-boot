@@ -11,8 +11,7 @@ public interface AccountPasswordService {
 
     PasswordResetDto verifyResetPasswordCode(ResetPasswordCode resetPasswordCode);
 
-    PasswordResetDto resetPassword(ResetPassword resetPassword);
+    void resetPassword(ResetPassword resetPassword);
 
     void changePassword(ChangePassword changePassword, UserEntity userEntity);
-
 }
