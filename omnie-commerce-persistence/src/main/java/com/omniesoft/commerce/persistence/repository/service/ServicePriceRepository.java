@@ -31,6 +31,7 @@ public interface ServicePriceRepository extends CrudRepository<ServicePriceEntit
             "   left join sp1.service as service1 " +
             "where " +
             "   sp1.activeFrom <= :date " +
+            "   and sp1.day = sp.day " +
             "   and service1.id = :service )" +
             "        " +
             " and " +

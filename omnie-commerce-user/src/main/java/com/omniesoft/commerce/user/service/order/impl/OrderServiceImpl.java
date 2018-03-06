@@ -208,7 +208,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDetailsDto getOrderDetails(UUID serviceId, UUID orderId) {
 
-        OrderEntity orderEntity = orderRepository.findByIdAndService_Id(orderId, serviceId);
+        OrderEntity orderEntity = orderRepository.findByIdAndServiceId(orderId, serviceId);
 
         return orderConverter.transformToOrderDetails(orderEntity);
     }
@@ -216,7 +216,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void confirmOrder(UUID serviceId, UUID orderId, UserEntity user) {
 
-        OrderEntity orderEntity = orderRepository.findByIdAndService_Id(orderId, serviceId);
+        OrderEntity orderEntity = orderRepository.findByIdAndServiceId(orderId, serviceId);
 
         LocalDateTime start = LocalDateTime.of(orderEntity.getStart().toLocalDate(), LocalTime.of(0, 0));
 
@@ -269,7 +269,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void cancelOrder(UUID serviceId, UUID orderId, UserEntity user) {
-        OrderEntity orderEntity = orderRepository.findByIdAndService_Id(orderId, serviceId);
+        OrderEntity orderEntity = orderRepository.findByIdAndServiceId(orderId, serviceId);
 
         if (orderEntity.getStatus() != PENDING_FOR_USER) {
             orderEntity.setStatus(CANCEL_BY_USER);
