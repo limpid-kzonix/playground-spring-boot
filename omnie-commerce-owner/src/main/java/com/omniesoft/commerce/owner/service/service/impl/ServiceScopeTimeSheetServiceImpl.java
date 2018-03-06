@@ -46,7 +46,7 @@ public class ServiceScopeTimeSheetServiceImpl implements ServiceScopeTimeSheetSe
                                                                          UserEntity userEntity) {
 
         List<ServicePriceEntity> servicePriceEntities = servicePriceRepository
-                .findLastAvailableByServiceId(service, org, LocalDateTime.of(LocalDate.now(), LocalTime.MIN));
+                .findLastAvailableByServiceId(service, org, LocalDateTime.now());
         return converter.toTimeSheet(servicePriceEntities);
     }
 
@@ -73,17 +73,15 @@ public class ServiceScopeTimeSheetServiceImpl implements ServiceScopeTimeSheetSe
                 userEntity);
 
         servicePriceRepository.save(servicePriceEntities);
-        return new ResponseMessage.Option<LocalDateTime>(lastDateOfOrderForService);
-
-
+        return new ResponseMessage.Option<>(lastDateOfOrderForService);
     }
 
     private LocalDateTime getAvailableLocalDateTime(DayOfWeek day, UUID service) {
         List<OrderTimeSummary> allByServiceIdAndCreateTimeAfter = orderRepository.findAllByServiceIdAndCreateTimeAfter(service, LocalDateTime.now());
         if (allByServiceIdAndCreateTimeAfter == null) {
-            return LocalDateTime.now();
+            return LocalDateTime.of(LocalDate.now(), LocalTime.MIN);
         } else if (allByServiceIdAndCreateTimeAfter.isEmpty()) {
-            return LocalDateTime.now();
+            return LocalDateTime.of(LocalDate.now(), LocalTime.MIN);
         } else {
             Optional<OrderTimeSummary> max = allByServiceIdAndCreateTimeAfter
                     .stream()
@@ -91,7 +89,7 @@ public class ServiceScopeTimeSheetServiceImpl implements ServiceScopeTimeSheetSe
                     .filter(orderTimeSummary -> orderTimeSummary.getCreateTime().getDayOfWeek().equals(day))
                     .filter(orderTimeSummary -> orderTimeSummary.getEnd().getDayOfWeek().equals(day))
                     .max(Comparator.comparing(OrderTimeSummary::getEnd));
-            return max.isPresent() ? max.get().getEnd() : LocalDateTime.now();
+            return max.isPresent() ? max.get().getEnd() : LocalDateTime.of(LocalDate.now(), LocalTime.MIN);
         }
     }
 
