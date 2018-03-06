@@ -3,6 +3,7 @@ package com.omniesoft.commerce.persistence.repository.order;
 import com.omniesoft.commerce.persistence.entity.account.UserEntity;
 import com.omniesoft.commerce.persistence.entity.enums.OrderStatus;
 import com.omniesoft.commerce.persistence.entity.order.OrderEntity;
+import com.omniesoft.commerce.persistence.projection.order.OrderTimeSummary;
 import com.omniesoft.commerce.persistence.projection.order.OrderUserSummary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,7 +23,11 @@ public interface OrderRepository extends CrudRepository<OrderEntity, UUID>, Orde
     OrderEntity findByServiceOrganizationIdAndUserAndStatus(UUID organizationId, UserEntity userEntity, OrderStatus
             status);
 
-    OrderEntity findByIdAndService_Id(UUID id, UUID serviceId);
+    OrderEntity findByIdAndServiceId(UUID id, UUID serviceId);
 
     Page<OrderUserSummary> findAllByUserIdAndStartBetween(UUID uuid, LocalDateTime start, LocalDateTime end, Pageable pageable);
+
+    List<OrderTimeSummary> findAllByServiceIdAndCreateTimeAfter(UUID serviceId, LocalDateTime localDateTime);
+
+
 }

@@ -5,12 +5,14 @@ import com.omniesoft.commerce.common.converter.ServicePriceConverter;
 import com.omniesoft.commerce.common.handler.exception.custom.UsefulException;
 import com.omniesoft.commerce.common.handler.exception.custom.enums.OwnerModuleErrorCodes;
 import com.omniesoft.commerce.common.payload.service.ServicePricePayload;
+import com.omniesoft.commerce.common.responce.ResponseMessage;
 import com.omniesoft.commerce.owner.service.service.ServicePriceTimeSettingValidator;
 import com.omniesoft.commerce.owner.service.service.ServiceScopeCrudService;
 import com.omniesoft.commerce.owner.service.service.ServiceScopeTimeSheetService;
 import com.omniesoft.commerce.persistence.entity.account.UserEntity;
 import com.omniesoft.commerce.persistence.entity.service.ServiceEntity;
 import com.omniesoft.commerce.persistence.entity.service.ServicePriceEntity;
+import com.omniesoft.commerce.persistence.projection.order.OrderTimeSummary;
 import com.omniesoft.commerce.persistence.repository.order.OrderRepository;
 import com.omniesoft.commerce.persistence.repository.service.ServicePriceRepository;
 import lombok.AllArgsConstructor;
@@ -21,9 +23,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -53,13 +53,13 @@ public class ServiceScopeTimeSheetServiceImpl implements ServiceScopeTimeSheetSe
 
     @Override
     @Transactional
-    public void mergeDaysPrices(DayOfWeek day, List<ServicePricePayload> pricePayloads, UUID service, UUID org,
-                                UserEntity userEntity) {
+    public ResponseMessage.Option<LocalDateTime> mergeDaysPrices(DayOfWeek day, List<ServicePricePayload> pricePayloads, UUID service, UUID org,
+                                                                 UserEntity userEntity) {
 
 
-        LocalDateTime lastDateOfOrderForService = orderRepository.findLastDateOfOrderForService(service);
+        LocalDateTime lastDateOfOrderForService = getAvailableLocalDateTime(day, service);
+
         ServiceEntity one = serviceScopeCrudService.find(service);
-
         comparator.validate(pricePayloads);
         //Getting available service time-sheet for service, day and available date
         List<ServicePriceEntity> allByServiceIdAndDay = getServicePriceForDay(day, service,
@@ -73,8 +73,26 @@ public class ServiceScopeTimeSheetServiceImpl implements ServiceScopeTimeSheetSe
                 userEntity);
 
         servicePriceRepository.save(servicePriceEntities);
+        return new ResponseMessage.Option<LocalDateTime>(lastDateOfOrderForService);
 
 
+    }
+
+    private LocalDateTime getAvailableLocalDateTime(DayOfWeek day, UUID service) {
+        List<OrderTimeSummary> allByServiceIdAndCreateTimeAfter = orderRepository.findAllByServiceIdAndCreateTimeAfter(service, LocalDateTime.now());
+        if (allByServiceIdAndCreateTimeAfter == null) {
+            return LocalDateTime.now();
+        } else if (allByServiceIdAndCreateTimeAfter.isEmpty()) {
+            return LocalDateTime.now();
+        } else {
+            Optional<OrderTimeSummary> max = allByServiceIdAndCreateTimeAfter
+                    .stream()
+                    .filter(Objects::nonNull)
+                    .filter(orderTimeSummary -> orderTimeSummary.getCreateTime().getDayOfWeek().equals(day))
+                    .filter(orderTimeSummary -> orderTimeSummary.getEnd().getDayOfWeek().equals(day))
+                    .max(Comparator.comparing(OrderTimeSummary::getEnd));
+            return max.isPresent() ? max.get().getEnd() : LocalDateTime.now();
+        }
     }
 
     @Override

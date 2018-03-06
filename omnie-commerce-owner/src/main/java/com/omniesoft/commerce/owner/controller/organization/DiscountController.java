@@ -76,7 +76,7 @@ public class DiscountController extends AbstractOrganizationController {
         discountService.delete(discountId, organizationId);
     }
 
-    @PutMapping(path = "{organization-id}/discounts/{discount-id}/service/{service-id}")
+    @PutMapping(path = "{organization-id}/discounts/{discount-id}/services/{service-id}")
     public void addServiceToDiscount(@PathVariable("organization-id") UUID organizationId,
                                      @PathVariable("discount-id") UUID discountId,
                                      @PathVariable("service-id") UUID serviceId,
@@ -86,7 +86,7 @@ public class DiscountController extends AbstractOrganizationController {
         discountService.addService(discountId, organizationId, serviceId);
     }
 
-    @DeleteMapping(path = "{organization-id}/discounts/{discount-id}/service/{service-id}")
+    @DeleteMapping(path = "{organization-id}/discounts/{discount-id}/services/{service-id}")
     public void deleteServiceFromDiscount(@PathVariable("organization-id") UUID organizationId,
                                           @PathVariable("discount-id") UUID discountId,
                                           @PathVariable("service-id") UUID serviceId,
@@ -97,7 +97,7 @@ public class DiscountController extends AbstractOrganizationController {
         discountService.deleteService(discountId, organizationId, serviceId);
     }
 
-    @PutMapping(path = "{organization-id}/discounts/{discount-id}/sub-service/{sub-service-id}")
+    @PutMapping(path = "{organization-id}/discounts/{discount-id}/sub-services/{sub-service-id}")
     public void addSubServiceToDiscount(@PathVariable("organization-id") UUID organizationId,
                                         @PathVariable("discount-id") UUID discountId,
                                         @PathVariable("sub-service-id") UUID subServiceId,
@@ -108,7 +108,7 @@ public class DiscountController extends AbstractOrganizationController {
         discountService.addSubService(discountId, organizationId, subServiceId);
     }
 
-    @DeleteMapping(path = "{organization-id}/discounts/{discount-id}/sub-service/{sub-service-id}")
+    @DeleteMapping(path = "{organization-id}/discounts/{discount-id}/sub-services/{sub-service-id}")
     public void deleteSuberviceFromDiscount(@PathVariable("organization-id") UUID organizationId,
                                             @PathVariable("discount-id") UUID discountId,
                                             @PathVariable("sub-service-id") UUID subServiceId,
