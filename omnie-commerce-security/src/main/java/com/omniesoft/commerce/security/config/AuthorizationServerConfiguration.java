@@ -68,7 +68,8 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 
-        clients.inMemory().withClient("web-client")
+        clients.inMemory()
+                .withClient("web-client")
                 .secret("secret")
                 .scopes("read", "write", "trust")
                 .autoApprove(true)

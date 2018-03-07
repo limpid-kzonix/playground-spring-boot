@@ -6,11 +6,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
-import java.util.concurrent.Executor;
 
 @Configuration
 @RequiredArgsConstructor
@@ -87,15 +84,15 @@ public class BeanDefinitionConfig {
 //    }
 
 
-    @Bean(name = "httpThreadPoolExecutor")
-    public Executor httpThreadPoolExecutor() {
-
-        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(2);
-        executor.setMaxPoolSize(2);
-        executor.setQueueCapacity(500);
-        executor.setThreadNamePrefix("RestTemplateServiceLookup-");
-        executor.initialize();
-        return executor;
-    }
+//    @Bean(name = "httpThreadPoolExecutor")
+//    public Executor httpThreadPoolExecutor() {
+//
+//        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+//        executor.setCorePoolSize(2);
+//        executor.setMaxPoolSize(2);
+//        executor.setQueueCapacity(500);
+//        executor.setThreadNamePrefix("RestTemplateServiceLookup-");
+//        executor.initialize();
+//        return executor;
+//    }
 }
