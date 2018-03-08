@@ -43,7 +43,7 @@ public class AccountPasswordServiceImpl implements AccountPasswordService {
 
         UserEntity userEntity = getAndCheckUser(email);
 
-        if (userEntity.getEnabled()) {
+        if (!userEntity.getEnabled()) {
             throw new UsefulException("User with such email is not enabled", UserModuleErrorCodes.USER_NOT_ACTIVE);
         }
 
