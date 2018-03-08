@@ -1,7 +1,6 @@
 package com.omniesoft.commerce.common.order;
 
 import com.omniesoft.commerce.common.handler.exception.custom.UsefulException;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.time.LocalDateTime;
@@ -10,7 +9,6 @@ import java.time.LocalDateTime;
  * @author Vitalii Martynovskyi
  * @since 30.10.17
  */
-@Ignore
 public class TimesheetArgumentsValidator_NewTimesheet_Test {
     @Test(expected = UsefulException.class)
     public void startNullEndNull() throws Exception {
