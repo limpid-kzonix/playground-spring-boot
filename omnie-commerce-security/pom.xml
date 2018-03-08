@@ -13,7 +13,7 @@
 
     <groupId>com.omniesoft.commerce.security</groupId>
     <artifactId>omnie-commerce-security</artifactId>
-    <version>${omcom.version}</version>
+    <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <dependencies>
@@ -23,7 +23,7 @@
         <dependency>
             <groupId>com.omniesoft.commerce</groupId>
             <artifactId>omnie-commerce-common-lib</artifactId>
-            <version>${omcom.version}</version>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
         <!---->
         <!-- Loggers -->
@@ -42,7 +42,7 @@
         <dependency>
             <groupId>com.omniesoft.commerce.root</groupId>
             <artifactId>omnie-commerce-secured-parent</artifactId>
-            <version>${omcom.version}</version>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>

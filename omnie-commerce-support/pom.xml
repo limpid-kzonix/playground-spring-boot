@@ -12,7 +12,7 @@
 
     <groupId>com.omniesoft.commerce.support</groupId>
     <artifactId>omnie-commerce-support</artifactId>
-    <version>${omcom.version}</version>
+    <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>omnie-commerce-support</name>
@@ -22,7 +22,7 @@
         <dependency>
             <groupId>com.omniesoft.commerce</groupId>
             <artifactId>omnie-commerce-common-lib</artifactId>
-            <version>${omcom.version}</version>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
         <!---->
         <!---->
