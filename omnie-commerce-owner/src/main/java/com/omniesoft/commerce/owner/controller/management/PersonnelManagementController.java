@@ -124,7 +124,7 @@ public class PersonnelManagementController extends AbstractOrganizationControlle
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping(path = "{organization-id}/admin/{user-id}/service/{service-id}")
+    @PostMapping(path = "{organization-id}/admin/{user-id}/services/{service-id}")
     public void addAdminToService(@PathVariable("organization-id") UUID organizationId,
                                   @PathVariable("user-id") UUID userId,
                                   @PathVariable("service-id") UUID serviceId,
@@ -134,7 +134,7 @@ public class PersonnelManagementController extends AbstractOrganizationControlle
         personnelManagementService.addAdminToService(organizationId, userId, serviceId);
     }
 
-    @DeleteMapping(path = "{organization-id}/admin/{user-id}/service/{service-id}")
+    @DeleteMapping(path = "{organization-id}/admin/{user-id}/services/{service-id}")
     public void deleteAdminFromService(@PathVariable("organization-id") UUID organizationId,
                                        @PathVariable("user-id") UUID userId,
                                        @PathVariable("service-id") UUID serviceId,

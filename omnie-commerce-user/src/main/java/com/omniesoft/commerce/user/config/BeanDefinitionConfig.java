@@ -167,9 +167,9 @@ public class BeanDefinitionConfig {
     public Executor httpThreadPoolExecutor() {
 
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(2);
-        executor.setMaxPoolSize(4);
-        executor.setQueueCapacity(500);
+        executor.setCorePoolSize(8);
+        executor.setMaxPoolSize(64);
+        executor.setQueueCapacity(1500);
         executor.setThreadNamePrefix("RestTemplateServiceLookup-");
         executor.initialize();
         return executor;

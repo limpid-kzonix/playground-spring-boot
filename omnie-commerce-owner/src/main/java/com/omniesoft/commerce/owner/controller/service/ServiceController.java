@@ -102,7 +102,7 @@ public class ServiceController extends AbstractOrganizationController {
     }
 
 
-    @GetMapping(path = "/service/languages", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/services/languages", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<LanguageSummary> availableLanguages() {
         return serviceScopeMainService.findAvailableLanguages();
     }

@@ -10,8 +10,6 @@ import com.omniesoft.commerce.user.controller.setting.payload.UserSettingPayload
 import com.omniesoft.commerce.user.service.setting.UserSettingsService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -20,7 +18,6 @@ import javax.transaction.Transactional;
 @Service
 @Transactional
 @AllArgsConstructor
-@CacheConfig(cacheNames = {"user_settings"})
 public class UserSettingsServiceImpl implements UserSettingsService {
 
     private final UserRepository userRepository;
@@ -31,7 +28,6 @@ public class UserSettingsServiceImpl implements UserSettingsService {
 
 
     @Override
-//    @CacheEvict(value = "user_settings", key = "#userEntity.id")
     public UserSettingPayload update(UserEntity userEntity, UserSettingPayload payload) {
 
         UserSettingEntity userSettingEntity = prepareUserSettingEntity(payload);
@@ -54,7 +50,6 @@ public class UserSettingsServiceImpl implements UserSettingsService {
     }
 
     @Override
-    @Cacheable(value = "user_settings", key = "#userEntity.id")
     public UserSettingPayload find(UserEntity userEntity) {
 
         UserSettingEntity one = settingsRepository.findOne(userEntity.getSetting().getId());

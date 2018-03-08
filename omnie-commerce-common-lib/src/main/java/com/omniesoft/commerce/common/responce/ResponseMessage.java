@@ -29,4 +29,12 @@ public class ResponseMessage {
     public static class Created {
         private UUID id;
     }
+
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Option<T> {
+        private T value;
+    }
 }

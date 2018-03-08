@@ -150,7 +150,7 @@ public class OrderServiceImpl implements OrderService {
         );
 
         if (builder.put(op)) {
-            OrderEntity savedOrder = orderRepository.findByIdAndService_Id(orderId, order.getServiceId());
+            OrderEntity savedOrder = orderRepository.findByIdAndServiceId(orderId, order.getServiceId());
             savedOrder.getSubServices().removeIf(o -> o.getId() != null);
 
             OrderEntity orderEntity = createOrderEntityWithoutPrices(order, admin, CONFIRM_BY_ADMIN);
@@ -168,7 +168,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDetailsDto getOrderDetails(UUID serviceId, UUID orderId) {
-        OrderEntity orderEntity = orderRepository.findByIdAndService_Id(orderId, serviceId);
+        OrderEntity orderEntity = orderRepository.findByIdAndServiceId(orderId, serviceId);
 
         return orderConverter.transformToOrderDetails(orderEntity);
     }
@@ -377,7 +377,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void confirmOrder(UUID serviceId, UUID orderId, UserEntity admin) {
-        OrderEntity orderEntity = orderRepository.findByIdAndService_Id(orderId, serviceId);
+        OrderEntity orderEntity = orderRepository.findByIdAndServiceId(orderId, serviceId);
 
         LocalDateTime start = LocalDateTime.of(orderEntity.getStart().toLocalDate(), LocalTime.of(0, 0));
 
@@ -427,7 +427,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void cancelOrder(UUID serviceId, UUID orderId, UserEntity admin) {
-        OrderEntity orderEntity = orderRepository.findByIdAndService_Id(orderId, serviceId);
+        OrderEntity orderEntity = orderRepository.findByIdAndServiceId(orderId, serviceId);
 
         if (orderEntity.getStatus() != DONE) {
             orderEntity.setStatus(CANCEL_BY_ADMIN);
@@ -439,7 +439,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void doneOrder(UUID serviceId, UUID orderId, UserEntity admin) {
-        OrderEntity orderEntity = orderRepository.findByIdAndService_Id(orderId, serviceId);
+        OrderEntity orderEntity = orderRepository.findByIdAndServiceId(orderId, serviceId);
 
         if (orderEntity.getStatus() == CONFIRM_BY_USER || orderEntity.getStatus() == CONFIRM_BY_ADMIN) {
             orderEntity.setStatus(DONE);
@@ -452,7 +452,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void failOrder(UUID serviceId, UUID orderId, UserEntity admin) {
-        OrderEntity orderEntity = orderRepository.findByIdAndService_Id(orderId, serviceId);
+        OrderEntity orderEntity = orderRepository.findByIdAndServiceId(orderId, serviceId);
 
         if (orderEntity.getStatus() == CONFIRM_BY_USER || orderEntity.getStatus() == CONFIRM_BY_ADMIN) {
             orderEntity.setStatus(OrderStatus.FAIL_BY_USER);
