@@ -9,7 +9,6 @@ import com.omniesoft.commerce.persistence.entity.service.SubServiceEntity;
 import com.omniesoft.commerce.persistence.entity.service.SubServicePriceEntity;
 import net.bytebuddy.utility.RandomString;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@Ignore
 public class SubServicePriceTest {
     private static SubServicePriceConverter converter = new SubServicePriceConverterImpl();
 
