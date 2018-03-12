@@ -48,7 +48,7 @@ public class AccountServiceImpl implements AccountService {
         UserEntity userEntity = new UserEntity();
         userEntity.setLogin(user.getLogin().toLowerCase());
         userEntity.setAuthorities(Lists.newArrayList(authorityService.getAuthority(ROLE_USER)));
-        userEntity.setEmail(user.getEmail());
+        userEntity.setEmail(user.getEmail().toLowerCase());
         userEntity.setEncryptPassword(passwordEncoder.encode(user.getPassword()));
         userEntity.setLastPasswordResetDate(LocalDateTime.now());
         userEntity.setRegistrationDate(LocalDateTime.now());
