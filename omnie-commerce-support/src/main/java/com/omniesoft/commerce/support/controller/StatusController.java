@@ -1,15 +1,13 @@
 package com.omniesoft.commerce.support.controller;
 
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class CategoriesController {
+public class StatusController {
 
-
-    @GetMapping(path = "status", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "status")
     public String status() {
-        return "{}";
+        return "ok";
     }
 }

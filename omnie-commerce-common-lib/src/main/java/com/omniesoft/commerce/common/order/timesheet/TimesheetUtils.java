@@ -26,6 +26,7 @@ public class TimesheetUtils {
         if (subServices != null && !subServices.isEmpty()) {
             long additionalTimeMillis = 0L;
             for (OrderSubService subService : subServices) {
+                log.debug("Subservice {}", subService.toString());
                 additionalTimeMillis += subService.getCount() * subService.getDuration();
             }
             if (additionalTimeMillis > 0L) {

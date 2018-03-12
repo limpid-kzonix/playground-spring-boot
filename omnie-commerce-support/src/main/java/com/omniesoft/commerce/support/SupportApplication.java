@@ -1,6 +1,5 @@
 package com.omniesoft.commerce.support;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -17,7 +16,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableJpaRepositories("com.omniesoft.commerce.persistence")
 @EnableAsync
 @EnableScheduling
-@Slf4j
 public class SupportApplication {
 
     public static void main(String[] args) {

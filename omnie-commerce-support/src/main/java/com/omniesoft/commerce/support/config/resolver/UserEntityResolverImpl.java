@@ -6,12 +6,17 @@ import com.omniesoft.commerce.persistence.entity.account.UserEntity;
 import com.omniesoft.commerce.persistence.repository.account.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.common.exceptions.UnauthorizedUserException;
+import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.ModelAndViewContainer;
+
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -40,7 +45,20 @@ public class UserEntityResolverImpl implements UserEntityResolver {
         } else {
             throw new UnauthorizedUserException("UserEntity isn`t exist in security context.");
         }
+    }
 
+    @Override
+    public Optional<Authentication> getAuthentication() {
+        return Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication());
+    }
+
+    @Override
+    public Optional<String> getCurrentUserId() {
+        Optional<Authentication> authentication = getAuthentication();
+        return authentication.map(a -> {
+            OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails) a.getDetails();
+            return (String) ((Map) details.getDecodedDetails()).get("userId");
+        });
     }
 
 }

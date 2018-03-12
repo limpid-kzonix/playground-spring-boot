@@ -75,7 +75,7 @@ hystrix:
         isolation:
           strategy: THREAD
           thread:
-            timeoutInMilliseconds: 11000
+            timeoutInMilliseconds: 61000
 
 ribbon:
   eureka:
