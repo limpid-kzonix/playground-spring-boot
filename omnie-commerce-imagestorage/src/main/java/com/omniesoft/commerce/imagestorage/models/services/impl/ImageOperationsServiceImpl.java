@@ -87,6 +87,12 @@ public class ImageOperationsServiceImpl implements ImageOperationsService {
         jpgWriteParam = jpgWriter.getDefaultWriteParam();
 
         if (!jpgWriteParam.canWriteCompressed()) {
+            // Dispose the writer to free resources
+            jpgWriter.dispose();
+
+            // close streams
+            outputStream.close();
+            compressed.close();
             return original;
         }
         jpgWriteParam.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
