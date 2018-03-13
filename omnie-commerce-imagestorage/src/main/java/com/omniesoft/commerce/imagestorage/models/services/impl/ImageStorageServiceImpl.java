@@ -106,7 +106,7 @@ public class ImageStorageServiceImpl implements ImageStorageService {
         try {
             return ImageIO.read(file.getInputStream());
         } catch (IOException e) {
-            throw new UsefulException();
+            throw new UsefulException("Multipart data is corrupted").withCode(ImageModuleErrorCodes.GENERAL_IMAGE_ERROR);
         }
     }
 

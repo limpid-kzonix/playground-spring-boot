@@ -77,15 +77,18 @@ public class ImageOperationsServiceImpl implements ImageOperationsService {
         // NOTE: The rest of the code is just a cleaned up version of your code
 
         // Obtain writer for JPEG format
+        ImageWriter jpgWriter = null;
 
-        ImageWriter jpgWriter = ImageIO.getImageWritersByFormatName("jpg").next();
+        jpgWriter = ImageIO.getImageWritersByFormatName("jpg").next();
         log.info("Obtain JPEG writer");
 
         // Configure JPEG compression: 12% quality
         ImageWriteParam jpgWriteParam = jpgWriter.getDefaultWriteParam();
-        jpgWriteParam.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
-        jpgWriteParam.setCompressionQuality(0.1f);
 
+        if (jpgWriteParam.canWriteCompressed()) {
+            jpgWriteParam.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+            jpgWriteParam.setCompressionQuality(0.1f);
+        }
         // Set your in-memory stream as the output
         jpgWriter.setOutput(outputStream);
 
