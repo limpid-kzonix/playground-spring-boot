@@ -86,17 +86,11 @@ public class ImageOperationsServiceImpl implements ImageOperationsService {
         // Configure JPEG compression: 12% quality
         jpgWriteParam = jpgWriter.getDefaultWriteParam();
 
-        if (!jpgWriteParam.canWriteCompressed()) {
-            // Dispose the writer to free resources
-            jpgWriter.dispose();
+        if (jpgWriteParam.canWriteCompressed()) {
 
-            // close streams
-            outputStream.close();
-            compressed.close();
-            return original;
+            jpgWriteParam.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+            jpgWriteParam.setCompressionQuality(0.1f);
         }
-        jpgWriteParam.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
-        jpgWriteParam.setCompressionQuality(0.1f);
 
         // Set your in-memory stream as the output
         jpgWriter.setOutput(outputStream);
@@ -107,6 +101,12 @@ public class ImageOperationsServiceImpl implements ImageOperationsService {
         try {
             jpgWriter.write(null, new IIOImage(original, null, null), jpgWriteParam);
         } catch (Exception e) {
+            // Dispose the writer to free resources
+            jpgWriter.dispose();
+
+            // close streams
+            outputStream.close();
+            compressed.close();
             return original;
         }
 
