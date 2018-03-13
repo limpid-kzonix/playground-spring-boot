@@ -30,6 +30,7 @@
             <artifactId>omnie-commerce-persistence</artifactId>
             <version>${project.version}</version>
         </dependency>
+
         <!---->
         <!---->
         <!---->
