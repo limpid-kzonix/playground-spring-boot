@@ -80,7 +80,7 @@ public class ImageOperationsServiceImpl implements ImageOperationsService {
         ImageWriter jpgWriter = null;
 
         jpgWriter = ImageIO.getImageWritersByFormatName("jpg").next();
-        log.info("Obtain JPEG writer");
+        log.info("Obtained JPEG writer");
 
         // Configure JPEG compression: 12% quality
         ImageWriteParam jpgWriteParam = jpgWriter.getDefaultWriteParam();
