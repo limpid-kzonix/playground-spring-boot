@@ -22,7 +22,13 @@
         <dependency>
             <groupId>com.omniesoft.commerce</groupId>
             <artifactId>omnie-commerce-common-lib</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.omniesoft.commerce</groupId>
+            <artifactId>omnie-commerce-persistence</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <!---->
         <!---->
