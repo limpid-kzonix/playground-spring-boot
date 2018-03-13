@@ -73,9 +73,12 @@ public class ImageStorageServiceImpl implements ImageStorageService {
         try {
             prepareAndSave(file, read, generated);
         } catch (ExecutionException e) {
-            e.printStackTrace();
+            if (e.getCause() != null && e.getCause() instanceof UsefulException) {
+                throw (UsefulException) e.getCause();
+            }
+            throw new UsefulException("Error during compression and saving processing").withCode(ImageModuleErrorCodes.GENERAL_IMAGE_ERROR);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            throw new UsefulException();
         }
         return generated;
 

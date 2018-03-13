@@ -1,5 +1,7 @@
 package com.omniesoft.commerce.imagestorage.models.services.impl;
 
+import com.omniesoft.commerce.common.handler.exception.custom.UsefulException;
+import com.omniesoft.commerce.common.handler.exception.custom.enums.ImageModuleErrorCodes;
 import com.omniesoft.commerce.imagestorage.models.services.ImageOperationsService;
 import lombok.extern.slf4j.Slf4j;
 import org.imgscalr.Scalr;
@@ -64,14 +66,20 @@ public class ImageOperationsServiceImpl implements ImageOperationsService {
     }
 
     public BufferedImage compress(BufferedImage original) throws IOException {
-        log.info("Compress image ::: ImageDto to compress =  {}");
+        if (original == null) {
+            throw new UsefulException("Can`t to compress NULL image file. Image received from client is corrupted").withCode(ImageModuleErrorCodes.RECEIVED_IMAGE_IS_CORRUPTED);
+        }
+
+        log.info("Pre compress ::: original =  {}", original.toString());
         ByteArrayOutputStream compressed = new ByteArrayOutputStream();
         ImageOutputStream outputStream = ImageIO.createImageOutputStream(compressed);
 
         // NOTE: The rest of the code is just a cleaned up version of your code
 
         // Obtain writer for JPEG format
+
         ImageWriter jpgWriter = ImageIO.getImageWritersByFormatName("jpg").next();
+        log.info("Obtain JPEG writer");
 
         // Configure JPEG compression: 12% quality
         ImageWriteParam jpgWriteParam = jpgWriter.getDefaultWriteParam();
@@ -84,7 +92,12 @@ public class ImageOperationsServiceImpl implements ImageOperationsService {
         // Write image as JPEG w/configured settings to the in-memory stream
         // (the IIOImage is just an aggregator object, allowing you to associate
         // thumbnails and metadata to the image, it "does" nothing)
-        jpgWriter.write(null, new IIOImage(original, null, null), jpgWriteParam);
+        try {
+            jpgWriter.write(null, new IIOImage(original, null, null), jpgWriteParam);
+        } catch (Exception e) {
+            throw new UsefulException("Can`t to compress invalid image file. Image received from client is corrupted", e.getMessage()).withCode(ImageModuleErrorCodes.RECEIVED_IMAGE_IS_CORRUPTED);
+        }
+
 
         // Dispose the writer to free resources
         jpgWriter.dispose();
@@ -94,7 +107,7 @@ public class ImageOperationsServiceImpl implements ImageOperationsService {
         compressed.close();
 
         BufferedImage compressedBI = ImageIO.read(new ByteArrayInputStream(compressed.toByteArray()));
-        log.info("Compress image ::: compressed image = {}", compressedBI.toString());
+        log.info("Post compress ::: compressed image = {}", compressedBI.toString());
         return compressedBI;
 
     }

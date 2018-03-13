@@ -41,6 +41,10 @@ public class ConversationServiceImpl implements ConversationService {
     @Override
     public UUID createConversation(UUID org, UserEntity userEntity) {
 
+        ConversationSummary byUserIdAndOrganizationId = conversationRepository.findByUserIdAndOrganizationId(userEntity.getId(), org);
+        if (byUserIdAndOrganizationId != null) {
+            return byUserIdAndOrganizationId.getId();
+        }
         OrganizationEntity one = checkOrganizationEntity(org);
         ConversationEntity conversationEntity = new ConversationEntity();
         conversationEntity.setOrganization(one);

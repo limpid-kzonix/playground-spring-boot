@@ -9,22 +9,34 @@
  * “Attention: Permissions Coordinator,” at the address below.
  */
 
-package com.omniesoft.commerce.persistence.projection.service;
+package com.omniesoft.commerce.persistence.projection.organization;
 
-import com.omniesoft.commerce.persistence.projection.organization.OrganizationSmallCardSummary;
+import com.omniesoft.commerce.persistence.projection.card.handbook.HandbookPhoneSummary;
+import com.omniesoft.commerce.persistence.projection.service.ServiceHbSummary;
 
+import java.util.List;
 import java.util.UUID;
 
-public interface ServiceSummary {
-
+/**
+ * @author Vitalii Martynovskyi
+ * @since 11.10.17
+ */
+public interface OrganizationHandbookSummary {
     UUID getId();
 
     String getName();
 
     String getLogoId();
 
-    String getDescription();
+    String getPlaceId();
 
-    OrganizationSmallCardSummary getOrganization();
+    Double getLongitude();
+
+    Double getLatitude();
+
+    List<ServiceHbSummary> getServices();
+
+    List<HandbookPhoneSummary> getPhones();
 
 }
+
