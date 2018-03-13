@@ -107,7 +107,7 @@ public class ImageOperationsServiceImpl implements ImageOperationsService {
         try {
             jpgWriter.write(null, new IIOImage(original, null, null), jpgWriteParam);
         } catch (Exception e) {
-            throw new UsefulException("Can`t to compress invalid image file. Image received from client is corrupted", e.getMessage()).withCode(ImageModuleErrorCodes.RECEIVED_IMAGE_IS_CORRUPTED);
+            return original;
         }
 
 
