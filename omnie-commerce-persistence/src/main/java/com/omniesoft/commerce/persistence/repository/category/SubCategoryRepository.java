@@ -34,19 +34,17 @@ public interface SubCategoryRepository extends PagingAndSortingRepository<SubCat
 
     Page<SubCategoryNamesPjn> findAllByCategoryId(UUID categoryId, Pageable pageable);
 
-    @Query("select COUNT(o)" +
+    @Query("select COUNT(distinct o)" +
             " from OrganizationEntity o" +
             " join o.services as s" +
             " join s.subCategories as sc" +
-            " where sc.id = :id" +
-            " group by o")
+            " where sc.id = :id")
     int countOrganizationBySubCategoryId(@Param("id") UUID subCategoryId);
 
-    @Query("select COUNT(s)" +
+    @Query("select COUNT(distinct s)" +
             " from ServiceEntity s" +
             " join s.subCategories as sc" +
-            " where sc.id = :id" +
-            " group by s")
+            " where sc.id = :id")
     int countServicesBySubCategoryId(@Param("id") UUID subCategoryId);
 
 
