@@ -70,6 +70,10 @@ public class ImageOperationsServiceImpl implements ImageOperationsService {
             throw new UsefulException("Can`t to compress NULL image file. Image received from client is corrupted").withCode(ImageModuleErrorCodes.RECEIVED_IMAGE_IS_CORRUPTED);
         }
 
+        // create a blank, RGB, same width and height, and a white background
+        BufferedImage result = convertToJpeg(original);
+
+
         log.info("Pre compress ::: original =  {}", original.toString());
         ByteArrayOutputStream compressed = new ByteArrayOutputStream();
         ImageOutputStream outputStream = ImageIO.createImageOutputStream(compressed);
@@ -80,14 +84,13 @@ public class ImageOperationsServiceImpl implements ImageOperationsService {
         ImageWriter jpgWriter = null;
         ImageWriteParam jpgWriteParam = null;
 
-        jpgWriter = ImageIO.getImageWritersByFormatName("jpg").next();
+        jpgWriter = ImageIO.getImageWritersByFormatName("jpeg").next();
         log.info("Obtained JPEG writer");
 
         // Configure JPEG compression: 12% quality
         jpgWriteParam = jpgWriter.getDefaultWriteParam();
 
         if (jpgWriteParam.canWriteCompressed()) {
-
             jpgWriteParam.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
             jpgWriteParam.setCompressionQuality(0.1f);
         }
@@ -99,29 +102,33 @@ public class ImageOperationsServiceImpl implements ImageOperationsService {
         // (the IIOImage is just an aggregator object, allowing you to associate
         // thumbnails and metadata to the image, it "does" nothing)
         try {
-            jpgWriter.write(null, new IIOImage(original, null, null), jpgWriteParam);
+            jpgWriter.write(null, new IIOImage(result, null, null), jpgWriteParam);
         } catch (Exception e) {
-            // Dispose the writer to free resources
-            jpgWriter.dispose();
-
-            // close streams
-            outputStream.close();
-            compressed.close();
+            close(compressed, outputStream, jpgWriter);
             return original;
         }
+        // Dispose the writer to free resources
+        close(compressed, outputStream, jpgWriter);
+        BufferedImage compressedBI = ImageIO.read(new ByteArrayInputStream(compressed.toByteArray()));
+        log.info("Post compress ::: compressed image = {}", compressedBI.toString());
+        return compressedBI;
 
+    }
 
+    private BufferedImage convertToJpeg(BufferedImage original) {
+        BufferedImage result = new BufferedImage(original.getWidth(),
+                original.getHeight(), BufferedImage.TYPE_INT_RGB);
+        result.createGraphics().drawImage(original, 0, 0, Color.WHITE, null);
+        return result;
+    }
+
+    private void close(ByteArrayOutputStream compressed, ImageOutputStream outputStream, ImageWriter jpgWriter) throws IOException {
         // Dispose the writer to free resources
         jpgWriter.dispose();
 
         // close streams
         outputStream.close();
         compressed.close();
-
-        BufferedImage compressedBI = ImageIO.read(new ByteArrayInputStream(compressed.toByteArray()));
-        log.info("Post compress ::: compressed image = {}", compressedBI.toString());
-        return compressedBI;
-
     }
 
     private BufferedImage crop(BufferedImage bufferedImage, Rectangle2D property) {
