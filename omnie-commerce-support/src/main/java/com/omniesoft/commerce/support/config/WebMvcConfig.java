@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.text.ParseException;
@@ -29,10 +30,12 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
     private final UserEntityResolver userEntityResolver;
 // TODO: 14.03.18 add config
-//    @Override
-//    public void addCorsMappings(CorsRegistry registry) {
-//        registry.addMapping("/api/").allowedOrigins("http://dev.omniecom.com/");
-//    }
+@Override
+public void addCorsMappings(CorsRegistry registry) {
+    registry.addMapping("/api/**")
+            .allowedOrigins("http://dev.omniecom.com/")
+            .allowedHeaders("Authorization");
+}
 
     @Override
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
