@@ -131,6 +131,8 @@ public interface ConversationRepository extends PagingAndSortingRepository<Conve
 
     Page<ConversationSummary> findAllByOrganizationId(UUID organization, Pageable pageable);
 
+    ConversationSummary findByUserIdAndOrganizationId(UUID userId, UUID organizationId);
+
     ConversationEntity findByUserAndId(UserEntity userEntity, UUID id);
 
     ConversationEntity findByOrganizationIdAndId(UUID org, UUID conversation);

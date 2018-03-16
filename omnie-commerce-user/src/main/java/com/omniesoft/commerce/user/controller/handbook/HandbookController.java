@@ -47,6 +47,16 @@ public class HandbookController {
         return handbookService.getHandbook(pageable, search);
     }
 
+    @GetMapping(path = "/items/organizations", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Page<HandbookPayload> getHandbookOrgsItemsWithSearch(
+            @ApiParam(example = "For example : 'name, asc' or just 'name', where name is field of model",
+                    required = true) @Valid PageableRequest page, Pageable pageable,
+            @ApiParam(defaultValue = "_", required = true) @RequestParam("search") String search
+    ) {
+
+        return handbookService.getHandbookOrganizaton(pageable, search);
+    }
+
     @PostMapping(path = "/items", produces = MediaType.APPLICATION_JSON_VALUE)
     public HandbookPayload proposeHandbookItem(
             @Valid @RequestBody HandbookPayload payload,

@@ -23,7 +23,7 @@ import javax.validation.Valid;
 import java.util.UUID;
 
 @RestController
-@RequestMapping(value = "/conversations", consumes = MediaType.APPLICATION_JSON_VALUE,
+@RequestMapping(value = "/conversations",
         produces = MediaType.APPLICATION_JSON_VALUE)
 @Validated
 @Api(value = "Convesations", tags = "Conversation / Messages Controller", description = "@limpid")
