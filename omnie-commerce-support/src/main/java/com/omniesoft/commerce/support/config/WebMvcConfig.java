@@ -28,6 +28,11 @@ import java.util.Locale;
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
     private final UserEntityResolver userEntityResolver;
+// TODO: 14.03.18 add config
+//    @Override
+//    public void addCorsMappings(CorsRegistry registry) {
+//        registry.addMapping("/api/").allowedOrigins("http://dev.omniecom.com/");
+//    }
 
     @Override
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
@@ -56,6 +61,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
         argumentResolvers.add(userEntityResolver);
     }
+
 
     @Bean
     public Formatter<LocalDate> localDateFormatter() {

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.omniesoft.commerce.owner.config.resolver.UserEntityResolver;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.Formatter;
@@ -24,10 +24,16 @@ import java.util.List;
 import java.util.Locale;
 
 @Configuration
+@RequiredArgsConstructor
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
-    @Autowired
-    UserEntityResolver userEntityResolver;
+    private final UserEntityResolver userEntityResolver;
+
+//    @Override
+//    public void addCorsMappings(CorsRegistry registry) {
+//        // TODO: 14.03.18 add config
+//        registry.addMapping("/api/**").allowedOrigins("http://dev.omniecom.com/");
+//    }
 
     @Override
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
