@@ -32,9 +32,11 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
+        // TODO: 16.03.18 make configurable
         registry.addMapping("/api/**")
-                .allowedOrigins("http://dev.omniecom.com/")
-                .allowedHeaders("Authorization");
+                .allowedOrigins("*")
+                .allowedHeaders("*")
+                .allowedMethods("*");
     }
 
     @Override

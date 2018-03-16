@@ -29,13 +29,16 @@ import java.util.Locale;
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
     private final UserEntityResolver userEntityResolver;
-// TODO: 14.03.18 add config
-@Override
-public void addCorsMappings(CorsRegistry registry) {
-    registry.addMapping("/api/**")
-            .allowedOrigins("http://dev.omniecom.com/")
-            .allowedHeaders("Authorization");
-}
+
+    // TODO: 14.03.18 add config
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        // TODO: 16.03.18 make configurable
+        registry.addMapping("/api/**")
+                .allowedOrigins("*")
+                .allowedHeaders("*")
+                .allowedMethods("*");
+    }
 
     @Override
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
