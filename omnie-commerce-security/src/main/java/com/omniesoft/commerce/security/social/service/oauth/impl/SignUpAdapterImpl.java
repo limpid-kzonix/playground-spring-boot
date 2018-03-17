@@ -22,7 +22,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class SignUpAdapterImpl implements SignUpAdapter {
 
-    private static final String LOGIN_PREFIX = "facebook";
     private final OAuthAccountBindingService oAuthAccountBindingService;
     private final UserRepository userRepository;
 
@@ -35,9 +34,9 @@ public class SignUpAdapterImpl implements SignUpAdapter {
     public UserEntity singUp(OAuthClient client, SocialProfile socialProfile) {
 
         UserProfileEntity userProfileEntity = extractFromSocialProfile(socialProfile);
-        UserProfileEntity savedProfile = userProfileRepository.save(userProfileEntity);
+//        UserProfileEntity savedProfile = userProfileRepository.save(userProfileEntity);
 
-        UserEntity userEntity = getUserEntity(socialProfile, savedProfile, client);
+        UserEntity userEntity = getUserEntity(socialProfile, userProfileEntity, client);
         UserEntity savedUser = userRepository.save(userEntity);
         oAuthAccountBindingService.link(savedUser, socialProfile, client);
         return savedUser;

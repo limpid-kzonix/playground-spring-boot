@@ -2,7 +2,7 @@ package com.omniesoft.commerce.security.social.controller;
 
 import com.omniesoft.commerce.persistence.entity.account.UserEntity;
 import com.omniesoft.commerce.persistence.entity.enums.OAuthClient;
-import com.omniesoft.commerce.security.social.service.oauth.OAuthSignInService;
+import com.omniesoft.commerce.security.social.service.oauth.OAuthHandlerAdapter;
 import com.omniesoft.commerce.security.social.service.oauth.OAuthSignUpService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
@@ -15,16 +15,11 @@ import springfox.documentation.annotations.ApiIgnore;
 public class FacebookController {
 
 
-    private OAuthSignUpService signUpService;
+    private OAuthHandlerAdapter oAuthHandlerAdapter;
 
+    public FacebookController(@Qualifier("facebookOAuthHandlerService") OAuthSignUpService signUpService) {
 
-    private OAuthSignInService signInService;
-
-    public FacebookController(@Qualifier("facebookSingUpService") OAuthSignUpService signUpService,
-                              @Qualifier("facebookSingInService") OAuthSignInService signInService) {
-
-        this.signUpService = signUpService;
-        this.signInService = signInService;
+        this.oAuthHandlerAdapter = oAuthHandlerAdapter;
     }
 
     @PutMapping(path = "/link")
@@ -33,23 +28,15 @@ public class FacebookController {
             @ApiIgnore UserEntity userEntity
     ) {
 
-        signInService.link(facebookToken, userEntity, OAuthClient.FACEBOOK);
+        oAuthHandlerAdapter.link(facebookToken, userEntity, OAuthClient.FACEBOOK);
     }
 
-    @PostMapping(path = "/signup")
-    public void signUpProfileToUser(
-            @RequestParam("social_token") String facebookToken
-    ) {
-
-        signUpService.signUp(facebookToken, OAuthClient.FACEBOOK);
-    }
-
-    @PostMapping(path = "/signin")
+    @PostMapping()
     public OAuth2AccessToken signInProfileToUser(
             @RequestParam("social_token") String facebookToken
     ) {
 
-        return signInService.signIn(facebookToken, OAuthClient.FACEBOOK);
+        return oAuthHandlerAdapter.handle(facebookToken, OAuthClient.FACEBOOK);
     }
 
 
