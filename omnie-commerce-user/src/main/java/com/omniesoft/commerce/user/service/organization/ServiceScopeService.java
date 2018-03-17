@@ -1,7 +1,7 @@
 package com.omniesoft.commerce.user.service.organization;
 
+import com.omniesoft.commerce.common.payload.service.OrganizationPriceList;
 import com.omniesoft.commerce.common.payload.service.ServicePricePayload;
-import com.omniesoft.commerce.common.payload.service.ServiceWithPricePayload;
 import com.omniesoft.commerce.common.payload.service.SubServicePayload;
 import com.omniesoft.commerce.persistence.dto.service.ServiceRowUserExtendDto;
 import com.omniesoft.commerce.persistence.entity.account.UserEntity;
@@ -39,7 +39,7 @@ public interface ServiceScopeService {
     List<SubServicePayload> getSubServices(UUID org, UUID service, UserEntity userEntity);
 
 
-    Map<UUID, List<ServiceWithPricePayload>> getPriceList(UUID organization, UserEntity userEntity);
+    List<OrganizationPriceList> getPriceList(UUID organization, UserEntity userEntity);
 
 
 }

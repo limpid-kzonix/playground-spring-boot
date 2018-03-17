@@ -1,6 +1,5 @@
 package com.omniesoft.commerce.owner.controller.service;
 
-import com.omniesoft.commerce.common.request.PageableRequest;
 import com.omniesoft.commerce.common.responce.ResponseMessage;
 import com.omniesoft.commerce.owner.controller.AbstractOrganizationController;
 import com.omniesoft.commerce.owner.controller.service.payload.LanguageListPayload;
@@ -21,8 +20,6 @@ import com.omniesoft.commerce.persistence.projection.service.ServiceGallerySumma
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
@@ -46,13 +43,12 @@ public class ServiceController extends AbstractOrganizationController {
 
 
     @GetMapping(path = "/{organization-id}/services", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Page<ServiceRowAdminExtendDto> getServices(
-            @Valid PageableRequest pageableRequest, Pageable pageable,
+    public List<ServiceRowAdminExtendDto> getServices(
             @PathVariable("organization-id") UUID organizationId,
             @ApiParam(defaultValue = "_", required = true) @RequestParam("search") String searchPattern,
             @ApiIgnore UserEntity userEntity
     ) {
-        return serviceScopeMainService.findOrganizationServices(organizationId, searchPattern, userEntity, pageable);
+        return serviceScopeMainService.findOrganizationServices(organizationId, searchPattern, userEntity);
     }
 
 

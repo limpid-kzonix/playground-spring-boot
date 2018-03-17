@@ -5,8 +5,8 @@ import com.omniesoft.commerce.common.converter.ServicePriceListConverter;
 import com.omniesoft.commerce.common.converter.SubServicePriceConverter;
 import com.omniesoft.commerce.common.handler.exception.custom.UsefulException;
 import com.omniesoft.commerce.common.handler.exception.custom.enums.InternalErrorCodes;
+import com.omniesoft.commerce.common.payload.service.OrganizationPriceList;
 import com.omniesoft.commerce.common.payload.service.ServicePricePayload;
-import com.omniesoft.commerce.common.payload.service.ServiceWithPricePayload;
 import com.omniesoft.commerce.common.payload.service.SubServicePayload;
 import com.omniesoft.commerce.persistence.dto.service.ServiceRowUserExtendDto;
 import com.omniesoft.commerce.persistence.entity.account.UserEntity;
@@ -131,8 +131,8 @@ public class ServiceScopeServiceImpl implements ServiceScopeService {
     }
 
     @Override
-    public Map<UUID, List<ServiceWithPricePayload>> getPriceList(UUID organization,
-                                                                 UserEntity userEntity) {
+    public List<OrganizationPriceList> getPriceList(UUID organization,
+                                                    UserEntity userEntity) {
 
         List<ServiceEntity> organizationPriceList = serviceRepository
                 .getOrganizationPriceList(organization);

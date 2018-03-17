@@ -15,17 +15,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.DayOfWeek;
 import java.util.List;
-import java.util.Map;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ServiceWithPricePayload {
+public class OrganizationPriceList {
 
-    private ServicePayload service;
+    private ServiceSubCategoryPayload category;
 
-    private Map<DayOfWeek, List<ServicePricePayload>> prices;
+    private List<ServiceWithPricePayload> servicePrices;
 
 }

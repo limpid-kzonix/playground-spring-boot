@@ -13,6 +13,7 @@ package com.omniesoft.commerce.common.payload.service;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.UUID;
@@ -20,15 +21,16 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 public class ServiceSubCategoryPayload {
 
     private UUID id;
 
     private UUID categoryId;
 
-    private String ruName;
+    private String rusName;
 
-    private String uaName;
+    private String ukrName;
 
     private String engName;
 

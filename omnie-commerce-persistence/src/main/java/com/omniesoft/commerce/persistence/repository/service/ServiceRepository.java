@@ -235,8 +235,7 @@ public interface ServiceRepository extends PagingAndSortingRepository<ServiceEnt
                     "       service.id, " +
                     "       organization.id "
     )
-    Page<ServiceRowAdminExtendDto> getServicesByOrganizationId(@Param("o") UUID
-                                                                       org, Pageable pageable);
+    List<ServiceRowAdminExtendDto> getServicesByOrganizationId(@Param("o") UUID org);
 
 
     @Query("" +

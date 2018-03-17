@@ -7,8 +7,6 @@ import com.omniesoft.commerce.persistence.dto.service.ServiceRowAdminExtendDto;
 import com.omniesoft.commerce.persistence.entity.account.UserEntity;
 import com.omniesoft.commerce.persistence.projection.category.LanguageSummary;
 import com.omniesoft.commerce.persistence.projection.category.SubCategorySummary;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.UUID;
@@ -23,8 +21,7 @@ public interface ServiceScopeMainService {
 
     ServiceStatePayload findState(UUID service, UUID org, UserEntity userEntity);
 
-    Page<ServiceRowAdminExtendDto> findOrganizationServices(UUID org, String searchPattern, UserEntity userEntity,
-                                                            Pageable pageable);
+    List<ServiceRowAdminExtendDto> findOrganizationServices(UUID org, String searchPattern, UserEntity userEntity);
 
     List<LanguageSummary> findAvailableLanguages();
 
