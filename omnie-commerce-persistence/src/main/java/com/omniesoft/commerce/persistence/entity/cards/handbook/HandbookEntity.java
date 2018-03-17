@@ -1,6 +1,5 @@
 package com.omniesoft.commerce.persistence.entity.cards.handbook;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.omniesoft.commerce.persistence.entity.account.UserEntity;
 import org.hibernate.annotations.GenericGenerator;
@@ -43,11 +42,10 @@ public class HandbookEntity {
             @JoinColumn(name = "handbook_id", referencedColumnName = "uuid"),
             inverseJoinColumns =
             @JoinColumn(name = "user_id", referencedColumnName = "uuid"))
-    @JsonBackReference
     private UserEntity userEntity;
 
     @OneToMany(mappedBy = "handbook", cascade = CascadeType.ALL)
-    @JsonManagedReference
+
     private Set<HandbookPhoneEntity> phones;
 
     @OneToMany(mappedBy = "handbook", cascade = CascadeType.ALL)

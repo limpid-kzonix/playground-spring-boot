@@ -1,6 +1,7 @@
 package com.omniesoft.commerce.user.service.handbook.impl;
 
 import com.omniesoft.commerce.common.handler.exception.custom.UsefulException;
+import com.omniesoft.commerce.common.handler.exception.custom.enums.InternalErrorCodes;
 import com.omniesoft.commerce.common.handler.exception.custom.enums.UserModuleErrorCodes;
 import com.omniesoft.commerce.persistence.entity.account.UserEntity;
 import com.omniesoft.commerce.persistence.entity.cards.handbook.HandbookEntity;
@@ -16,6 +17,7 @@ import com.omniesoft.commerce.user.controller.handbook.payload.HandbookTagPayloa
 import com.omniesoft.commerce.user.service.handbook.HandbookService;
 import lombok.AllArgsConstructor;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -93,7 +95,11 @@ public class HandbookServiceImpl implements HandbookService {
         setPhones(handbookPayload, handbook);
         setTags(handbookPayload, handbook);
         handbook.setUserEntity(userEntity);
-        return handbookRepository.save(handbook);
+        try {
+            return handbookRepository.save(handbook);
+        } catch (DataIntegrityViolationException e) {
+            throw new UsefulException("Can`t to create item. Constrain violation. " + e.getMessage()).withCode(InternalErrorCodes.CONSTRAINT_VALIDATION);
+        }
     }
 
     private void setTags(HandbookPayload handbookPayload, HandbookEntity handbookEntity) {

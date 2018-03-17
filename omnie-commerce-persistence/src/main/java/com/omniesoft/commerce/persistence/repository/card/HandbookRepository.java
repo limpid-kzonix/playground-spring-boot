@@ -25,7 +25,7 @@ public interface HandbookRepository extends PagingAndSortingRepository<HandbookE
                     "   lower(h.name) like %:filter% " +
                     "   or lower(tags.tag) like %:filter%" +
                     "   or lower(phones.phone) like %:filter% " +
-                    "group by h.id " +
+                    "" +
                     "",
             countQuery = "" +
                     "select " +
@@ -37,7 +37,7 @@ public interface HandbookRepository extends PagingAndSortingRepository<HandbookE
                     "   lower(h.name) like %:filter% " +
                     "   or lower(tags.tag) like %:filter% " +
                     "   or lower(phones.phone) like %:filter% " +
-                    "group by h.id" +
+                    "" +
                     ""
     )
     Page<HandbookSummary> findHandbookItemsWithPhonesAndTags(@Param("filter") String filter, Pageable pageable);
@@ -55,7 +55,7 @@ public interface HandbookRepository extends PagingAndSortingRepository<HandbookE
                     "   or lower(tags.tag) like %:filter% " +
                     "   or lower(phones.phone) like %:filter% )" +
                     "   and h.userEntity = :user " +
-                    "group by h.id " +
+                    "" +
                     "",
             countQuery = "" +
                     "select " +
@@ -68,7 +68,7 @@ public interface HandbookRepository extends PagingAndSortingRepository<HandbookE
                     "   or lower(tags.tag) like %:filter% " +
                     "   or lower(phones.phone) like %:filter% )" +
                     "   and h.userEntity = :user " +
-                    "group by h.id "
+                    ""
     )
     Page<HandbookSummary> findAllByUserEntity(@Param("filter") String filter, @Param("user") UserEntity user, Pageable pageable);
 
