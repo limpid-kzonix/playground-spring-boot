@@ -35,7 +35,7 @@ public class HandbookServiceImpl implements HandbookService {
     private OrganizationRepository organizationRepository;
 
     @Override
-    public Page<HandbookPayload> getHandbookOrganizaton(Pageable pageable, String searchPattern) {
+    public Page<HandbookPayload> getHandbookOrganization(Pageable pageable, String searchPattern) {
         return organizationRepository.findForHandbook(searchPattern, pageable).map(convertOrgToHandbook());
     }
 

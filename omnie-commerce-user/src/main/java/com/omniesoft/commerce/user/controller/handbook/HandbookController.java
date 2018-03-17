@@ -54,7 +54,7 @@ public class HandbookController {
             @ApiParam(defaultValue = "_", required = true) @RequestParam("search") String search
     ) {
 
-        return handbookService.getHandbookOrganizaton(pageable, search);
+        return handbookService.getHandbookOrganization(pageable, search);
     }
 
     @PostMapping(path = "/items", produces = MediaType.APPLICATION_JSON_VALUE)

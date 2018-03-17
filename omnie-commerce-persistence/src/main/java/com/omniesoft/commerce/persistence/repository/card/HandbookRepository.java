@@ -17,14 +17,15 @@ public interface HandbookRepository extends PagingAndSortingRepository<HandbookE
     @Query(value =
             "" +
                     "select " +
-                    " distinct h " +
+                    " h " +
                     "from HandbookEntity as h " +
                     "   left join fetch h.tags tags " +
                     "   left join fetch h.phones phones " +
                     "where " +
                     "   lower(h.name) like %:filter% " +
                     "   or lower(tags.tag) like %:filter%" +
-                    "   or lower(phones.phone) like %:filter%" +
+                    "   or lower(phones.phone) like %:filter% " +
+                    "group by h.id " +
                     "",
             countQuery = "" +
                     "select " +
@@ -35,7 +36,8 @@ public interface HandbookRepository extends PagingAndSortingRepository<HandbookE
                     "where " +
                     "   lower(h.name) like %:filter% " +
                     "   or lower(tags.tag) like %:filter% " +
-                    "   or lower(phones.phone) like %:filter%" +
+                    "   or lower(phones.phone) like %:filter% " +
+                    "group by h.id" +
                     ""
     )
     Page<HandbookSummary> findHandbookItemsWithPhonesAndTags(@Param("filter") String filter, Pageable pageable);
@@ -52,7 +54,8 @@ public interface HandbookRepository extends PagingAndSortingRepository<HandbookE
                     "   lower(h.name) like %:filter% " +
                     "   or lower(tags.tag) like %:filter% " +
                     "   or lower(phones.phone) like %:filter% )" +
-                    "   and h.userEntity = :user" +
+                    "   and h.userEntity = :user " +
+                    "group by h.id " +
                     "",
             countQuery = "" +
                     "select " +
@@ -60,12 +63,12 @@ public interface HandbookRepository extends PagingAndSortingRepository<HandbookE
                     "from HandbookEntity h " +
                     "   left join h.tags tags " +
                     "   left join h.phones phones " +
-//                    "   left join h.userEntity " +
                     "where ( " +
                     "   lower(h.name) like %:filter% " +
                     "   or lower(tags.tag) like %:filter% " +
                     "   or lower(phones.phone) like %:filter% )" +
-                    "   and h.userEntity = :user "
+                    "   and h.userEntity = :user " +
+                    "group by h.id "
     )
     Page<HandbookSummary> findAllByUserEntity(@Param("filter") String filter, @Param("user") UserEntity user, Pageable pageable);
 
