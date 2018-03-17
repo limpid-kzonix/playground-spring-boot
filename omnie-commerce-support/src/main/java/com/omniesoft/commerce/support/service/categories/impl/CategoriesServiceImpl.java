@@ -10,8 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.UUID;
 
 @Service
@@ -24,17 +24,18 @@ public class CategoriesServiceImpl implements CategoriesService {
     private final CategoriesConverter converter;
 
     @Override
+    @Transactional(readOnly = true)
     public Page<CategoryNamesPjn> categoriesPage(Pageable page) {
         return categoryRepo.findAllOnlyWithNames(page);
 
     }
 
     @Override
+    @Transactional(readOnly = true)
     public CategoryPl getCategoryById(UUID categoryId) {
         CategoryPl result = converter.convert(categoryRepo.findOne(categoryId));
-        // TODO: 12.03.18 fix queries
-//        result.setOrganizationCount(categoryRepo.countOrganizationByCategoryId(categoryId));
-//        result.setServicesCount(categoryRepo.countServicesByCategoryId(categoryId));
+        result.setOrganizationCount(categoryRepo.countOrganizationByCategoryId(categoryId));
+        result.setServicesCount(categoryRepo.countServicesByCategoryId(categoryId));
         return result;
     }
 }

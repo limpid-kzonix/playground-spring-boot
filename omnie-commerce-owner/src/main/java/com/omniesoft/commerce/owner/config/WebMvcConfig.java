@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.omniesoft.commerce.owner.config.resolver.UserEntityResolver;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.Formatter;
@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.text.ParseException;
@@ -24,10 +25,19 @@ import java.util.List;
 import java.util.Locale;
 
 @Configuration
+@RequiredArgsConstructor
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
-    @Autowired
-    UserEntityResolver userEntityResolver;
+    private final UserEntityResolver userEntityResolver;
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        // TODO: 16.03.18 make configurable
+        registry.addMapping("/api/**")
+                .allowedOrigins("*")
+                .allowedHeaders("*")
+                .allowedMethods("*");
+    }
 
     @Override
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {

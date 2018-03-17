@@ -28,21 +28,17 @@ public interface CategoryRepository extends PagingAndSortingRepository<CategoryE
     @Query("select c from CategoryEntity c")
     Page<CategoryNamesPjn> findAllOnlyWithNames(Pageable page);
 
-    @Query("select COUNT(o)" +
+    @Query("select COUNT(distinct o)" +
             " from OrganizationEntity o" +
-            " inner join o.services as s" +
-            " inner join s.subCategories as sc" +
-            " inner join sc.category as c" +
-            " where c.id = :id" +
-            " group by o")
+            " inner join o.services s" +
+            " inner join s.subCategories sc" +
+            " where sc.category.id = :id")
     int countOrganizationByCategoryId(@Param("id") UUID categoryId);
 
-    @Query("select COUNT(s)" +
+    @Query("select COUNT(distinct s)" +
             " from ServiceEntity s" +
-            " join s.subCategories as sc" +
-            " join sc.category as c" +
-            " where c.id = :id" +
-            " group by s")
+            " inner join s.subCategories sc" +
+            " where sc.category.id = :id")
     int countServicesByCategoryId(@Param("id") UUID categoryId);
 
 }
