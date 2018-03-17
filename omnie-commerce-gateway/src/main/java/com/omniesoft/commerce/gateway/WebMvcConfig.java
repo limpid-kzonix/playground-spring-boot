@@ -11,7 +11,6 @@ import org.springframework.format.Formatter;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.text.ParseException;
@@ -25,14 +24,14 @@ import java.util.Locale;
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        // TODO: 16.03.18 make configurable
-        registry.addMapping("/api/**")
-                .allowedOrigins("*")
-                .allowedHeaders("*")
-                .allowedMethods("*");
-    }
+//    @Override
+//    public void addCorsMappings(CorsRegistry registry) {
+//        // TODO: 16.03.18 make configurable
+//        registry.addMapping("/api/**")
+//                .allowedOrigins("*")
+//                .allowedHeaders("*")
+//                .allowedMethods("*");
+//    }
 
     @Override
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {

@@ -30,7 +30,6 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
     private final UserEntityResolver userEntityResolver;
 
-    // TODO: 14.03.18 add config
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         // TODO: 16.03.18 make configurable
