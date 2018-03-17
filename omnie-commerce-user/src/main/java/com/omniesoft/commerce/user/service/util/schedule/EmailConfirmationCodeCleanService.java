@@ -1,5 +1,6 @@
 package com.omniesoft.commerce.user.service.util.schedule;
 
+import com.omniesoft.commerce.persistence.repository.account.UserEmailChangingVerificationRepository;
 import com.omniesoft.commerce.persistence.repository.account.UserEmailVerificationRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,7 @@ import java.util.concurrent.CompletableFuture;
 public class EmailConfirmationCodeCleanService {
 
     private final UserEmailVerificationRepository emailVerificationRepository;
+    private final UserEmailChangingVerificationRepository emailChangingVerificationRepository;
 
 
     @Async(value = "scheduleThreadPoolExecutor")
@@ -25,6 +27,7 @@ public class EmailConfirmationCodeCleanService {
         return CompletableFuture.runAsync(() -> {
             log.info("Clean table with old and not valid data of confirmation codes for email confirmation");
             emailVerificationRepository.deleteAllByCreateTimeBefore(LocalDateTime.now().minus(2, ChronoUnit.HOURS));
+            emailChangingVerificationRepository.deleteAllByCreateTimeBefore(LocalDateTime.now().minus(2, ChronoUnit.HOURS));
         });
 
     }

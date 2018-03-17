@@ -19,4 +19,10 @@ public interface MailMessageBuilder {
      *
      * */
     String build(String header, String title, String message, LocalDateTime localDateTime);
+
+    /**
+     *
+     * */
+    String build(String header, String title, String message, URI link, LocalDateTime localDateTime);
 }
+

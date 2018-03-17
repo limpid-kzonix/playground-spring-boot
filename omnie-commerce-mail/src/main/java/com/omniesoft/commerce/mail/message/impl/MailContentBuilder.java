@@ -62,6 +62,12 @@ public class MailContentBuilder implements MailMessageBuilder {
         return templateEngine.process(TEMPLATE_NAME, context);
     }
 
+    @Override
+    public String build(String header, String title, String message, URI link, LocalDateTime localDateTime) {
+        Context context = new Context();
+        initializeContext(context, header, title, link.toASCIIString(), message, null);
+        return templateEngine.process(TEMPLATE_NAME, context);
+    }
 
     /**
      *

@@ -36,7 +36,7 @@ public class AccountMailServiceImpl implements AccountMailService {
     @Override
     public void sendRegistrationMessage(String recipientAddress, String confirmationToken) throws MessagingException {
         logSendingEmail(recipientAddress, confirmationToken);
-        mailService.sendMessage(recipientAddress, "Реєстрація", builder.build("Ласкаво просимо", "Реєстація", getConfimationLinkByToken(confirmationToken), LocalDateTime.now()));
+        mailService.sendMessage(recipientAddress, "Реєстрація", builder.build("Ласкаво просимо", "Реєстація", getConfirmationLinkByToken(confirmationToken), LocalDateTime.now()));
     }
 
 
@@ -47,11 +47,20 @@ public class AccountMailServiceImpl implements AccountMailService {
     }
 
     @Override
-    public void sendChangeEmailMessage(String recipientAddress, String newEmailAddress) throws MessagingException {
-        logSendingEmail(recipientAddress, newEmailAddress);
-        mailService.sendMessage(recipientAddress, "", builder.build("", "", "", LocalDateTime.now()));
+    public void sendChangeEmailMessage(String recipientAddress, String oldEmail, String token) throws MessagingException {
+        logSendingEmail(recipientAddress, token);
+        mailService.sendMessage(recipientAddress, "Зміна електронної адреси", builder.build("Зміна електронної адреси", "Зміна електронної адреси", "Підтвердіть зміну електронної пошти у аккаунті " + oldEmail, getLinkForChanginEmailByToken(token), LocalDateTime.now()));
     }
 
+    @Override
+    public void sendChangedEmailMessage(String recipientAddress, String newEmail) throws MessagingException {
+        logSendingEmail(recipientAddress, newEmail);
+        mailService.sendMessage(recipientAddress, "Зміна електронної адреси", builder.build("Зміна електронної адреси", "Зміна електронної адреси", getMessageAboutChangedEmail(recipientAddress, newEmail), LocalDateTime.now()));
+    }
+
+    private String getMessageAboutChangedEmail(String recipientAddress, String newEmail) {
+        return "У вашому аккаунті " + recipientAddress + " змінилась електронна пошта. Терер для адміністрування аккаунта буде використовуватись ел. пошта - " + newEmail;
+    }
 
     @Override
     public void sendPasswordChangeNotify(String recipientAddress, String userName) throws MessagingException {
@@ -68,7 +77,11 @@ public class AccountMailServiceImpl implements AccountMailService {
     }
 
 
-    private URI getConfimationLinkByToken(String token) {
+    private URI getConfirmationLinkByToken(String token) {
         return URI.create("http://" + ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getRemoteHost() + ":9999/omnie-user/api/account/confirmation/" + token);
+    }
+
+    private URI getLinkForChanginEmailByToken(String token) {
+        return URI.create("http://" + ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest().getRemoteHost() + ":9999/omnie-user/api/account/email/change/" + token);
     }
 }
