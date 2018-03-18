@@ -50,7 +50,7 @@ public class FacebookApiExplorerImpl implements OAuthApiExplorer {
 
     private SocialProfile getSocialProfile(Connection<Facebook> connect) {
 
-        User facebookProfile = connect.getApi().userOperations().getUserProfile();
+        User facebookProfile = connect.getApi().fetchObject(FbHelper.me, User.class, FbHelper.fields);
         if (facebookProfile == null) throw new UsefulException("Can`t fetch user profile info from social provider",
                 SecurityModuleErrorCodes.SOCIAL_FACEBOOK_PROFILE_NOT_EXIST);
         SocialProfile socialProfile = extractSocialProfile(facebookProfile);

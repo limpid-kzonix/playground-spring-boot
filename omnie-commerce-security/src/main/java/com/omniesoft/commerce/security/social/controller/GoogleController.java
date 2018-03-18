@@ -3,7 +3,6 @@ package com.omniesoft.commerce.security.social.controller;
 import com.omniesoft.commerce.persistence.entity.account.UserEntity;
 import com.omniesoft.commerce.persistence.entity.enums.OAuthClient;
 import com.omniesoft.commerce.security.social.service.oauth.OAuthHandlerAdapter;
-import com.omniesoft.commerce.security.social.service.oauth.OAuthSignUpService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -18,7 +17,7 @@ public class GoogleController {
     @Qualifier("googleOAuthHandlerService")
     private OAuthHandlerAdapter oAuthHandlerAdapter;
 
-    public GoogleController(@Qualifier("googleOAuthHandlerService") OAuthSignUpService signUpService) {
+    public GoogleController(@Qualifier("googleOAuthHandlerService") OAuthHandlerAdapter oAuthHandlerAdapter) {
 
         this.oAuthHandlerAdapter = oAuthHandlerAdapter;
     }
