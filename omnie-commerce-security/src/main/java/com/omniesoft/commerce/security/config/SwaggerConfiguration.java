@@ -16,8 +16,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.oauth2.common.DefaultExpiringOAuth2RefreshToken;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
+import org.springframework.security.oauth2.common.DefaultOAuth2RefreshToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2RefreshToken;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -64,7 +64,7 @@ public class SwaggerConfiguration {
                 .genericModelSubstitutes(ResponseEntity.class)
                 .directModelSubstitute(Map.class, Map.class)
                 .directModelSubstitute(OAuth2AccessToken.class, DefaultOAuth2AccessToken.class)
-                .directModelSubstitute(OAuth2RefreshToken.class, DefaultExpiringOAuth2RefreshToken.class)
+                .directModelSubstitute(OAuth2RefreshToken.class, DefaultOAuth2RefreshToken.class)
                 .alternateTypeRules(rules(), newMapRule(WildcardType.class, WildcardType.class))
                 .alternateTypeRules()
                 .globalResponseMessage(RequestMethod.GET, globalResponseMessages())
