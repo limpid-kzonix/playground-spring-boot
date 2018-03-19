@@ -12,7 +12,7 @@
 
     <groupId>com.omniesoft.commerce.statistic</groupId>
     <artifactId>omnie-commerce-statistic</artifactId>
-    <version>${omcom.version}</version>
+    <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>omnie-commerce-statistic</name>
@@ -25,7 +25,7 @@
         <dependency>
             <groupId>com.omniesoft.commerce</groupId>
             <artifactId>omnie-commerce-common-lib</artifactId>
-            <version>${omcom.version}</version>
+            <version>1.0-SNAPSHOT</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.omniesoft.commerce</groupId>
@@ -49,7 +49,7 @@
         <dependency>
             <groupId>com.omniesoft.commerce.root</groupId>
             <artifactId>omnie-commerce-secured-parent</artifactId>
-            <version>${omcom.version}</version>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
 
     </dependencies>

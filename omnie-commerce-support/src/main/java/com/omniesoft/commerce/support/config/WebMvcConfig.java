@@ -13,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.text.ParseException;
@@ -28,6 +29,15 @@ import java.util.Locale;
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
     private final UserEntityResolver userEntityResolver;
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        // TODO: 16.03.18 make configurable
+        registry.addMapping("/api/**")
+                .allowedOrigins("*")
+                .allowedHeaders("*")
+                .allowedMethods("*");
+    }
 
     @Override
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
@@ -56,6 +66,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
         argumentResolvers.add(userEntityResolver);
     }
+
 
     @Bean
     public Formatter<LocalDate> localDateFormatter() {

@@ -15,7 +15,7 @@
 
     <groupId>com.omniesoft.commerce.imagestorage</groupId>
     <artifactId>omnie-commerce-imagestorage</artifactId>
-    <version>${omcom.version}</version>
+    <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>omnie-commerce-imagestorage</name>
@@ -26,12 +26,12 @@
         <dependency>
             <groupId>com.omniesoft.commerce.root</groupId>
             <artifactId>omnie-commerce-secured-parent</artifactId>
-            <version>${omcom.version}</version>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.omniesoft.commerce</groupId>
             <artifactId>omnie-commerce-common-lib</artifactId>
-            <version>${omcom.version}</version>
+            <version>1.0-SNAPSHOT</version>
             <exclusions>
                 <!-- Exclude the Tomcat dependency -->
                 <exclusion>
@@ -59,6 +59,11 @@
             <groupId>org.imgscalr</groupId>
             <artifactId>imgscalr-lib</artifactId>
             <version>${imgscalr-lib.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>15.0</version>
         </dependency>
 
 

@@ -12,7 +12,7 @@
     <packaging>jar</packaging>
 
     <artifactId>omnie-commerce-secured-parent</artifactId>
-    <version>${omcom.version}</version>
+    <version>1.0-SNAPSHOT</version>
 
     <dependencies>
         <dependency>

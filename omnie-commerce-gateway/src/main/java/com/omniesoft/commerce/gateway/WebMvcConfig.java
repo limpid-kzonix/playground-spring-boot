@@ -24,6 +24,15 @@ import java.util.Locale;
 @Configuration
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
+//    @Override
+//    public void addCorsMappings(CorsRegistry registry) {
+//        // TODO: 16.03.18 make configurable
+//        registry.addMapping("/api/**")
+//                .allowedOrigins("*")
+//                .allowedHeaders("*")
+//                .allowedMethods("*");
+//    }
+
     @Override
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
 

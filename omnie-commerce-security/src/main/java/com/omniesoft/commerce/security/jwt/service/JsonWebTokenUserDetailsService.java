@@ -18,10 +18,8 @@ public class JsonWebTokenUserDetailsService implements UserDetailsService {
 
     @Override
     public JsonWebTokenUser loadUserByUsername(String userName) {
-        if (!userName.matches(Patterns.EMAIL)) {
-            userName = userName.toLowerCase();
-        }
-        UserEntity user = userRepository.getUserSecurityDetails(userName);
+        
+        UserEntity user = userRepository.getUserSecurityDetails(userName.toLowerCase());
 
         if (null == user) {
             throw new UsernameNotFoundException(String.format("No user found with username '%s'.", userName));

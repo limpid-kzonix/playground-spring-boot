@@ -297,5 +297,23 @@
         </rollback>
         <comment></comment>
     </changeSet>
+    <changeSet id="22" author="limpid">
+        <sql dbms="postgresql">
+            CREATE TABLE user_email_changing_verification (
+            uuid UUID NOT NULL DEFAULT uuid_generate_v4() PRIMARY KEY,
+            user_id UUID NOT NULL UNIQUE REFERENCES users (uuid) ON DELETE CASCADE,
+            token VARCHAR(200) NOT NULL UNIQUE,
+            new_email VARCHAR(200) NOT NULL CHECK (new_email ~* '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$'),
+            confirm_status BOOLEAN DEFAULT FALSE,
+            create_time TIMESTAMP NOT NULL DEFAULT now()
+            );
+        </sql>
+        <rollback>
+            <sql>
+                DROP TABLE user_email_changing_verification CASCADE;
+            </sql>
+        </rollback>
+        <comment></comment>
+    </changeSet>
 
 </databaseChangeLog>

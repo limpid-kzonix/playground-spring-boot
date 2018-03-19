@@ -6,6 +6,7 @@ import com.omniesoft.commerce.persistence.entity.account.OwnerEntity;
 import com.omniesoft.commerce.persistence.entity.account.UserEntity;
 import com.omniesoft.commerce.persistence.entity.organization.OrganizationEntity;
 import com.omniesoft.commerce.persistence.projection.organization.OrganizationCardSummary;
+import com.omniesoft.commerce.persistence.projection.organization.OrganizationHandbookSummary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -123,6 +124,26 @@ public interface OrganizationRepository extends PagingAndSortingRepository<Organ
     )
     Page<OrganizationCardSummary> findAllByOwnerUserIdOrRolesAdminsContains(@Param("userId") UUID user, Pageable pageable);
 
+
+    @Query(value = "select org" +
+            " from OrganizationEntity org" +
+            " left join org.phones phones" +
+            " left join org.services s " +
+            " left join s.subCategories sc " +
+            " left join sc.category c " +
+            " where ((phones.phone like %:filter% ) " +
+            " or (org.name like %:filter%) " +
+            " or (s.name  like %:filter%) " +
+            " or (sc.engName like %:filter%) " +
+            " or (sc.rusName like %:filter%) " +
+            " or (sc.ukrName like %:filter%) " +
+            " or (c.engName like %:filter%) " +
+            " or (c.rusName like %:filter%) " +
+            " or (c.ukrName like %:filter%) " +
+            " and  org.deleteStatus = false )" +
+            " group by org.id "
+    )
+    Page<OrganizationHandbookSummary> findForHandbook(@Param("filter") String filter, Pageable pageable);
 //    @Query(value = "SELECT new com.omniesoft.commerce.persistence.dto.organization.OrganizationRowDto( " +
 //            " o.id," +
 //            " o.name," +

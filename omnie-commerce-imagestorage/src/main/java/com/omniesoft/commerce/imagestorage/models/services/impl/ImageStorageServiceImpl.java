@@ -2,8 +2,10 @@ package com.omniesoft.commerce.imagestorage.models.services.impl;
 
 import com.omniesoft.commerce.common.handler.exception.custom.UsefulException;
 import com.omniesoft.commerce.common.handler.exception.custom.enums.ImageModuleErrorCodes;
+import com.omniesoft.commerce.common.handler.exception.custom.enums.InternalErrorCodes;
 import com.omniesoft.commerce.imagestorage.models.dto.ImageDto;
 import com.omniesoft.commerce.imagestorage.models.repositories.PicturesRepository;
+import com.omniesoft.commerce.imagestorage.models.services.ImageMimeType;
 import com.omniesoft.commerce.imagestorage.models.services.ImageOperationsService;
 import com.omniesoft.commerce.imagestorage.models.services.ImageStorageService;
 import com.omniesoft.commerce.imagestorage.models.services.ImageType;
@@ -67,15 +69,18 @@ public class ImageStorageServiceImpl implements ImageStorageService {
 
         BufferedImage read = getBufferedImage(file);
         mongoTemplate.getDb().getStats().throwOnError();
-       
+
         String generated = randomStringGenerator.generate(40);
 
         try {
             prepareAndSave(file, read, generated);
         } catch (ExecutionException e) {
-            e.printStackTrace();
+            if (e.getCause() != null && e.getCause() instanceof UsefulException) {
+                throw (UsefulException) e.getCause();
+            }
+            throw new UsefulException("Error during compression and saving processing").withCode(ImageModuleErrorCodes.GENERAL_IMAGE_ERROR);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            throw new UsefulException("Oops!.. Please contact support").withCode(InternalErrorCodes.INTERNAL);
         }
         return generated;
 
@@ -103,42 +108,44 @@ public class ImageStorageServiceImpl implements ImageStorageService {
         try {
             return ImageIO.read(file.getInputStream());
         } catch (IOException e) {
-            throw new UsefulException();
+            throw new UsefulException("Multipart data is corrupted").withCode(ImageModuleErrorCodes.GENERAL_IMAGE_ERROR);
         }
     }
 
     @Async(value = "imageProcessableContext")
     void prepareAndSave(MultipartFile file, BufferedImage read, String generated) throws ExecutionException, InterruptedException {
-        CompletableFuture.supplyAsync(() -> compress(read), imageProcessingExecutor).thenApplyAsync(c -> {
+        ImageMimeType imageMimeType = imageOperationsService.lookupType(file);
+        CompletableFuture.supplyAsync(() -> compress(read, imageMimeType), imageProcessingExecutor).thenApplyAsync(c -> {
             try {
-                writeSmall(file, c, generated).get();
+                writeSmall(file, imageMimeType, c, generated).get();
                 return c;
             } catch (InterruptedException | ExecutionException e) {
+                log.error(e.getMessage() + (e.getCause() == null ? "" : e.getCause().getMessage()));
                 throw new UsefulException("Occurred during the blocking operation").withCode(ImageModuleErrorCodes.IMAGE_PROCESSING_ERROR);
             }
         }, imageProcessingExecutor).thenApply(c -> {
-            writeOriginal(file, c, generated);
-            writeLarge(file, c, generated);
-            writeMedium(file, c, generated);
+            writeOriginal(file, imageMimeType, c, generated);
+            writeLarge(file, imageMimeType, c, generated);
+            writeMedium(file, imageMimeType, c, generated);
             return Optional.empty();
         }).get();
     }
 
-    private BufferedImage compress(BufferedImage read) {
+    private BufferedImage compress(BufferedImage read, ImageMimeType type) {
         try {
-            return imageOperationsService.compress(read);
+            return imageOperationsService.compress(read, type);
         } catch (IOException e) {
             throw new UsefulException("Can`t compress the image");
         }
     }
 
     @Async(value = "mongoExecutionWritableContext")
-    CompletableFuture<Void> writeMedium(MultipartFile file, BufferedImage read, String generated) {
+    CompletableFuture<Void> writeMedium(MultipartFile file, ImageMimeType type, BufferedImage read, String generated) {
 
         return CompletableFuture.runAsync(() -> {
             try {
                 picturesRepository
-                        .storeSource(imageOperationsService.prepareMedium(read), generated, file
+                        .storeSource(imageOperationsService.prepareMedium(read, type), generated, file
                                 .getContentType(), ImageType.MEDIUM);
             } catch (IOException e) {
                 throw new UsefulException(ImageModuleErrorCodes.IMAGE_PROCESSING_ERROR);
@@ -148,12 +155,12 @@ public class ImageStorageServiceImpl implements ImageStorageService {
     }
 
     @Async(value = "mongoExecutionWritableContext")
-    CompletableFuture<Void> writeSmall(MultipartFile file, BufferedImage read, String generated) {
+    CompletableFuture<Void> writeSmall(MultipartFile file, ImageMimeType type, BufferedImage read, String generated) {
 
         return runAsync(() -> {
             try {
                 picturesRepository
-                        .storeSource(imageOperationsService.prepareSmall(read), generated, file
+                        .storeSource(imageOperationsService.prepareSmall(read, type), generated, file
                                 .getContentType(), ImageType.SMALL);
             } catch (IOException e) {
                 throw new UsefulException(ImageModuleErrorCodes.IMAGE_PROCESSING_ERROR);
@@ -163,12 +170,12 @@ public class ImageStorageServiceImpl implements ImageStorageService {
     }
 
     @Async(value = "mongoExecutionWritableContext")
-    CompletableFuture<Void> writeLarge(MultipartFile file, BufferedImage read, String generated) {
+    CompletableFuture<Void> writeLarge(MultipartFile file, ImageMimeType type, BufferedImage read, String generated) {
 
         return runAsync(() -> {
             try {
                 picturesRepository
-                        .storeSource(imageOperationsService.prepareLarge(read), generated, file
+                        .storeSource(imageOperationsService.prepareLarge(read, type), generated, file
                                 .getContentType(), ImageType.LARGE);
             } catch (IOException e) {
                 throw new UsefulException(ImageModuleErrorCodes.IMAGE_PROCESSING_ERROR);
@@ -178,12 +185,12 @@ public class ImageStorageServiceImpl implements ImageStorageService {
     }
 
     @Async(value = "mongoExecutionWritableContext")
-    CompletableFuture<Void> writeOriginal(MultipartFile file, BufferedImage read, String generated) {
+    CompletableFuture<Void> writeOriginal(MultipartFile file, ImageMimeType type, BufferedImage read, String generated) {
 
         return runAsync(() -> {
             try {
                 picturesRepository
-                        .storeSource(imageOperationsService.prepareOriginal(read), generated, file
+                        .storeSource(imageOperationsService.prepareOriginal(read, type), generated, file
                                 .getContentType(), ImageType.ORIGINAL);
             } catch (IOException e) {
                 throw new UsefulException(ImageModuleErrorCodes.IMAGE_PROCESSING_ERROR);

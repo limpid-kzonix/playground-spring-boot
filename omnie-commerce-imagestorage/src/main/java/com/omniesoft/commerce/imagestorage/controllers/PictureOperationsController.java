@@ -7,13 +7,14 @@ import com.omniesoft.commerce.imagestorage.models.services.ImageType;
 import lombok.AllArgsConstructor;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.entity.ContentType;
-import org.springframework.http.*;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
-
-import java.util.concurrent.TimeUnit;
 
 @RestController
 @AllArgsConstructor
@@ -95,11 +96,7 @@ public class PictureOperationsController {
     private <T> ResponseEntity<T> getResponseEntity(T source, String contentType, int contentLength) {
 
         HttpHeaders headers = new HttpHeaders();
-
-        String headerValue = CacheControl.maxAge(1, TimeUnit.DAYS).proxyRevalidate().mustRevalidate().getHeaderValue();
-
         headers.set(HttpHeaders.CONTENT_TYPE, contentType);
-        headers.set(HttpHeaders.CACHE_CONTROL, headerValue);
 
         return ResponseEntity.ok()
                 .contentType(MediaType.valueOf(contentType))

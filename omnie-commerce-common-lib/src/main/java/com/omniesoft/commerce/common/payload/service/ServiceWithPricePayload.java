@@ -26,8 +26,6 @@ public class ServiceWithPricePayload {
 
     private ServicePayload service;
 
-    private ServiceSubCategoryPayload subCategoryPayload;
-
     private Map<DayOfWeek, List<ServicePricePayload>> prices;
 
 }

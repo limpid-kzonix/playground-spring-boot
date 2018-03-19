@@ -3,6 +3,7 @@ package com.omniesoft.commerce.support.config;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 
 /**
@@ -12,7 +13,8 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-//@EnableResourceServer
+
+@EnableResourceServer
 public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
 
 //    @Autowired
@@ -41,7 +43,10 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
                 .and()
 
                 .authorizeRequests()
-                .anyRequest().authenticated();
+                .anyRequest().authenticated()
+                .and()
+                .authorizeRequests().anyRequest()
+                .hasRole("OWNER");
     }
 
 //    @Bean("remoteTokenServices")
@@ -68,5 +73,6 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 //        converter.setKeyPair(keyStoreKeyFactory.getKeyPair("jwt"));
 //        return converter;
 //    }
+
 
 }

@@ -12,6 +12,7 @@
 package com.omniesoft.commerce.common.handler.exception.custom.enums;
 
 public enum SecurityModuleErrorCodes implements ErrorCode {
+    EXPIRED_EMAIL_TOKEN(4117),
     SOCIAL_BIRTHDATE_INCORRECT(4116),
     SOCIAL_GENDER_INCORRECT(4115),
     SOCIAL_GOOGLE_SIGN_IN_ERROR(4114),
@@ -26,7 +27,6 @@ public enum SecurityModuleErrorCodes implements ErrorCode {
     SOCIAL_NOT_CONNECTED(4105),
     SOCIAL_CONNECT_ERROR(4104),
     INVALID_EMAIL_TOKEN(4103),
-    INVALID_PASSWORD(4102),
     INVALID_CLIENT_CREDENTIALS(4101);
 
     private Integer code;

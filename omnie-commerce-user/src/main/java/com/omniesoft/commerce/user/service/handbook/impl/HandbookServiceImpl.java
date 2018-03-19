@@ -1,16 +1,23 @@
 package com.omniesoft.commerce.user.service.handbook.impl;
 
 import com.omniesoft.commerce.common.handler.exception.custom.UsefulException;
+import com.omniesoft.commerce.common.handler.exception.custom.enums.InternalErrorCodes;
 import com.omniesoft.commerce.common.handler.exception.custom.enums.UserModuleErrorCodes;
 import com.omniesoft.commerce.persistence.entity.account.UserEntity;
 import com.omniesoft.commerce.persistence.entity.cards.handbook.HandbookEntity;
 import com.omniesoft.commerce.persistence.entity.cards.handbook.HandbookPhoneEntity;
 import com.omniesoft.commerce.persistence.entity.cards.handbook.HandbookTagEntity;
 import com.omniesoft.commerce.persistence.projection.card.handbook.HandbookSummary;
+import com.omniesoft.commerce.persistence.projection.organization.OrganizationHandbookSummary;
 import com.omniesoft.commerce.persistence.repository.card.HandbookRepository;
+import com.omniesoft.commerce.persistence.repository.organization.OrganizationRepository;
 import com.omniesoft.commerce.user.controller.handbook.payload.HandbookPayload;
+import com.omniesoft.commerce.user.controller.handbook.payload.HandbookPhonePayload;
+import com.omniesoft.commerce.user.controller.handbook.payload.HandbookTagPayload;
 import com.omniesoft.commerce.user.service.handbook.HandbookService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,21 +26,26 @@ import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@AllArgsConstructor
 public class HandbookServiceImpl implements HandbookService {
 
     private HandbookRepository handbookRepository;
+    private OrganizationRepository organizationRepository;
 
-    @Autowired
-    public HandbookServiceImpl(HandbookRepository handbookRepository) {
-
-        this.handbookRepository = handbookRepository;
+    @Override
+    public Page<HandbookPayload> getHandbookOrganization(Pageable pageable, String searchPattern) {
+        return organizationRepository.findForHandbook(searchPattern, pageable).map(convertOrgToHandbook());
     }
+
+
 
     @Override
     public Page<HandbookSummary> getHandbook(Pageable pageable, String searchPattern) {
+
 
         return handbookRepository.findHandbookItemsWithPhonesAndTags(searchPattern.toLowerCase(), pageable);
     }
@@ -70,6 +82,8 @@ public class HandbookServiceImpl implements HandbookService {
 
         if (byUserEntityAndId == null) {
             throw new UsefulException(UserModuleErrorCodes.HANDBOOK_ITEM_NOT_EXIST);
+        } else if (byUserEntityAndId.getAcceptStatus() != null && byUserEntityAndId.getAcceptStatus()) {
+            throw new UsefulException("Changing of this data is not allowed").withCode(UserModuleErrorCodes.NOT_ALLOWED_CHANGE_OPERATION);
         }
     }
 
@@ -81,7 +95,11 @@ public class HandbookServiceImpl implements HandbookService {
         setPhones(handbookPayload, handbook);
         setTags(handbookPayload, handbook);
         handbook.setUserEntity(userEntity);
-        return handbookRepository.save(handbook);
+        try {
+            return handbookRepository.save(handbook);
+        } catch (DataIntegrityViolationException e) {
+            throw new UsefulException("Can`t to create item. Constrain violation. " + e.getMessage()).withCode(InternalErrorCodes.CONSTRAINT_VALIDATION);
+        }
     }
 
     private void setTags(HandbookPayload handbookPayload, HandbookEntity handbookEntity) {
@@ -126,6 +144,19 @@ public class HandbookServiceImpl implements HandbookService {
         handbookEntity.setAddress(handbookPayload.getAddress());
         handbookEntity.setImageId(handbookPayload.getImage());
         return handbookEntity;
+    }
+
+    private Converter<OrganizationHandbookSummary, HandbookPayload> convertOrgToHandbook() {
+        return (source) -> {
+            HandbookPayload handbookPayload = new HandbookPayload();
+            handbookPayload.setId(source.getId());
+            handbookPayload.setAddress(source.getPlaceId());
+            handbookPayload.setName(source.getName());
+            handbookPayload.setImage(source.getLogoId());
+            handbookPayload.setTags(source.getServices().stream().flatMap(s -> s.getSubCategories().stream().map(sub -> new HandbookTagPayload(sub.getId(), sub.getUkrName()))).collect(Collectors.toList()));
+            handbookPayload.setPhones(source.getPhones().stream().map(hp -> new HandbookPhonePayload(hp.getId(), hp.getPhone())).collect(Collectors.toList()));
+            return handbookPayload;
+        };
     }
 
 

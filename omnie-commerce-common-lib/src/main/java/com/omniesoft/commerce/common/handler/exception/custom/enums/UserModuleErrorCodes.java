@@ -12,6 +12,8 @@
 package com.omniesoft.commerce.common.handler.exception.custom.enums;
 
 public enum UserModuleErrorCodes implements ErrorCode {
+    EMAIL_NOT_ALLOWED(2108),
+    NOT_ALLOWED_CHANGE_OPERATION(2107),
     NOT_ALLOWED_CREATE_REVIEW(2106),
     NOT_ALLOWED_EDIT_REVIEW(2105),
     HANDBOOK_ITEM_NOT_EXIST(2104),

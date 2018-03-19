@@ -22,7 +22,7 @@ public class OAuthAccountBindingServiceImpl implements OAuthAccountBindingServic
     public UserEntity fetchUserLinkedOAuthData(SocialProfile socialUserProfile, OAuthClient client) {
 
         UserOAuthEntity byProfileIdAndOauthClient = userOAuthRepository
-                .findByProfileIdAndOauthClient(socialUserProfile.getId(), OAuthClient.FACEBOOK);
+                .findByProfileIdAndOauthClient(socialUserProfile.getId(), client);
         if (null == byProfileIdAndOauthClient) {
             return null;
         }
@@ -42,7 +42,7 @@ public class OAuthAccountBindingServiceImpl implements OAuthAccountBindingServic
             throw new UsefulException("Social account already linked to account", SecurityModuleErrorCodes.SOCIAL_CONNECT_ERROR);
         }
         UserOAuthEntity userOAuthEntity = new UserOAuthEntity();
-        userOAuthEntity.setOauthClient(OAuthClient.FACEBOOK);
+        userOAuthEntity.setOauthClient(client);
         userOAuthEntity.setUser(userEntity);
         userOAuthEntity.setProfileId(facebookUserProfile.getId());
         return userOAuthRepository.save(userOAuthEntity);

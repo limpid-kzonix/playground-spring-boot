@@ -31,7 +31,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final AuthenticationEntryPoint authenticationEntryPoint;
 
     public SecurityConfiguration(UserDetailsService userDetailsService,
-                                 @Qualifier("restAuthenticationEntryPoint") AuthenticationEntryPoint authenticationEntryPoint) {
+                                 @Qualifier("restAuthenticationEntryPoint")
+                                         AuthenticationEntryPoint authenticationEntryPoint) {
 
         this.userDetailsService = userDetailsService;
         this.authenticationEntryPoint = authenticationEntryPoint;
@@ -52,16 +53,29 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
 
         httpSecurity
-                .csrf().disable()
+                .csrf().disable().authorizeRequests()
+                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
                 .authorizeRequests()
-                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().authorizeRequests()
-                .antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security",
-                        "/swagger-ui.html", "/webjars/**", "/swagger-resources/configuration/ui", "/swagger-ui.html",
-                        "/swagger-resources/configuration/security", "/status", "**/oauth/check_token**",
-                        "**/social/google/signin**", "**/social/google/signup**", "**/social/facebook/signin**",
-                        "**/social/facebook/signup/**").permitAll()
-                .and().authorizeRequests().anyRequest().authenticated();
+                .antMatchers("/v2/api-docs",
+                        "/configuration/ui",
+                        "/swagger-resources",
+                        "/configuration/security",
+                        "/swagger-ui.html",
+                        "/webjars/**",
+                        "/swagger-resources/configuration/ui",
+                        "/swagger-ui.html",
+                        "/swagger-resources/configuration/security",
+                        "/status",
+                        "**/oauth/check_token**",
+                        "**/social/google/signin**",
+                        "**/social/google/signup**",
+                        "**/social/facebook/signin**",
+                        "**/social/facebook/signup/**")
+                .permitAll()
+                .and()
+                .authorizeRequests().anyRequest().authenticated();
         httpSecurity.headers().cacheControl();
         httpSecurity.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint);
     }

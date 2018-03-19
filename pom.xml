@@ -18,10 +18,12 @@
     </parent>
 
     <properties>
-        <omcom.version>1.0-SNAPSHOT</omcom.version>
+        <java.version>1.8</java.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>1.8</java.version>
+
         <junit4.version>4.12</junit4.version>
         <springfox.version>2.7.0</springfox.version>
         <log4jdbc-spring-boot-starter.version>1.0.1</log4jdbc-spring-boot-starter.version>
@@ -30,8 +32,6 @@
         <commons-lang3.version>3.7</commons-lang3.version>
         <modelmapper-spring.version>1.1.2</modelmapper-spring.version>
         <spring-cloud-dependencies.version>Edgware.SR1</spring-cloud-dependencies.version>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
         <spring-boot.version>1.5.10.RELEASE</spring-boot.version>
         <lombok.version>1.16.18</lombok.version>
         <springfox.version>2.7.0</springfox.version>
@@ -39,19 +39,6 @@
         <validation-api.version>2.0.1.Final</validation-api.version>
         <commons-text.version>1.2</commons-text.version>
 
-        <gib.enabled>true</gib.enabled>
-        <gib.repositorySshKey>/</gib.repositorySshKey>
-        <gib.referenceBranch>refs/remotes/origin/develop</gib.referenceBranch>
-        <gib.baseBranch>HEAD</gib.baseBranch>
-        <gib.uncommited>true</gib.uncommited>
-        <gib.skipTestsForNotImpactedModules>false</gib.skipTestsForNotImpactedModules>
-        <gib.buildAll>false</gib.buildAll>
-        <gib.compareToMergeBase>true</gib.compareToMergeBase>
-        <gib.fetchBaseBranch>false</gib.fetchBaseBranch>
-        <gib.fetchReferenceBranch>false</gib.fetchReferenceBranch>
-        <gib.excludePathRegex>(?!x)x</gib.excludePathRegex>
-        <gib.failOnMissingGitDir>true</gib.failOnMissingGitDir>
-        <gib.failOnError>true</gib.failOnError>
         <spring-messaging.version>4.2.4.RELEASE</spring-messaging.version>
     </properties>
 
@@ -112,6 +99,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-jwt</artifactId>
         </dependency>
 
         <dependency>
@@ -247,14 +239,11 @@
 
     <modules>
         <module>omnie-commerce-secured-parent</module>
-
         <module>omnie-commerce-persistence</module>
         <module>omnie-commerce-common-lib</module>
         <module>omnie-commerce-mail</module>
-
         <module>omnie-commerce-discovery</module>
         <module>omnie-commerce-gateway</module>
-
         <module>omnie-commerce-security</module>
         <module>omnie-commerce-imagestorage</module>
         <module>omnie-commerce-notification</module>
@@ -264,15 +253,5 @@
         <module>omnie-commerce-user</module>
 
     </modules>
-
-    <build>
-        <!--<extensions>-->
-        <!--<extension>-->
-        <!--<groupId>com.vackosar.gitflowincrementalbuilder</groupId>-->
-        <!--<artifactId>gitflow-incremental-builder</artifactId>-->
-        <!--<version>3.4</version>-->
-        <!--</extension>-->
-        <!--</extensions>-->
-    </build>
 
 </project>

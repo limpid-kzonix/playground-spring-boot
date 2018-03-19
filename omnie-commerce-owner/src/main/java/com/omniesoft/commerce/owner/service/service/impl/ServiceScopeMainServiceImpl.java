@@ -23,8 +23,6 @@ import com.omniesoft.commerce.persistence.repository.service.ServiceRepository;
 import com.omniesoft.commerce.persistence.repository.service.ServiceTimingRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -207,11 +205,10 @@ public class ServiceScopeMainServiceImpl implements ServiceScopeMainService {
     }
 
     @Override
-    public Page<ServiceRowAdminExtendDto> findOrganizationServices(UUID org, String searchPattern,
-                                                                   UserEntity userEntity,
-                                                                   Pageable pageable) {
+    public List<ServiceRowAdminExtendDto> findOrganizationServices(UUID org, String searchPattern,
+                                                                   UserEntity userEntity) {
 
-        return serviceRepository.getServicesByOrganizationId(org, pageable);
+        return serviceRepository.getServicesByOrganizationId(org);
     }
 
     @Override

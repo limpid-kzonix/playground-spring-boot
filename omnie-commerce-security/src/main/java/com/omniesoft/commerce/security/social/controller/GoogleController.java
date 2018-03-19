@@ -2,8 +2,7 @@ package com.omniesoft.commerce.security.social.controller;
 
 import com.omniesoft.commerce.persistence.entity.account.UserEntity;
 import com.omniesoft.commerce.persistence.entity.enums.OAuthClient;
-import com.omniesoft.commerce.security.social.service.oauth.OAuthSignInService;
-import com.omniesoft.commerce.security.social.service.oauth.OAuthSignUpService;
+import com.omniesoft.commerce.security.social.service.oauth.OAuthHandlerAdapter;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -15,17 +14,12 @@ import springfox.documentation.annotations.ApiIgnore;
 public class GoogleController {
 
 
-    @Qualifier("googleSingUpService")
-    private OAuthSignUpService signUpService;
+    @Qualifier("googleOAuthHandlerService")
+    private OAuthHandlerAdapter oAuthHandlerAdapter;
 
-    @Qualifier("googleSingInService")
-    private OAuthSignInService signInService;
+    public GoogleController(@Qualifier("googleOAuthHandlerService") OAuthHandlerAdapter oAuthHandlerAdapter) {
 
-    public GoogleController(@Qualifier("googleSingUpService") OAuthSignUpService signUpService,
-                            @Qualifier("googleSingInService") OAuthSignInService signInService) {
-
-        this.signUpService = signUpService;
-        this.signInService = signInService;
+        this.oAuthHandlerAdapter = oAuthHandlerAdapter;
     }
 
 
@@ -35,23 +29,14 @@ public class GoogleController {
             @ApiIgnore UserEntity userEntity
     ) {
 
-        signInService.link(facebookToken, userEntity, OAuthClient.GOOGLE);
+        oAuthHandlerAdapter.link(facebookToken, userEntity, OAuthClient.GOOGLE);
     }
 
-    @PostMapping(path = "/signup")
-    public void signUpProfileToUser(
-            @RequestParam("social_token") String token
-    ) {
-
-        signUpService.signUp(token, OAuthClient.GOOGLE);
-    }
-
-    @PostMapping(path = "/signin")
+    @PostMapping()
     public OAuth2AccessToken signInProfileToUser(
             @RequestParam("social_token") String facebookToken
     ) {
-
-        return signInService.signIn(facebookToken, OAuthClient.GOOGLE);
+        return oAuthHandlerAdapter.handle(facebookToken, OAuthClient.GOOGLE);
     }
 
 

@@ -11,6 +11,8 @@
 
 package com.omniesoft.commerce.persistence.projection.service;
 
+import com.omniesoft.commerce.persistence.projection.organization.OrganizationSmallCardSummary;
+
 import java.util.UUID;
 
 public interface ServiceSummary {
@@ -22,5 +24,7 @@ public interface ServiceSummary {
     String getLogoId();
 
     String getDescription();
+
+    OrganizationSmallCardSummary getOrganization();
 
 }
