@@ -1,4 +1,4 @@
-package com.omniesoft.commerce.security.social.service.oauth.impl.facebook;
+package com.omniesoft.commerce.security.social.service.util.facebook;
 
 public interface FbHelper {
 

@@ -167,6 +167,17 @@ public class ReviewServiceImpl implements ReviewService {
         applicationEventPublisher.publishEvent(new OnServiceReviewCreateEvent(save));
     }
 
+
+    @Override
+    public Boolean getPossibilityToProposeReview(UUID organizationId, UserEntity userEntity) {
+        return getOrderEntityByOrganizationId(organizationId, userEntity) != null;
+    }
+
+    @Override
+    public Boolean getPossibilityToProposeReview(UUID organizationId, UUID serviceId, UserEntity userEntity) {
+        return getOrderEntityByOrganizationId(organizationId, userEntity) != null && getOrderEntityByServiceId(serviceId, userEntity) != null;
+    }
+
     private void checkReviewPossibilityByService(UUID serviceId, UserEntity userEntity) {
 
         checkIfReviewExistByService(serviceId, userEntity);
@@ -181,12 +192,13 @@ public class ReviewServiceImpl implements ReviewService {
 
     private void checkIfOrderIsDoneByService(UUID serviceId, UserEntity userEntity) {
 
-        OrderEntity byServiceIdAndUserAndStatus = orderRepository
-                .findByServiceIdAndUserAndStatus(serviceId, userEntity, OrderStatus.DONE);
+        OrderEntity byServiceIdAndUserAndStatus = getOrderEntityByServiceId(serviceId, userEntity);
         if (byServiceIdAndUserAndStatus == null) {
             throw new UsefulException("You can`t to leave a review (for service [" + serviceId + "]) ");
         }
     }
+
+
 
     private void checkIfReviewExistByService(UUID serviceId, UserEntity userEntity) {
 
@@ -210,13 +222,22 @@ public class ReviewServiceImpl implements ReviewService {
 
     private void checkIfOrderIsDoneByOrganization(UUID organizationId, UserEntity userEntity) {
 
-        OrderEntity byServiceOrganizationIdAndUserAndStatus = orderRepository
-                .findByServiceOrganizationIdAndUserAndStatus(organizationId, userEntity, OrderStatus.DONE);
+        OrderEntity byServiceOrganizationIdAndUserAndStatus = getOrderEntityByOrganizationId(organizationId, userEntity);
 
         if (byServiceOrganizationIdAndUserAndStatus == null) {
             throw new UsefulException(
                     "You can`t to leave a review (for organization [" + organizationId + "]) ",
                     UserModuleErrorCodes.NOT_ALLOWED_CREATE_REVIEW);
         }
+    }
+
+    private OrderEntity getOrderEntityByOrganizationId(UUID organizationId, UserEntity userEntity) {
+        return orderRepository
+                    .findByServiceOrganizationIdAndUserAndStatus(organizationId, userEntity, OrderStatus.DONE);
+    }
+
+    private OrderEntity getOrderEntityByServiceId(UUID serviceId, UserEntity userEntity) {
+        return orderRepository
+                .findByServiceIdAndUserAndStatus(serviceId, userEntity, OrderStatus.DONE);
     }
 }

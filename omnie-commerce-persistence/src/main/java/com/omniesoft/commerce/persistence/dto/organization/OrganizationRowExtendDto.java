@@ -8,6 +8,7 @@ public class OrganizationRowExtendDto {
     private String name;
     private String email;
     private String logoId;
+    private String backgroundImageId;
     private Boolean freezeStatus;
     private LocalDateTime createTime;
     private Boolean isFavorite;
@@ -16,8 +17,27 @@ public class OrganizationRowExtendDto {
     private String description;
     private String inaccessibilityReason;
     private String placeId;
+
     private Double longitude;
     private Double latitude;
+
+    public OrganizationRowExtendDto(UUID id, String name, String email, String logoId, String backgroundImageId, Boolean freezeStatus, LocalDateTime createTime, Boolean isFavorite, Double rating, String title, String description, String inaccessibilityReason, String placeId, Double longitude, Double latitude) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.logoId = logoId;
+        this.backgroundImageId = backgroundImageId;
+        this.freezeStatus = freezeStatus;
+        this.createTime = createTime;
+        this.isFavorite = isFavorite;
+        this.rating = rating;
+        this.title = title;
+        this.description = description;
+        this.inaccessibilityReason = inaccessibilityReason;
+        this.placeId = placeId;
+        this.longitude = longitude;
+        this.latitude = latitude;
+    }
 
     public OrganizationRowExtendDto(UUID id, String name, String email, String logoId, Boolean freezeStatus, LocalDateTime createTime, Boolean isFavorite, Double rating, String title, String description, String inaccessibilityReason, String placeId, Double longitude, Double latitude) {
         this.id = id;
@@ -146,5 +166,13 @@ public class OrganizationRowExtendDto {
 
     public void setLatitude(Double latitude) {
         this.latitude = latitude;
+    }
+
+    public String getBackgroundImageId() {
+        return backgroundImageId;
+    }
+
+    public void setBackgroundImageId(String backgroundImageId) {
+        this.backgroundImageId = backgroundImageId;
     }
 }
