@@ -6,9 +6,9 @@ import com.omniesoft.commerce.common.payload.service.SubServicePayload;
 import com.omniesoft.commerce.persistence.dto.service.ServiceRowUserExtendDto;
 import com.omniesoft.commerce.persistence.entity.account.UserEntity;
 import com.omniesoft.commerce.persistence.entity.service.ServiceTimingEntity;
-import com.omniesoft.commerce.persistence.projection.category.LanguageSummary;
 import com.omniesoft.commerce.persistence.projection.category.SubCategorySummary;
 import com.omniesoft.commerce.persistence.projection.service.ServiceGallerySummary;
+import com.omniesoft.commerce.persistence.projection.service.ServiceLanguageSummary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -27,7 +27,7 @@ public interface ServiceScopeService {
 
     List<ServiceGallerySummary> getServiceGallery(UUID service, UUID org, UserEntity userEntity);
 
-    List<LanguageSummary> findServiceLanguages(UUID org, UUID service, UserEntity userEntity);
+    List<ServiceLanguageSummary> findServiceLanguages(UUID org, UUID service, UserEntity userEntity);
 
     List<SubCategorySummary> findServiceCategories(UUID org, UUID service, UserEntity userEntity);
 

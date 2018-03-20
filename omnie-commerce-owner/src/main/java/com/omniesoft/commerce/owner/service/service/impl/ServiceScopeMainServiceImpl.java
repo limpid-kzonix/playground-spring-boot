@@ -13,19 +13,23 @@ import com.omniesoft.commerce.persistence.entity.category.LanguageEntity;
 import com.omniesoft.commerce.persistence.entity.category.SubCategoryEntity;
 import com.omniesoft.commerce.persistence.entity.organization.OrganizationEntity;
 import com.omniesoft.commerce.persistence.entity.service.ServiceEntity;
+import com.omniesoft.commerce.persistence.entity.service.ServiceLanguageEntity;
+import com.omniesoft.commerce.persistence.entity.service.ServiceLanguageKey;
 import com.omniesoft.commerce.persistence.entity.service.ServiceTimingEntity;
 import com.omniesoft.commerce.persistence.projection.category.LanguageSummary;
 import com.omniesoft.commerce.persistence.projection.category.SubCategorySummary;
+import com.omniesoft.commerce.persistence.projection.service.ServiceLanguageSummary;
 import com.omniesoft.commerce.persistence.repository.category.SubCategoryRepository;
 import com.omniesoft.commerce.persistence.repository.organization.OrganizationRepository;
 import com.omniesoft.commerce.persistence.repository.service.LanguageRepository;
+import com.omniesoft.commerce.persistence.repository.service.ServiceLanguageRepository;
 import com.omniesoft.commerce.persistence.repository.service.ServiceRepository;
 import com.omniesoft.commerce.persistence.repository.service.ServiceTimingRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
@@ -43,6 +47,8 @@ public class ServiceScopeMainServiceImpl implements ServiceScopeMainService {
     private final OrganizationRepository organizationRepository;
 
     private final LanguageRepository languageRepository;
+
+    private final ServiceLanguageRepository serviceLanguageRepository;
 
     private final ModelMapper modelMapper;
 
@@ -150,7 +156,7 @@ public class ServiceScopeMainServiceImpl implements ServiceScopeMainService {
         return serviceEntity;
     }
 
-    private List<LanguageEntity> mapLanguages(List<LanguagePayload> languages) {
+    private List<ServiceLanguageEntity> mapLanguages(List<LanguagePayload> languages, ServiceEntity serviceEntity) {
 
         List<LanguageEntity> all = languageRepository.findAll();
 
@@ -160,7 +166,11 @@ public class ServiceScopeMainServiceImpl implements ServiceScopeMainService {
                                 .filter(languageEntity ->
                                         languagePayload.getId().equals(languageEntity.getId())
                                 )
-                ).collect(Collectors.toList());
+                ).map(languageEntity -> {
+                    ServiceLanguageEntity serviceLanguageEntity = new ServiceLanguageEntity();
+                    serviceLanguageEntity.setId(new ServiceLanguageKey(languageEntity, serviceEntity));
+                    return serviceLanguageEntity;
+                } ).collect(Collectors.toList());
     }
 
     private List<SubCategoryEntity> mapSubCategories(List<UUID> categories) {
@@ -184,24 +194,22 @@ public class ServiceScopeMainServiceImpl implements ServiceScopeMainService {
     }
 
     @Override
-    public List<LanguageSummary> saveServiceLanguages(List<LanguagePayload> languagePayloads, UUID service, UUID org,
-                                                      UserEntity userEntity) {
+    @org.springframework.transaction.annotation.Transactional
+    public List<ServiceLanguageSummary> saveServiceLanguages(List<LanguagePayload> languagePayloads, UUID service, UUID org,
+                                                             UserEntity userEntity) {
 
         ServiceEntity one = serviceScopeCrudService.find(service);
-
-        List<LanguageEntity> languageEntities = mapLanguages(languagePayloads);
-        one.setLanguages(languageEntities);
-        saveService(one);
-
-        languageRepository.save(languageEntities);
+        List<ServiceLanguageEntity> languageEntities = mapLanguages(languagePayloads, one);
+        serviceLanguageRepository.deleteAllByIdServiceIdAndIdServiceOrganizationId(service, org);
+        serviceLanguageRepository.save(languageEntities);
 
         return this.findServiceLanguages(org, service, userEntity);
     }
 
     @Override
-    public List<LanguageSummary> findServiceLanguages(UUID org, UUID service, UserEntity userEntity) {
+    public List<ServiceLanguageSummary> findServiceLanguages(UUID org, UUID service, UserEntity userEntity) {
 
-        return languageRepository.findAllByServiceIdAndServiceOrganizationId(service, org);
+        return serviceLanguageRepository.findAllByIdServiceIdAndIdServiceOrganizationId(service, org);
     }
 
     @Override

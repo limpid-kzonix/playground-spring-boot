@@ -17,6 +17,7 @@ import com.omniesoft.commerce.persistence.projection.category.CategorySummary;
 import com.omniesoft.commerce.persistence.projection.category.LanguageSummary;
 import com.omniesoft.commerce.persistence.projection.category.SubCategorySummary;
 import com.omniesoft.commerce.persistence.projection.service.ServiceGallerySummary;
+import com.omniesoft.commerce.persistence.projection.service.ServiceLanguageSummary;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
@@ -105,7 +106,7 @@ public class ServiceController extends AbstractOrganizationController {
 
     @GetMapping(path = "/{organization-id}/services/{service-id}/languages",
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<LanguageSummary> getServiceLanguages(
+    public List<ServiceLanguageSummary> getServiceLanguages(
             @PathVariable("organization-id") UUID organizationId,
             @PathVariable("service-id") UUID serviceId,
             @ApiIgnore UserEntity userEntity
@@ -115,7 +116,7 @@ public class ServiceController extends AbstractOrganizationController {
 
     @PutMapping(path = "/{organization-id}/services/{service-id}/languages",
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<LanguageSummary> updateServiceLanguage(
+    public List<ServiceLanguageSummary> updateServiceLanguage(
             @Valid @RequestBody LanguageListPayload languagePayloadWrapper,
             @PathVariable("organization-id") UUID organizationId,
             @PathVariable("service-id") UUID serviceId,

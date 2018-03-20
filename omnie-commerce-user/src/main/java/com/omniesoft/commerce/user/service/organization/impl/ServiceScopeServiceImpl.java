@@ -14,9 +14,9 @@ import com.omniesoft.commerce.persistence.entity.service.ServiceEntity;
 import com.omniesoft.commerce.persistence.entity.service.ServicePriceEntity;
 import com.omniesoft.commerce.persistence.entity.service.ServiceTimingEntity;
 import com.omniesoft.commerce.persistence.entity.service.SubServiceEntity;
-import com.omniesoft.commerce.persistence.projection.category.LanguageSummary;
 import com.omniesoft.commerce.persistence.projection.category.SubCategorySummary;
 import com.omniesoft.commerce.persistence.projection.service.ServiceGallerySummary;
+import com.omniesoft.commerce.persistence.projection.service.ServiceLanguageSummary;
 import com.omniesoft.commerce.persistence.repository.category.SubCategoryRepository;
 import com.omniesoft.commerce.persistence.repository.order.OrderRepository;
 import com.omniesoft.commerce.persistence.repository.service.*;
@@ -43,7 +43,7 @@ public class ServiceScopeServiceImpl implements ServiceScopeService {
 
     private final ServiceGalleryRepository serviceGalleryRepository;
 
-    private final LanguageRepository languageRepository;
+    private final ServiceLanguageRepository languageRepository;
 
     private final SubCategoryRepository subCategoryRepository;
 
@@ -86,8 +86,8 @@ public class ServiceScopeServiceImpl implements ServiceScopeService {
     }
 
     @Override
-    public List<LanguageSummary> findServiceLanguages(UUID org, UUID service, UserEntity userEntity) {
-        return languageRepository.findAllByServiceIdAndServiceOrganizationId(service, org);
+    public List<ServiceLanguageSummary> findServiceLanguages(UUID org, UUID service, UserEntity userEntity) {
+        return languageRepository.findAllByIdServiceIdAndIdServiceOrganizationId(service, org);
     }
 
     @Override
