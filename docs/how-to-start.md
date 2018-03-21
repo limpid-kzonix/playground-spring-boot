@@ -16,9 +16,9 @@
 
 ### Start project from IDEA
 - git clone omnie-commerce-parent, target branch `develop`
-- create postgres db `omnie_commerce`
+- create postgres db `omnie_commerce` make sure  db contains schema `public`
 - add maven `settings-security.xml` & `settings.xml` by this guide: https://maven.apache.org/guides/mini/guide-encryption.html
-- for generating local db by liquibase `settings.xml` must contain:
+- for generating local db tables by liquibase `settings.xml` must contain:
 
   ```xml 
   
