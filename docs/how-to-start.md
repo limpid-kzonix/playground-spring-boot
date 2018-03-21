@@ -15,12 +15,31 @@
 
 
 ### Start project from IDEA
-1 git clone omnie-commerce-parent
-2 maven: clean package install
-3 Run from IDEA: Always must be running: Discovery, Gateway, Security
+- git clone omnie-commerce-parent, target branch `develop`
+- create postgres db `omnie_commerce`
+- add maven `settings-security.xml` & `settings.xml` by this guide: https://maven.apache.org/guides/mini/guide-encryption.html
+- for generating local db by liquibase `settings.xml` must contain:
+
+  ```xml 
+  
+    <settings>
+      <servers>
+        <server>
+          <id>server.database</id>
+          <username>postgres</username>
+          <password>{ENCRYPTED-DB-PASSWORD}</password>
+        </server>
+      </servers>
+    </settings>
+
+  ```
+- maven build from poject root: `clean package install`
+- Run from IDEA: Always must be running: Discovery, Gateway, Security
 
 
 ### Start project from Docker
+docker-compose.yml example:
+
 ```yaml
 
 version: '3.3'
@@ -47,7 +66,7 @@ services:
       - JAVA_OPTS=-server -Xmx1g
       - APP_OPTS=--spring.profiles.active=dev --spring.redis.password=cISePhIrChOrMACkeTICiAhECludeWha
     volumes:
-      - /Users/motokyi/development/omnie/logs/gateway/:/log
+      - /omnie/logs/gateway/:/log
     extra_hosts:
       - "redis:172.18.0.1"
 #########################################
@@ -60,7 +79,7 @@ services:
       - JAVA_OPTS=-server -Xmx1g
       - APP_OPTS=--spring.profiles.active=dev --spring.datasource.password=geek --spring.datasource.user=postgres --spring.datasource.url=jdbc:postgresql://192.168.65.1:5432/omnie_commerce
     volumes:
-      - /Users/motokyi/development/omnie/logs/security/:/log
+      - /omnie/logs/security/:/log
     extra_hosts:
       - "db:192.168.65.1"
 
