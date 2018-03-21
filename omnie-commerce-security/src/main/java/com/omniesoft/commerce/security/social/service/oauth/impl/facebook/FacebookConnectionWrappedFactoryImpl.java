@@ -14,31 +14,31 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class FacebookConnectionWrappedFactoryImpl implements OAuthConnectionWrappedFactory {
 
-    FacebookConnectionFactory connectionFactory;
+  FacebookConnectionFactory connectionFactory;
 
 
-    @Override
-    public Connection<Facebook> connect(AccessGrant token) {
-        return tryConnect(token);
+  @Override
+  public Connection<Facebook> connect(AccessGrant token) {
+    return tryConnect(token);
+  }
+
+  @Override
+  public Connection<Facebook> connect(AccessGrant token, String scopes) {
+    connectionFactory.setScope(scopes);
+    return tryConnect(token);
+  }
+
+  private Connection<Facebook> tryConnect(AccessGrant token) {
+
+    Connection<Facebook> connection;
+    try {
+      connection = connectionFactory.createConnection(token);
+      if (connection == null) {
+        throw new UsefulException("Can`t get connection from facebook api. Service unavailable", SecurityModuleErrorCodes.SOCIAL_FACEBOOK_SIGN_IN_ERROR);
+      }
+    } catch (Exception e) {
+      throw new UsefulException(e.getMessage(), SecurityModuleErrorCodes.SOCIAL_FACEBOOK_SIGN_IN_ERROR);
     }
-
-    @Override
-    public Connection<Facebook> connect(AccessGrant token, String scopes) {
-        connectionFactory.setScope(scopes);
-        return tryConnect(token);
-    }
-
-    private Connection<Facebook> tryConnect(AccessGrant token) {
-
-        Connection<Facebook> connection;
-        try {
-            connection = connectionFactory.createConnection(token);
-            if (connection == null) {
-                throw new UsefulException("Can`t get connection from facebook api. Service unavailable", SecurityModuleErrorCodes.SOCIAL_FACEBOOK_SIGN_IN_ERROR);
-            }
-        } catch (Exception e) {
-            throw new UsefulException(e.getMessage(), SecurityModuleErrorCodes.SOCIAL_FACEBOOK_SIGN_IN_ERROR);
-        }
-        return connection;
-    }
+    return connection;
+  }
 }

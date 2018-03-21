@@ -7,8 +7,7 @@ import com.omniesoft.commerce.persistence.dto.service.ServiceRowAdminExtendDto;
 import com.omniesoft.commerce.persistence.entity.account.UserEntity;
 import com.omniesoft.commerce.persistence.projection.category.LanguageSummary;
 import com.omniesoft.commerce.persistence.projection.category.SubCategorySummary;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import com.omniesoft.commerce.persistence.projection.service.ServiceLanguageSummary;
 
 import java.util.List;
 import java.util.UUID;
@@ -23,15 +22,14 @@ public interface ServiceScopeMainService {
 
     ServiceStatePayload findState(UUID service, UUID org, UserEntity userEntity);
 
-    Page<ServiceRowAdminExtendDto> findOrganizationServices(UUID org, String searchPattern, UserEntity userEntity,
-                                                            Pageable pageable);
+    List<ServiceRowAdminExtendDto> findOrganizationServices(UUID org, String searchPattern, UserEntity userEntity);
 
     List<LanguageSummary> findAvailableLanguages();
 
-    List<LanguageSummary> saveServiceLanguages(List<LanguagePayload> languagePayloads, UUID service, UUID org,
-                                               UserEntity userEntity);
+    List<ServiceLanguageSummary> saveServiceLanguages(List<LanguagePayload> languagePayloads, UUID service, UUID org,
+                                                      UserEntity userEntity);
 
-    List<LanguageSummary> findServiceLanguages(UUID org, UUID service, UserEntity userEntity);
+    List<ServiceLanguageSummary> findServiceLanguages(UUID org, UUID service, UserEntity userEntity);
 
     List<SubCategorySummary> findServiceCategories(UUID org, UUID service, UserEntity userEntity);
 

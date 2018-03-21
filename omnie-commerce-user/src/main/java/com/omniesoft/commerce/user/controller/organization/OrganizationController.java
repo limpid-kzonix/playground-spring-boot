@@ -1,7 +1,7 @@
 package com.omniesoft.commerce.user.controller.organization;
 
 import com.omniesoft.commerce.common.payload.organization.OrganizationTimesheetDto;
-import com.omniesoft.commerce.common.payload.service.ServiceWithPricePayload;
+import com.omniesoft.commerce.common.payload.service.OrganizationPriceList;
 import com.omniesoft.commerce.common.request.PageableRequest;
 import com.omniesoft.commerce.persistence.dto.organization.OrganizationRowExtendDto;
 import com.omniesoft.commerce.persistence.entity.account.UserEntity;
@@ -82,7 +82,7 @@ public class OrganizationController extends AbstractOrganizationController {
 
     @GetMapping(path = "/{organization-id}/services/pricelist")
     @ApiModelProperty(dataType = "java.util.HashMap")
-    public Map<UUID, List<ServiceWithPricePayload>> getServicePriceList(
+    public List<OrganizationPriceList> getServicePriceList(
             @PathVariable("organization-id") UUID id,
             @ApiIgnore UserEntity userEntity
     ) {

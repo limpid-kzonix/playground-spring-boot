@@ -96,6 +96,9 @@ public class UserEntity {
     private List<UserEmailVerificationEntity> emailVerifications;
 
     @OneToMany(cascade = ALL, fetch = FetchType.LAZY, mappedBy = "user")
+    private List<UserEmailChangingVerificationEntity> emailChangingVerifications;
+
+    @OneToMany(cascade = ALL, fetch = FetchType.LAZY, mappedBy = "user")
     @JsonManagedReference
     private List<UserPasswordResetEntity> passwordResets;
 
@@ -485,5 +488,13 @@ public class UserEntity {
             List<OrganizationFavoriteEntity> organizationFavoriteEntities) {
 
         this.organizationFavoriteEntities = organizationFavoriteEntities;
+    }
+
+    public List<UserEmailChangingVerificationEntity> getEmailChangingVerifications() {
+        return emailChangingVerifications;
+    }
+
+    public void setEmailChangingVerifications(List<UserEmailChangingVerificationEntity> emailChangingVerifications) {
+        this.emailChangingVerifications = emailChangingVerifications;
     }
 }

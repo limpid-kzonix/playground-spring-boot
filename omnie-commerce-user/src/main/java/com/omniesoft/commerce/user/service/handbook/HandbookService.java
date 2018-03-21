@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public interface HandbookService {
 
-    Page<HandbookPayload> getHandbookOrganizaton(Pageable pageable, String searchPattern);
+    Page<HandbookPayload> getHandbookOrganization(Pageable pageable, String searchPattern);
 
     Page<HandbookSummary> getHandbook(Pageable pageable, String searchPattern);
 

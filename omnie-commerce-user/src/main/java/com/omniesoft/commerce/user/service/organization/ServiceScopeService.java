@@ -1,14 +1,14 @@
 package com.omniesoft.commerce.user.service.organization;
 
+import com.omniesoft.commerce.common.payload.service.OrganizationPriceList;
 import com.omniesoft.commerce.common.payload.service.ServicePricePayload;
-import com.omniesoft.commerce.common.payload.service.ServiceWithPricePayload;
 import com.omniesoft.commerce.common.payload.service.SubServicePayload;
 import com.omniesoft.commerce.persistence.dto.service.ServiceRowUserExtendDto;
 import com.omniesoft.commerce.persistence.entity.account.UserEntity;
 import com.omniesoft.commerce.persistence.entity.service.ServiceTimingEntity;
-import com.omniesoft.commerce.persistence.projection.category.LanguageSummary;
 import com.omniesoft.commerce.persistence.projection.category.SubCategorySummary;
 import com.omniesoft.commerce.persistence.projection.service.ServiceGallerySummary;
+import com.omniesoft.commerce.persistence.projection.service.ServiceLanguageSummary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -27,7 +27,7 @@ public interface ServiceScopeService {
 
     List<ServiceGallerySummary> getServiceGallery(UUID service, UUID org, UserEntity userEntity);
 
-    List<LanguageSummary> findServiceLanguages(UUID org, UUID service, UserEntity userEntity);
+    List<ServiceLanguageSummary> findServiceLanguages(UUID org, UUID service, UserEntity userEntity);
 
     List<SubCategorySummary> findServiceCategories(UUID org, UUID service, UserEntity userEntity);
 
@@ -39,7 +39,7 @@ public interface ServiceScopeService {
     List<SubServicePayload> getSubServices(UUID org, UUID service, UserEntity userEntity);
 
 
-    Map<UUID, List<ServiceWithPricePayload>> getPriceList(UUID organization, UserEntity userEntity);
+    List<OrganizationPriceList> getPriceList(UUID organization, UserEntity userEntity);
 
 
 }

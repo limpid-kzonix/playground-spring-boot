@@ -12,8 +12,10 @@
 package com.omniesoft.commerce.user.controller.organization;
 
 import com.omniesoft.commerce.common.request.PageableRequest;
+import com.omniesoft.commerce.common.responce.ResponseMessage;
 import com.omniesoft.commerce.persistence.entity.account.UserEntity;
 import com.omniesoft.commerce.persistence.projection.organization.OrganizationReviewSummary;
+import com.omniesoft.commerce.persistence.projection.service.ServiceReviewSummary;
 import com.omniesoft.commerce.user.service.organization.ReviewService;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
@@ -48,8 +50,9 @@ public class ReviewController extends AbstractOrganizationController {
         return reviewService.getOrganizationReviews(id, pageable, userEntity);
     }
 
+
     @GetMapping(path = "/{organization-id}/services/{service-id}/reviews", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Object getServiceReviews(
+    public Page<ServiceReviewSummary> getServiceReviews(
             @Valid PageableRequest pageableRequest, Pageable pageable,
             @PathVariable("service-id") UUID service,
             @PathVariable("organization-id") UUID organization,
@@ -105,5 +108,21 @@ public class ReviewController extends AbstractOrganizationController {
     ) {
 
         reviewService.updateServiceReview(orgId, serviceId, reviewId, mark, comment, userEntity);
+    }
+
+    @GetMapping(path = "/{organization-id}/services/{service-id}/reviews/status", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseMessage.Option<Boolean> getServiceReviews(
+            @PathVariable("service-id") UUID service,
+            @PathVariable("organization-id") UUID organization,
+            @ApiIgnore UserEntity userEntity
+    ) {
+        return new ResponseMessage.Option(reviewService.getPossibilityToProposeReview(organization, service, userEntity));
+    }
+
+    @GetMapping(path = "/{organization-id}/reviews/status", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseMessage.Option<Boolean> getOrganizationReviews(
+            @PathVariable("organization-id") UUID id,
+            @ApiIgnore UserEntity userEntity) {
+        return new ResponseMessage.Option(reviewService.getPossibilityToProposeReview(id, userEntity));
     }
 }

@@ -28,7 +28,9 @@ public interface AccountMailService {
      * @param recipientAddress String : Email of recipient
      * @param newEmailAddress  String : Link for handling user account confirmation
      */
-    void sendChangeEmailMessage(String recipientAddress, String newEmailAddress) throws MessagingException;
+    void sendChangeEmailMessage(String recipientAddress, String oldUserEmail, String token) throws MessagingException;
+
+    void sendChangedEmailMessage(String recipientAddress, String newEmail) throws MessagingException;
 
     void sendPasswordChangeNotify(String recipientAddress, String userName) throws MessagingException;
 }

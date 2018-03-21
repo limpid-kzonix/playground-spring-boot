@@ -38,4 +38,11 @@ public interface ReviewService {
 
     void proposeServiceReview(UUID organizationId, UUID serviceId, Integer mark, String reviewComment,
                               UserEntity userEntity);
+
+    Boolean getPossibilityToProposeReview(UUID organizationId,
+                                             UserEntity userEntity);
+
+    Boolean getPossibilityToProposeReview(UUID organizationId, UUID serviceId,
+                                                 UserEntity userEntity);
+
 }

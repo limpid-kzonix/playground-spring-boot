@@ -120,6 +120,7 @@ public class ImageStorageServiceImpl implements ImageStorageService {
                 writeSmall(file, imageMimeType, c, generated).get();
                 return c;
             } catch (InterruptedException | ExecutionException e) {
+                log.error(e.getMessage() + (e.getCause() == null ? "" : e.getCause().getMessage()));
                 throw new UsefulException("Occurred during the blocking operation").withCode(ImageModuleErrorCodes.IMAGE_PROCESSING_ERROR);
             }
         }, imageProcessingExecutor).thenApply(c -> {

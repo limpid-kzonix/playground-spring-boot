@@ -5,8 +5,8 @@ import com.omniesoft.commerce.common.converter.ServicePriceListConverter;
 import com.omniesoft.commerce.common.converter.SubServicePriceConverter;
 import com.omniesoft.commerce.common.handler.exception.custom.UsefulException;
 import com.omniesoft.commerce.common.handler.exception.custom.enums.InternalErrorCodes;
+import com.omniesoft.commerce.common.payload.service.OrganizationPriceList;
 import com.omniesoft.commerce.common.payload.service.ServicePricePayload;
-import com.omniesoft.commerce.common.payload.service.ServiceWithPricePayload;
 import com.omniesoft.commerce.common.payload.service.SubServicePayload;
 import com.omniesoft.commerce.persistence.dto.service.ServiceRowUserExtendDto;
 import com.omniesoft.commerce.persistence.entity.account.UserEntity;
@@ -14,9 +14,9 @@ import com.omniesoft.commerce.persistence.entity.service.ServiceEntity;
 import com.omniesoft.commerce.persistence.entity.service.ServicePriceEntity;
 import com.omniesoft.commerce.persistence.entity.service.ServiceTimingEntity;
 import com.omniesoft.commerce.persistence.entity.service.SubServiceEntity;
-import com.omniesoft.commerce.persistence.projection.category.LanguageSummary;
 import com.omniesoft.commerce.persistence.projection.category.SubCategorySummary;
 import com.omniesoft.commerce.persistence.projection.service.ServiceGallerySummary;
+import com.omniesoft.commerce.persistence.projection.service.ServiceLanguageSummary;
 import com.omniesoft.commerce.persistence.repository.category.SubCategoryRepository;
 import com.omniesoft.commerce.persistence.repository.order.OrderRepository;
 import com.omniesoft.commerce.persistence.repository.service.*;
@@ -43,7 +43,7 @@ public class ServiceScopeServiceImpl implements ServiceScopeService {
 
     private final ServiceGalleryRepository serviceGalleryRepository;
 
-    private final LanguageRepository languageRepository;
+    private final ServiceLanguageRepository languageRepository;
 
     private final SubCategoryRepository subCategoryRepository;
 
@@ -86,8 +86,8 @@ public class ServiceScopeServiceImpl implements ServiceScopeService {
     }
 
     @Override
-    public List<LanguageSummary> findServiceLanguages(UUID org, UUID service, UserEntity userEntity) {
-        return languageRepository.findAllByServiceIdAndServiceOrganizationId(service, org);
+    public List<ServiceLanguageSummary> findServiceLanguages(UUID org, UUID service, UserEntity userEntity) {
+        return languageRepository.findAllByIdServiceIdAndIdServiceOrganizationId(service, org);
     }
 
     @Override
@@ -131,8 +131,8 @@ public class ServiceScopeServiceImpl implements ServiceScopeService {
     }
 
     @Override
-    public Map<UUID, List<ServiceWithPricePayload>> getPriceList(UUID organization,
-                                                                 UserEntity userEntity) {
+    public List<OrganizationPriceList> getPriceList(UUID organization,
+                                                    UserEntity userEntity) {
 
         List<ServiceEntity> organizationPriceList = serviceRepository
                 .getOrganizationPriceList(organization);

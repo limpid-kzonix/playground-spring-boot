@@ -15,6 +15,4 @@ public interface LanguageRepository extends PagingAndSortingRepository<LanguageE
 
     @Query("select l from LanguageEntity l")
     List<LanguageSummary> findAvailableLanguages();
-
-    List<LanguageSummary> findAllByServiceIdAndServiceOrganizationId(UUID service, UUID org);
 }

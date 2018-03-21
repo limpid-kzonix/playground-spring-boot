@@ -16,9 +16,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Multimaps;
 import com.omniesoft.commerce.common.converter.ServicePriceConverter;
 import com.omniesoft.commerce.common.converter.ServicePriceListConverter;
-import com.omniesoft.commerce.common.payload.service.ServicePayload;
-import com.omniesoft.commerce.common.payload.service.ServiceSubCategoryPayload;
-import com.omniesoft.commerce.common.payload.service.ServiceWithPricePayload;
+import com.omniesoft.commerce.common.payload.service.*;
 import com.omniesoft.commerce.persistence.entity.category.SubCategoryEntity;
 import com.omniesoft.commerce.persistence.entity.service.ServiceEntity;
 import lombok.AllArgsConstructor;
@@ -26,7 +24,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,57 +34,65 @@ public class ServicePriceListConverterImpl implements ServicePriceListConverter 
 
     // Before changes this map has structure with key
     @Override
-    public Map<UUID, List<ServiceWithPricePayload>> toPriceList(
+    public List<OrganizationPriceList> toPriceList(
             List<ServiceEntity> serviceEntities) {
 
-        List<ServiceWithPricePayload> collect = transform(serviceEntities);
+        List<ServicePricePayloadByCategory> collect = transform(serviceEntities);
 
-        return convertToMap(collect);
+        Map<ServiceSubCategoryPayload, List<ServicePricePayloadByCategory>> serviceSubCategoryPayloadListMap = convertToMap(collect);
+        return getOrganizationPriceList(serviceSubCategoryPayloadListMap);
 
     }
 
-    private List<ServiceWithPricePayload> transform(
+    private List<OrganizationPriceList> getOrganizationPriceList(Map<ServiceSubCategoryPayload, List<ServicePricePayloadByCategory>> serviceSubCategoryPayloadListMap) {
+        return serviceSubCategoryPayloadListMap.entrySet().stream().map(e -> {
+            ServiceSubCategoryPayload key = e.getKey();
+            List<ServiceWithPricePayload> collected = e.getValue().stream().map(ServicePricePayloadByCategory::getServicePrices).collect(Collectors.toList());
+            return new OrganizationPriceList(key, collected);
+        }).collect(Collectors.toList());
+    }
+
+    private List<ServicePricePayloadByCategory> transform(
             List<ServiceEntity> serviceEntities) {
 
         return serviceEntities.stream()
                 .flatMap(serviceEntity -> serviceEntity
                         .getSubCategories()
-                        .stream().map(subCategoryEntity -> {
-                            return toServicePriceList(serviceEntity,
-                                    subCategoryEntity);
-                        })
+                        .stream().map(subCategoryEntity -> toServicePriceList(serviceEntity,
+                                subCategoryEntity))
                 ).collect(Collectors.toList());
     }
 
-    private Map<UUID, List<ServiceWithPricePayload>> convertToMap(
-            List<ServiceWithPricePayload> collect) {
+    private Map<ServiceSubCategoryPayload, List<ServicePricePayloadByCategory>> convertToMap(
+            List<ServicePricePayloadByCategory> collect) {
 
-        ImmutableListMultimap<UUID, ServiceWithPricePayload> index = toMultimap(collect);
+        ImmutableListMultimap<ServiceSubCategoryPayload, ServicePricePayloadByCategory> index = toMultimap(collect);
         return Multimaps
                 .asMap(index);
     }
 
-    private ImmutableListMultimap<UUID, ServiceWithPricePayload> toMultimap(
-            List<ServiceWithPricePayload> collect) {
+    @SuppressWarnings("unchecked")
+    private ImmutableListMultimap<ServiceSubCategoryPayload, ServicePricePayloadByCategory> toMultimap(
+            List<ServicePricePayloadByCategory> collect) {
 
         return Multimaps
-                .index(collect, s -> s.getSubCategoryPayload().getId());
+                .index(collect, ServicePricePayloadByCategory::getCategory);
     }
 
-    private ServiceWithPricePayload toServicePriceList(ServiceEntity serviceEntity,
-                                                       SubCategoryEntity subCategoryEntity) {
-
-        return new ServiceWithPricePayload(
+    private ServicePricePayloadByCategory toServicePriceList(ServiceEntity serviceEntity,
+                                                             SubCategoryEntity subCategoryEntity) {
+        ServiceSubCategoryPayload serviceSubCategoryPayload = new ServiceSubCategoryPayload(
+                subCategoryEntity.getId(),
+                subCategoryEntity.getCategory().getId(),
+                subCategoryEntity.getRusName(),
+                subCategoryEntity.getUkrName(),
+                subCategoryEntity.getEngName()
+        );
+        ServiceWithPricePayload serviceWithPricePayload = new ServiceWithPricePayload(
                 new ServicePayload(serviceEntity.getId(), serviceEntity.getName(), serviceEntity.getLogoId()),
-                new ServiceSubCategoryPayload(
-                        subCategoryEntity.getId(),
-                        subCategoryEntity.getCategory().getId(),
-                        subCategoryEntity.getRusName(),
-                        subCategoryEntity.getUkrName(),
-                        subCategoryEntity.getEngName()
-                ),
                 servicePriceConverter.toTimeSheet(Lists.newArrayList(serviceEntity.getPrices()))
 
         );
+        return new ServicePricePayloadByCategory(serviceSubCategoryPayload, serviceWithPricePayload);
     }
 }

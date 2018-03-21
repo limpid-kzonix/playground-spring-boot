@@ -2,10 +2,13 @@ package com.omniesoft.commerce.persistence.entity.category;
 
 import com.omniesoft.commerce.persistence.entity.enums.LanguageCode;
 import com.omniesoft.commerce.persistence.entity.service.ServiceEntity;
+import com.omniesoft.commerce.persistence.entity.service.ServiceFavoriteEntity;
+import com.omniesoft.commerce.persistence.entity.service.ServiceLanguageEntity;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -26,13 +29,8 @@ public class LanguageEntity {
     @Column(name = "name")
     private LanguageCode name;
 
-    @ManyToOne(cascade = CascadeType.REFRESH)
-    @JoinTable(
-            name = "service_language",
-            joinColumns = {@JoinColumn(name = "language_id", referencedColumnName = "uuid")},
-            inverseJoinColumns = {@JoinColumn(name = "service_id", referencedColumnName = "uuid")}
-    )
-    private ServiceEntity service;
+    @OneToMany(mappedBy = "id.language")
+    private List<ServiceLanguageEntity> serviceLanguages;
 
     public UUID getId() {
         return id;
@@ -50,11 +48,11 @@ public class LanguageEntity {
         this.name = name;
     }
 
-    public ServiceEntity getService() {
-        return service;
+    public List<ServiceLanguageEntity> getServiceLanguages() {
+        return serviceLanguages;
     }
 
-    public void setService(ServiceEntity service) {
-        this.service = service;
+    public void setServiceLanguages(List<ServiceLanguageEntity> serviceLanguages) {
+        this.serviceLanguages = serviceLanguages;
     }
 }

@@ -12,10 +12,10 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableEurekaClient
-public class OmnieStatisticApplication {
+public class StatisticApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(OmnieStatisticApplication.class, args);
+        SpringApplication.run(StatisticApplication.class, args);
     }
 
 }

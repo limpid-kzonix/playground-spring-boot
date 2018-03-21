@@ -7,6 +7,7 @@ import com.omniesoft.commerce.persistence.dto.service.ServiceRowUserExtendDto;
 import com.omniesoft.commerce.persistence.entity.account.UserEntity;
 import com.omniesoft.commerce.persistence.entity.service.ServiceTimingEntity;
 import com.omniesoft.commerce.persistence.projection.service.ServiceGallerySummary;
+import com.omniesoft.commerce.persistence.projection.service.ServiceLanguageSummary;
 import com.omniesoft.commerce.user.controller.organization.payload.ServiceTimingPayload;
 import com.omniesoft.commerce.user.service.organization.ServiceScopeService;
 import io.swagger.annotations.Api;
@@ -46,6 +47,16 @@ public class ServiceController extends AbstractOrganizationController {
             @ApiIgnore UserEntity userEntity
     ) {
         return serviceScopeService.getServicesByCategoryAndFilter(searchPattern, category, pageable, userEntity);
+    }
+
+    @GetMapping(path = "/{organization-id}/services/{service-id}/languages",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<ServiceLanguageSummary> getServiceLanguages(
+            @PathVariable("organization-id") UUID organizationId,
+            @PathVariable("service-id") UUID serviceId,
+            @ApiIgnore UserEntity userEntity
+    ) {
+        return serviceScopeService.findServiceLanguages(organizationId, serviceId, userEntity);
     }
 
     @GetMapping(path = "/{organization-id}/services", produces = MediaType.APPLICATION_JSON_VALUE)

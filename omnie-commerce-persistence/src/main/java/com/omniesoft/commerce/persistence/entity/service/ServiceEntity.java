@@ -64,15 +64,6 @@ public class ServiceEntity {
     @Column(name = "reason")
     private String reason;
 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "service_language",
-            joinColumns = {@JoinColumn(name = "service_id", referencedColumnName = "uuid")},
-            inverseJoinColumns = {@JoinColumn(name = "language_id", referencedColumnName = "uuid")}
-    )
-    private List<LanguageEntity> languages;
-
-
     @OneToMany(mappedBy = "service", fetch = FetchType.LAZY)
     private List<SubServiceEntity> subServices;
 
@@ -116,6 +107,9 @@ public class ServiceEntity {
 
     @OneToMany(mappedBy = "id.service", cascade = CascadeType.REFRESH)
     private List<ServiceFavoriteEntity> favorites;
+
+    @OneToMany(mappedBy = "id.service", cascade = CascadeType.REFRESH)
+    private List<ServiceLanguageEntity> languages;
 
 
     @ManyToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
@@ -188,14 +182,6 @@ public class ServiceEntity {
 
     public void setGallery(List<ServiceGalleryEntity> gallery) {
         this.gallery = gallery;
-    }
-
-    public List<LanguageEntity> getLanguages() {
-        return languages;
-    }
-
-    public void setLanguages(List<LanguageEntity> languages) {
-        this.languages = languages;
     }
 
     public List<SubServiceEntity> getSubServices() {
@@ -314,5 +300,13 @@ public class ServiceEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, createTime);
+    }
+
+    public List<ServiceLanguageEntity> getLanguages() {
+        return languages;
+    }
+
+    public void setLanguages(List<ServiceLanguageEntity> languages) {
+        this.languages = languages;
     }
 }

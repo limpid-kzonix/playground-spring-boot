@@ -47,6 +47,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
                         "/swagger-resources/configuration/security",
                         "/account/signup**",
                         "/account/confirmation/**",
+                        "/account/email/change/**",
                         "/account/password/forgot/**"
                 ).permitAll()
                 .and()

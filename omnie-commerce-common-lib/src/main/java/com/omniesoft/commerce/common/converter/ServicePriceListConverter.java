@@ -11,15 +11,14 @@
 
 package com.omniesoft.commerce.common.converter;
 
-import com.omniesoft.commerce.common.payload.service.ServiceWithPricePayload;
+import com.omniesoft.commerce.common.payload.service.OrganizationPriceList;
 import com.omniesoft.commerce.persistence.entity.service.ServiceEntity;
 
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 public interface ServicePriceListConverter {
 
-    Map<UUID, List<ServiceWithPricePayload>> toPriceList(
+    List<OrganizationPriceList> toPriceList(
             List<ServiceEntity> serviceEntities);
+
 }

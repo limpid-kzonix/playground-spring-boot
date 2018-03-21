@@ -44,19 +44,9 @@ public class RateLimiterConfig {
         private String extractPrincipalName(HttpServletRequest request) {
             String header = request.getHeader(Headers.AUTHORIZATION.toString());
             if (header != null && !header.isEmpty() && header.length() > 6) {
-//                Map<String, String[]> parameterMap = request.getParameterMap();
-//                if (parameterMap != null) {
-//                    String[] usernames = parameterMap.get("grant_type");
-//                    String username = null;
-//                    if (usernames != null && usernames.length >= 1)
-//                        username = usernames[0];
-//                    if (username != null && !username.isEmpty() && username.equalsIgnoreCase("client_credentials")) {
-//                        return RandomStringUtils.randomAlphabetic(1);
-//                    }
-//                }
                 return defaultUser.concat(header.substring(6, header.length() > 15 ? 15 : header.length()));
             }
-            return "ANONYMOUS";
+            return "ANONYMOUS" + extractRemoteHost(request);
         }
 
         private String extractURI(HttpServletRequest request) {

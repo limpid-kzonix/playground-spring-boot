@@ -12,7 +12,9 @@ import java.util.UUID;
  * @since 15.07.17
  */
 @Transactional
-public interface UserEmailVerificationRepository extends CrudRepository<UserEmailVerificationEntity, UUID>, UserEmailVerificationRepositoryCustom {
+public interface UserEmailVerificationRepository extends CrudRepository<UserEmailVerificationEntity, UUID> {
+
+    UserEmailVerificationEntity findByToken(String token);
 
     void deleteByToken(String token);
 

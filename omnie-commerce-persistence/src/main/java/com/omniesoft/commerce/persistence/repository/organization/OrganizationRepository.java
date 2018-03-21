@@ -68,6 +68,7 @@ public interface OrganizationRepository extends PagingAndSortingRepository<Organ
             "       org.name," +
             "       org.email," +
             "       org.logoId," +
+            "       org.backgroundImageId," +
             "       org.freezeStatus," +
             "       org.createTime," +
             "       (case when :user in inUsers then true  else false end)," +
