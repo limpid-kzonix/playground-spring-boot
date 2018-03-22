@@ -54,6 +54,7 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final OrderPriceService orderPriceService;
+    //TODO add order story
     private final OrderStoryRepository orderStoryRepository;
     private final OrderConverter orderConverter;
     private final DiscountService discountService;

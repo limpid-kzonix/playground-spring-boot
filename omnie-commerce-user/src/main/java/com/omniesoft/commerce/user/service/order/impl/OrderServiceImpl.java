@@ -36,10 +36,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.omniesoft.commerce.persistence.entity.enums.OrderStatus.*;
@@ -138,7 +135,7 @@ public class OrderServiceImpl implements OrderService {
         if (builder.put(op)) {
             OrderEntity orderEntity = createOrderEntityWithoutPrices(order, user, CONFIRM_BY_ADMIN);
 
-            DiscountEntity discountForService = discountService.findMaxServiceDiscount(orderEntity);
+            Optional<DiscountEntity> discountForService = discountService.findMaxServiceDiscount(orderEntity);
             Map<UUID, DiscountEntity> subServicesDiscounts = discountService.findMaxSubServicesDiscounts(orderEntity);
             chooseAndValidateDiscount(orderEntity, discountForService, subServicesDiscounts, serviceTiming);
 
@@ -192,7 +189,7 @@ public class OrderServiceImpl implements OrderService {
         if (builder.put(op)) {
             OrderEntity orderEntity = createOrderEntityWithoutPrices(order, user, CONFIRM_BY_ADMIN);
 
-            DiscountEntity discountForService = discountService.findMaxServiceDiscount(orderEntity);
+            Optional<DiscountEntity> discountForService = discountService.findMaxServiceDiscount(orderEntity);
             Map<UUID, DiscountEntity> subServicesDiscounts = discountService.findMaxSubServicesDiscounts(orderEntity);
             chooseAndValidateDiscount(orderEntity, discountForService, subServicesDiscounts, serviceTiming);
 
@@ -290,23 +287,26 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findAllByUserIdAndStartBetween(userEntity.getId(), LocalDateTime.of(date, LocalTime.MIN), LocalDateTime.of(date, LocalTime.MAX), pageable);
     }
 
-    private void chooseAndValidateDiscount(OrderEntity order, DiscountEntity discount,
+    private void chooseAndValidateDiscount(OrderEntity order, Optional<DiscountEntity> discount,
                                            Map<UUID, DiscountEntity> subServicesDiscounts,
                                            ServiceTimingEntity serviceTiming) {
 
-        if (order.getDiscountPercent() < discount.getPercent()) {
-            order.setDiscount(discount);
-            order.setDiscountPercent(discount.getPercent());
+        if (discount.isPresent()) {
+            if (order.getDiscountPercent() < discount.get().getPercent()) {
+                order.setDiscount(discount.get());
+                order.setDiscountPercent(discount.get().getPercent());
+            }
+        } else {
+            order.setDiscountPercent(0D);
         }
 
         //validate discount limit
-        else {
-            if (order.getDiscountPercent() < 0 || order.getDiscountPercent() > serviceTiming.getMaxDiscount()) {
-                throw new UsefulException("Order discount " + order.getDiscountPercent() +
-                        " > max discount: " + serviceTiming.getMaxDiscount(),
-                        OwnerModuleErrorCodes.DISCOUNT_VIOLATION_LIMITS);
-            }
+        if (order.getDiscountPercent() < 0 || order.getDiscountPercent() > serviceTiming.getMaxDiscount()) {
+            throw new UsefulException("Order discount " + order.getDiscountPercent() +
+                    " > max discount: " + serviceTiming.getMaxDiscount(),
+                    OwnerModuleErrorCodes.DISCOUNT_VIOLATION_LIMITS);
         }
+
         if (order.getSubServices() != null) {
             for (OrderSubServicesEntity orderSubService : order.getSubServices()) {
 

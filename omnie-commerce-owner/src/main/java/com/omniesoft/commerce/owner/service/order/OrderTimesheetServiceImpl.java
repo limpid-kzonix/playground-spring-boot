@@ -44,7 +44,10 @@ public class OrderTimesheetServiceImpl implements OrderTimesheetService {
     private final OrderConverter orderConverter;
     private final OrderRepository orderRepository;
 
-    public Timesheet buildSingleDaySchedule(UUID serviceId, LocalDate scheduleDate, ServiceTimingEntity serviceTiming, Map<DayOfWeek, List<ScheduleSetting>> schedule) {
+    public Timesheet buildSingleDaySchedule(UUID serviceId,
+                                            LocalDate scheduleDate,
+                                            ServiceTimingEntity serviceTiming,
+                                            Map<DayOfWeek, List<ScheduleSetting>> schedule) {
 
         // set defaults, safe when serviceTiming == null
         LocalDateTime start = LocalDateTime.of(scheduleDate, LocalTime.of(0, 0));

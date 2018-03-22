@@ -6,7 +6,5 @@ package com.omniesoft.commerce.common.order;
  */
 public enum TimesheetPeriodType {
     ORDER,
-
     CLOSE;
-
 }

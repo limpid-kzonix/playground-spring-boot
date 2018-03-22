@@ -29,7 +29,6 @@
         <log4jdbc-spring-boot-starter.version>1.0.1</log4jdbc-spring-boot-starter.version>
         <rest-assured.version>2.9.0</rest-assured.version>
         <guava.version>23.6-jre</guava.version>
-        <commons-lang3.version>3.7</commons-lang3.version>
         <modelmapper-spring.version>1.1.2</modelmapper-spring.version>
         <spring-cloud-dependencies.version>Edgware.SR1</spring-cloud-dependencies.version>
         <spring-boot.version>1.5.10.RELEASE</spring-boot.version>
@@ -38,6 +37,8 @@
         <spring-cloud.version>Edgware.SR1</spring-cloud.version>
         <validation-api.version>2.0.1.Final</validation-api.version>
         <commons-text.version>1.2</commons-text.version>
+        <commons-lang3.version>3.7</commons-lang3.version>
+        <commons-collections4.version>4.1</commons-collections4.version>
 
         <spring-messaging.version>4.2.4.RELEASE</spring-messaging.version>
     </properties>
@@ -138,6 +139,11 @@
             <artifactId>commons-text</artifactId>
             <version>${commons-text.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+            <version>${commons-collections4.version}</version>
+        </dependency>
 
 
         <!--Swagger2-->
@@ -208,7 +214,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
+        <!--End Testing -->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -251,6 +257,7 @@
         <module>omnie-commerce-support</module>
         <module>omnie-commerce-owner</module>
         <module>omnie-commerce-user</module>
+        <module>omnie-commerce-persistence-docs</module>
 
     </modules>
 

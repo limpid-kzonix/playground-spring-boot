@@ -3,6 +3,7 @@ package com.omniesoft.commerce.user.controller.order.payload;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -34,6 +35,7 @@ public class SaveOrderDto {
 
     private String comment;
 
+    @Valid
     private List<SaveOrderSubServices> subServices;
 
     @ApiModelProperty(readOnly = true, example = "0.0")

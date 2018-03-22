@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.apache.commons.collections4.ListUtils.emptyIfNull;
+
 /**
  * @author Vitalii Martynovskyi
  * @since 22.11.17
@@ -82,13 +84,14 @@ public class OrderConverterImpl implements OrderConverter {
         price.setTotalPrice(orderEntity.getTotalPrice());
         price.setSubServices(new ArrayList<>());
 
-        for (OrderSubServicesEntity orderSubServicesEntity : orderEntity.getSubServices()) {
+        for (OrderSubServicesEntity orderSubServicesEntity : emptyIfNull(orderEntity.getSubServices())) {
             OrderSubServicePriceDto ssPrice = new OrderSubServicePriceDto();
 
             ssPrice.setSubServiceId(orderSubServicesEntity.getSubService().getId());
             ssPrice.setCount(orderSubServicesEntity.getCount());
             ssPrice.setDiscountPercent(orderSubServicesEntity.getDiscountPercent());
             ssPrice.setSubServicePrice(orderSubServicesEntity.getSubServicePrice());
+            price.getSubServices().add(ssPrice);
         }
         return price;
     }

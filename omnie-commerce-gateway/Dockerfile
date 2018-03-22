@@ -3,7 +3,7 @@ FROM openjdk:8-jre-alpine
 RUN apk add --no-cache curl
 
 ENV JAVA_OPTS="-server -Xmx1g" \
-    APP_OPTS="--spring.profiles.active=dev"
+APP_OPTS="--spring.profiles.active=dev"
 
 COPY target/omniecom-gateway.jar  app.jar
 COPY start.sh start.sh

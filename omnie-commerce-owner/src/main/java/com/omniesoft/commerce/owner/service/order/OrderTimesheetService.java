@@ -18,7 +18,6 @@ import java.util.UUID;
 public interface OrderTimesheetService {
     Timesheet buildSingleDaySchedule(UUID serviceId, LocalDate scheduleDate, ServiceTimingEntity serviceTiming, Map<DayOfWeek, List<ScheduleSetting>> schedule);
 
-    // put all orders
     void insertAllOrders(Timesheet timesheet, List<OrderEntity> orders);
 
     void insertAllOrdersWithoutRules(Timesheet timesheet, List<OrderEntity> orders);

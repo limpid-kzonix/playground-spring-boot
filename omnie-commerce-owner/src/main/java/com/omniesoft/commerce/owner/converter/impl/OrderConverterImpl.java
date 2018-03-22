@@ -8,11 +8,12 @@ import com.omniesoft.commerce.owner.service.order.SubServiceEntityAdapter;
 import com.omniesoft.commerce.persistence.entity.order.OrderEntity;
 import com.omniesoft.commerce.persistence.entity.order.OrderSubServicesEntity;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Vitalii Martynovskyi
@@ -22,29 +23,25 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderConverterImpl implements OrderConverter {
 
-    private final ModelMapper mapper;
-
     @Override
     public List<OrderSubService> transformOrderSubServices(List<OrderSubServicesEntity> subServices) {
-
-        List<OrderSubService> result = new ArrayList<>();
         if (subServices != null) {
-            for (OrderSubServicesEntity subService : subServices) {
-                result.add(new SubServiceEntityAdapter(subService));
-            }
+            return subServices.stream()
+                    .map(SubServiceEntityAdapter::new)
+                    .collect(Collectors.toCollection(ArrayList::new));
         }
-        return result;
+        return Collections.emptyList();
     }
 
     @Override
     public List<OrderSubService> transformSaveOrderSubServices(List<SaveOrderSubServices> subServices) {
-        List<OrderSubService> result = new ArrayList<>();
         if (subServices != null) {
-            for (SaveOrderSubServices subService : subServices) {
-                result.add(new SaveSubServiceAdapter(subService));
-            }
+            return subServices.stream()
+                    .map(SaveSubServiceAdapter::new)
+                    .collect(Collectors.toCollection(ArrayList::new));
+
         }
-        return result;
+        return Collections.emptyList();
     }
 
     @Override

@@ -4,7 +4,7 @@
 # [ Server Configuration Attributes ]
 #
 server:
-  port: 9010 # 901x -902x
+  port: 9010
   context-path: /api
 
 jwt:

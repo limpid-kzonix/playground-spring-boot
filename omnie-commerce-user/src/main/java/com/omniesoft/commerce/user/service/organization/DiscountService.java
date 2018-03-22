@@ -19,6 +19,7 @@ import com.omniesoft.commerce.user.controller.organization.payload.OrganizationD
 import com.omniesoft.commerce.user.controller.organization.payload.ServiceDiscountPayload;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface DiscountService {
@@ -27,9 +28,9 @@ public interface DiscountService {
 
     ServiceDiscountPayload findServiceDiscounts(UUID organizationId, UUID serviceId, UserEntity userEntity);
 
-    DiscountEntity findMaxServiceDiscount(OrderEntity orderEntity);
+    Optional<DiscountEntity> findMaxServiceDiscount(OrderEntity orderEntity);
 
-    DiscountEntity findMaxSubServiceDiscount(OrderSubServicesEntity subService, OrderEntity orderEntity);
+    Optional<DiscountEntity> findMaxSubServiceDiscount(OrderSubServicesEntity subService, OrderEntity orderEntity);
 
     Map<UUID, DiscountEntity> findMaxSubServicesDiscounts(OrderEntity orderEntity);
 

@@ -72,7 +72,7 @@ public class DiscountServiceImpl implements DiscountService {
     }
 
     @Override
-    public DiscountEntity findMaxServiceDiscount(OrderEntity orderEntity) {
+    public Optional<DiscountEntity> findMaxServiceDiscount(OrderEntity orderEntity) {
         List<DiscountEntity> discounts = discountRepository
                 .findNotPersonalByServiceAndActiveDate(orderEntity.getService().getId(), orderEntity.getStart());
 
@@ -90,18 +90,17 @@ public class DiscountServiceImpl implements DiscountService {
         }
 
         if (discounts == null || discounts.isEmpty()) {
-            return null;
+            return Optional.empty();
         }
 
         return discounts
                 .stream()
-                .max(Comparator.comparing(DiscountEntity::getPercent))
-                .get();
+                .max(Comparator.comparing(DiscountEntity::getPercent));
 
     }
 
     @Override
-    public DiscountEntity findMaxSubServiceDiscount(OrderSubServicesEntity subService, OrderEntity orderEntity) {
+    public Optional<DiscountEntity> findMaxSubServiceDiscount(OrderSubServicesEntity subService, OrderEntity orderEntity) {
 
         List<DiscountEntity> discounts = discountRepository
                 .findNotPersonalBySubServiceAndActiveDate(subService.getId(), orderEntity.getStart());
@@ -120,13 +119,12 @@ public class DiscountServiceImpl implements DiscountService {
         }
 
         if (discounts == null || discounts.isEmpty()) {
-            return null;
+            return Optional.empty();
         }
 
         return discounts
                 .stream()
-                .max(Comparator.comparing(DiscountEntity::getPercent))
-                .get();
+                .max(Comparator.comparing(DiscountEntity::getPercent));
     }
 
     @Override
@@ -137,10 +135,8 @@ public class DiscountServiceImpl implements DiscountService {
         if (orderEntity != null && orderEntity.getSubServices() != null) {
             for (OrderSubServicesEntity subService : orderEntity.getSubServices()) {
 
-                DiscountEntity subServiceDiscount = findMaxSubServiceDiscount(subService, orderEntity);
-                if (subServiceDiscount != null) {
-                    result.put(subService.getId(), subServiceDiscount);
-                }
+                Optional<DiscountEntity> subServiceDiscount = findMaxSubServiceDiscount(subService, orderEntity);
+                subServiceDiscount.ifPresent(discountEntity -> result.put(subService.getId(), discountEntity));
             }
         }
 
