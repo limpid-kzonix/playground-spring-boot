@@ -24,9 +24,9 @@ import com.omniesoft.commerce.mail.service.AccountMailService;
 import com.omniesoft.commerce.mail.service.MailService;
 import com.omniesoft.commerce.mail.service.impl.AccountMailServiceImpl;
 import com.omniesoft.commerce.mail.service.impl.MailServiceImpl;
-import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -46,10 +46,10 @@ import java.util.concurrent.Executor;
 @Configuration
 @Import(MailConfiguration.class)
 @ComponentScan({"com.omniesoft.commerce.common.component.order"})
-@RequiredArgsConstructor
 public class BeanDefinitionConfig {
 
-    private final TokenRestTemplate tokenRestTemplate;
+    @Autowired
+    private TokenRestTemplate tokenRestTemplate;
 
 
     @Order(Ordered.HIGHEST_PRECEDENCE)
