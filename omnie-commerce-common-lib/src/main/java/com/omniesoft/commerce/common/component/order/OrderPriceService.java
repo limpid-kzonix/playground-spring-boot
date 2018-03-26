@@ -1,4 +1,4 @@
-package com.omniesoft.commerce.user.service.order;
+package com.omniesoft.commerce.common.component.order;
 
 import com.omniesoft.commerce.common.order.Timesheet;
 import com.omniesoft.commerce.persistence.entity.order.OrderEntity;

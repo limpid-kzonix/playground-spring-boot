@@ -1,4 +1,4 @@
-package com.omniesoft.commerce.owner.controller.order.payload;
+package com.omniesoft.commerce.common.component.order.dto.price;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,10 +17,6 @@ public class OrderSubServicePriceDto {
     private Integer count;
 
     private Double discountPercent;
-
-    private Double subServicePrice;
-
-    private Double subServiceExpense;
 
     private Double totalPrice;
 }

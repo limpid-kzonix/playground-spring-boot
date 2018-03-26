@@ -1,4 +1,4 @@
-package com.omniesoft.commerce.user.controller.order.payload;
+package com.omniesoft.commerce.common.component.order.dto.order;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,7 +13,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderSubServicesDetailsDto {
+public class OrderSubServicesDto {
     private UUID id;
     private UUID subServiceId;
     private Integer count;

@@ -1,4 +1,4 @@
-package com.omniesoft.commerce.owner.service.order;
+package com.omniesoft.commerce.common.component.order;
 
 import com.omniesoft.commerce.common.order.Timesheet;
 import com.omniesoft.commerce.common.order.schedule.ScheduleSetting;
@@ -18,7 +18,9 @@ import java.util.UUID;
 public interface OrderTimesheetService {
     Timesheet buildSingleDaySchedule(UUID serviceId, LocalDate scheduleDate, ServiceTimingEntity serviceTiming, Map<DayOfWeek, List<ScheduleSetting>> schedule);
 
-    void insertAllOrders(Timesheet timesheet, List<OrderEntity> orders);
+    void insertAllOrdersWithDetails(Timesheet timesheet, List<OrderEntity> orders);
+
+    void insertAllOrdersNoDetails(Timesheet timesheet, List<OrderEntity> orders);
 
     void insertAllOrdersWithoutRules(Timesheet timesheet, List<OrderEntity> orders);
 }

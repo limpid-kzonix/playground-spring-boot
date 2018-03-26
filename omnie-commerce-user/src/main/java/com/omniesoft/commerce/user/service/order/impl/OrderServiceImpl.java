@@ -1,5 +1,12 @@
 package com.omniesoft.commerce.user.service.order.impl;
 
+import com.omniesoft.commerce.common.component.order.OrderConverter;
+import com.omniesoft.commerce.common.component.order.OrderPriceService;
+import com.omniesoft.commerce.common.component.order.OrderTimesheetService;
+import com.omniesoft.commerce.common.component.order.dto.SaveOrderDto;
+import com.omniesoft.commerce.common.component.order.dto.SaveOrderSubServices;
+import com.omniesoft.commerce.common.component.order.dto.order.AbstractOrderDto;
+import com.omniesoft.commerce.common.component.order.dto.price.OrderPriceDto;
 import com.omniesoft.commerce.common.converter.ServicePriceConverter;
 import com.omniesoft.commerce.common.handler.exception.custom.UsefulException;
 import com.omniesoft.commerce.common.handler.exception.custom.enums.OwnerModuleErrorCodes;
@@ -18,14 +25,7 @@ import com.omniesoft.commerce.persistence.entity.service.SubServicePriceEntity;
 import com.omniesoft.commerce.persistence.projection.order.OrderUserSummary;
 import com.omniesoft.commerce.persistence.repository.order.OrderRepository;
 import com.omniesoft.commerce.persistence.repository.service.*;
-import com.omniesoft.commerce.user.controller.order.payload.OrderDetailsDto;
-import com.omniesoft.commerce.user.controller.order.payload.OrderPriceDto;
-import com.omniesoft.commerce.user.controller.order.payload.SaveOrderDto;
-import com.omniesoft.commerce.user.controller.order.payload.SaveOrderSubServices;
-import com.omniesoft.commerce.user.service.order.OrderConverter;
-import com.omniesoft.commerce.user.service.order.OrderPriceService;
 import com.omniesoft.commerce.user.service.order.OrderService;
-import com.omniesoft.commerce.user.service.order.OrderTimesheetService;
 import com.omniesoft.commerce.user.service.organization.DiscountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -91,7 +91,7 @@ public class OrderServiceImpl implements OrderService {
                 timesheet.getEnd(),
                 serviceId);
 
-        timesheetService.insertAllOrders(timesheet, orders);
+        timesheetService.insertAllOrdersNoDetails(timesheet, orders);
         return timesheet;
     }
 
@@ -119,7 +119,7 @@ public class OrderServiceImpl implements OrderService {
                 timesheet.getEnd(),
                 order.getServiceId());
 
-        timesheetService.insertAllOrders(timesheet, orders);
+        timesheetService.insertAllOrdersNoDetails(timesheet, orders);
 
         TimesheetBuilder builder = new SingleDayTimesheetBuilder(timesheet);
 
@@ -133,7 +133,7 @@ public class OrderServiceImpl implements OrderService {
         );
 
         if (builder.put(op)) {
-            OrderEntity orderEntity = createOrderEntityWithoutPrices(order, user, CONFIRM_BY_ADMIN);
+            OrderEntity orderEntity = createOrderEntityWithoutPrices(order, user, PENDING_FOR_ADMIN);
 
             Optional<DiscountEntity> discountForService = discountService.findMaxServiceDiscount(orderEntity);
             Map<UUID, DiscountEntity> subServicesDiscounts = discountService.findMaxSubServicesDiscounts(orderEntity);
@@ -173,7 +173,7 @@ public class OrderServiceImpl implements OrderService {
                 timesheet.getEnd(),
                 order.getServiceId());
 
-        timesheetService.insertAllOrders(timesheet, orders);
+        timesheetService.insertAllOrdersNoDetails(timesheet, orders);
 
         TimesheetBuilder builder = new SingleDayTimesheetBuilder(timesheet);
 
@@ -195,7 +195,7 @@ public class OrderServiceImpl implements OrderService {
 
             orderPriceService.calculatePrice(orderEntity, timesheet);
 
-            return orderConverter.transformEntityToPriceDto(orderEntity);
+            return orderConverter.mapToPriceDto(orderEntity);
 
         } else {
             throw new UsefulException(OwnerModuleErrorCodes.ORDER_TIMESHEET_CONFLICT);
@@ -203,11 +203,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderDetailsDto getOrderDetails(UUID serviceId, UUID orderId) {
+    public AbstractOrderDto getOrderDetails(UUID serviceId, UUID orderId) {
 
         OrderEntity orderEntity = orderRepository.findByIdAndServiceId(orderId, serviceId);
 
-        return orderConverter.transformToOrderDetails(orderEntity);
+        return orderConverter.mapToOrderDto(orderEntity);
     }
 
     @Override
@@ -237,7 +237,7 @@ public class OrderServiceImpl implements OrderService {
                 timesheet.getEnd(),
                 orderEntity.getService().getId());
 
-        timesheetService.insertAllOrders(timesheet, orders);
+        timesheetService.insertAllOrdersNoDetails(timesheet, orders);
 
         TimesheetBuilder builder = new SingleDayTimesheetBuilder(timesheet);
 
@@ -278,8 +278,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<LocalDate> fetchDateWithOrdersByStartDateAndEndDateAndUser(LocalDate startDate, LocalDate endDate, UserEntity userEntity) {
         List<LocalDateTime> allDayDateWithOrders = orderRepository.findAllDayDateWithOrders(userEntity.getId(), startDate, endDate);
-        List<LocalDate> collect = allDayDateWithOrders.stream().map(localDateTime -> localDateTime.toLocalDate()).distinct().collect(Collectors.toList());
-        return collect;
+        return allDayDateWithOrders.stream().map(localDateTime -> localDateTime.toLocalDate()).distinct().collect(Collectors.toList());
     }
 
     @Override

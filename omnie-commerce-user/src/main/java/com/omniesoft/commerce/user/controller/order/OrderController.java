@@ -1,13 +1,13 @@
 package com.omniesoft.commerce.user.controller.order;
 
+import com.omniesoft.commerce.common.component.order.dto.SaveOrderDto;
+import com.omniesoft.commerce.common.component.order.dto.order.AbstractOrderDto;
+import com.omniesoft.commerce.common.component.order.dto.price.OrderPriceDto;
 import com.omniesoft.commerce.common.order.Timesheet;
 import com.omniesoft.commerce.common.request.PageableRequest;
 import com.omniesoft.commerce.common.responce.ResponseMessage;
 import com.omniesoft.commerce.persistence.entity.account.UserEntity;
 import com.omniesoft.commerce.persistence.projection.order.OrderUserSummary;
-import com.omniesoft.commerce.user.controller.order.payload.OrderDetailsDto;
-import com.omniesoft.commerce.user.controller.order.payload.OrderPriceDto;
-import com.omniesoft.commerce.user.controller.order.payload.SaveOrderDto;
 import com.omniesoft.commerce.user.service.order.OrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
@@ -76,9 +76,9 @@ public class OrderController {
 
 
     @GetMapping(path = "services/{service-id}/orders/{order-id}", produces = APPLICATION_JSON_VALUE)
-    public OrderDetailsDto getOrderDetails(@PathVariable("service-id") UUID serviceId,
-                                           @PathVariable("order-id") UUID orderId,
-                                           @ApiIgnore UserEntity user) {
+    public AbstractOrderDto getOrderDetails(@PathVariable("service-id") UUID serviceId,
+                                            @PathVariable("order-id") UUID orderId,
+                                            @ApiIgnore UserEntity user) {
 
         return orderService.getOrderDetails(serviceId, orderId);
 

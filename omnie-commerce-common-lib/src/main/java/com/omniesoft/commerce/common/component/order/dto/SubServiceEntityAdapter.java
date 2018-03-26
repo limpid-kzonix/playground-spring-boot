@@ -1,4 +1,4 @@
-package com.omniesoft.commerce.user.service.order.impl;
+package com.omniesoft.commerce.common.component.order.dto;
 
 import com.omniesoft.commerce.common.order.OrderSubService;
 import com.omniesoft.commerce.persistence.entity.order.OrderSubServicesEntity;
@@ -35,19 +35,19 @@ public class SubServiceEntityAdapter implements OrderSubService {
         return orderSubService.getDiscountPercent();
     }
 
-    @Override
-    public Double getSubServicePrice() {
-        return orderSubService.getSubServicePrice();
-    }
-
-    @Override
-    public Double getSubServiceExpense() {
-        return orderSubService.getSubServiceExpense();
-    }
-
-    @Override
-    public Double getTotalPrice() {
-        return orderSubService.getTotalPrice();
-    }
+//    @Override
+//    public Double getSubServicePrice() {
+//        return orderSubService.getSubServicePrice();
+//    }
+//
+//    @Override
+//    public Double getSubServiceExpense() {
+//        return orderSubService.getSubServiceExpense();
+//    }
+//
+//    @Override
+//    public Double getTotalPrice() {
+//        return orderSubService.getTotalPrice();
+//    }
 }
 

@@ -1,9 +1,9 @@
 package com.omniesoft.commerce.owner.service.order;
 
+import com.omniesoft.commerce.common.component.order.dto.SaveOrderDto;
+import com.omniesoft.commerce.common.component.order.dto.order.OrderWithPricesDto;
+import com.omniesoft.commerce.common.component.order.dto.price.OrderFullPriceDto;
 import com.omniesoft.commerce.common.order.Timesheet;
-import com.omniesoft.commerce.owner.controller.order.payload.OrderDetailsDto;
-import com.omniesoft.commerce.owner.controller.order.payload.OrderPriceDto;
-import com.omniesoft.commerce.owner.controller.order.payload.SaveOrderDto;
 import com.omniesoft.commerce.persistence.entity.account.UserEntity;
 
 import java.time.LocalDate;
@@ -30,9 +30,9 @@ public interface OrderService {
 
     void failOrder(UUID serviceId, UUID orderId, UserEntity admin);
 
-    OrderDetailsDto getOrderDetails(UUID serviceId, UUID orderId);
+    OrderWithPricesDto getOrderDetails(UUID serviceId, UUID orderId);
 
-    OrderPriceDto orderPrice(SaveOrderDto order, UserEntity admin);
+    OrderFullPriceDto orderPrice(SaveOrderDto order, UserEntity admin);
 
 }
 

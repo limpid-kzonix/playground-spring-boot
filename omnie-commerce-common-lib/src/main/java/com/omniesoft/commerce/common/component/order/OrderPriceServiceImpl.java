@@ -1,4 +1,4 @@
-package com.omniesoft.commerce.owner.service.order;
+package com.omniesoft.commerce.common.component.order;
 
 import com.omniesoft.commerce.common.order.Timesheet;
 import com.omniesoft.commerce.common.order.schedule.ScheduleSetting;
@@ -10,7 +10,7 @@ import com.omniesoft.commerce.persistence.repository.service.SubServicePriceRepo
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -21,7 +21,7 @@ import java.util.List;
  * @author Vitalii Martynovskyi
  * @since 19.12.17
  */
-@Service
+@Component
 @RequiredArgsConstructor
 public class OrderPriceServiceImpl implements OrderPriceService {
 

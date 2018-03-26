@@ -15,10 +15,10 @@ public interface OrderSubService {
 
     Double getDiscountPercent();
 
-    Double getSubServicePrice();
-
-    Double getSubServiceExpense();
-
-    Double getTotalPrice();
+//    Double getSubServicePrice();
+//
+//    Double getSubServiceExpense();
+//
+//    Double getTotalPrice();
 
 }

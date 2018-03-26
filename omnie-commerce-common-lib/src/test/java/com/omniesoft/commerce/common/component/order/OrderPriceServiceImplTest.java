@@ -1,17 +1,17 @@
-package com.omniesoft.commerce.owner.service.order;
+package com.omniesoft.commerce.common.component.order;
 
 import com.omniesoft.commerce.common.order.Timesheet;
 import com.omniesoft.commerce.common.order.schedule.ScheduleSetting;
 import com.omniesoft.commerce.persistence.entity.enums.PriceUnit;
 import com.omniesoft.commerce.persistence.entity.order.OrderEntity;
 import com.omniesoft.commerce.persistence.repository.service.SubServicePriceRepository;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.time.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -39,9 +39,9 @@ public class OrderPriceServiceImplTest {
                 splitOrderOnPricePeriods(order, timesheet);
 
 
-        assertEquals(1, pricePeriods.size());
+        Assert.assertEquals(1, pricePeriods.size());
 
-        assertEquals(Duration.between(order.getStart(), order.getEnd()),
+        Assert.assertEquals(Duration.between(order.getStart(), order.getEnd()),
                 fullDuration(pricePeriods));
 
     }
@@ -61,9 +61,9 @@ public class OrderPriceServiceImplTest {
                 splitOrderOnPricePeriods(order, timesheet);
 
 
-        assertEquals(1, pricePeriods.size());
+        Assert.assertEquals(1, pricePeriods.size());
 
-        assertEquals(Duration.between(order.getStart(), order.getEnd()),
+        Assert.assertEquals(Duration.between(order.getStart(), order.getEnd()),
                 fullDuration(pricePeriods));
 
     }
@@ -83,9 +83,9 @@ public class OrderPriceServiceImplTest {
                 splitOrderOnPricePeriods(order, timesheet);
 
 
-        assertEquals(1, pricePeriods.size());
+        Assert.assertEquals(1, pricePeriods.size());
 
-        assertEquals(Duration.between(order.getStart(), order.getEnd()),
+        Assert.assertEquals(Duration.between(order.getStart(), order.getEnd()),
                 fullDuration(pricePeriods));
 
     }
@@ -105,9 +105,9 @@ public class OrderPriceServiceImplTest {
                 splitOrderOnPricePeriods(order, timesheet);
 
 
-        assertEquals(1, pricePeriods.size());
+        Assert.assertEquals(1, pricePeriods.size());
 
-        assertEquals(Duration.between(order.getStart(), order.getEnd()),
+        Assert.assertEquals(Duration.between(order.getStart(), order.getEnd()),
                 fullDuration(pricePeriods));
 
     }
@@ -128,9 +128,9 @@ public class OrderPriceServiceImplTest {
                 splitOrderOnPricePeriods(order, timesheet);
 
 
-        assertEquals(2, pricePeriods.size());
+        Assert.assertEquals(2, pricePeriods.size());
 
-        assertEquals(Duration.between(order.getStart(), order.getEnd()),
+        Assert.assertEquals(Duration.between(order.getStart(), order.getEnd()),
                 fullDuration(pricePeriods));
 
     }
@@ -150,9 +150,9 @@ public class OrderPriceServiceImplTest {
                 splitOrderOnPricePeriods(order, timesheet);
 
 
-        assertEquals(1, pricePeriods.size());
+        Assert.assertEquals(1, pricePeriods.size());
 
-        assertEquals(Duration.between(order.getStart(), order.getEnd()),
+        Assert.assertEquals(Duration.between(order.getStart(), order.getEnd()),
                 fullDuration(pricePeriods));
 
     }
@@ -172,9 +172,9 @@ public class OrderPriceServiceImplTest {
                 splitOrderOnPricePeriods(order, timesheet);
 
 
-        assertEquals(1, pricePeriods.size());
+        Assert.assertEquals(1, pricePeriods.size());
 
-        assertEquals(Duration.between(order.getStart(), order.getEnd()),
+        Assert.assertEquals(Duration.between(order.getStart(), order.getEnd()),
                 fullDuration(pricePeriods));
 
     }
@@ -194,9 +194,9 @@ public class OrderPriceServiceImplTest {
                 splitOrderOnPricePeriods(order, timesheet);
 
 
-        assertEquals(2, pricePeriods.size());
+        Assert.assertEquals(2, pricePeriods.size());
 
-        assertEquals(Duration.between(order.getStart(), order.getEnd()),
+        Assert.assertEquals(Duration.between(order.getStart(), order.getEnd()),
                 fullDuration(pricePeriods));
 
     }
@@ -216,9 +216,9 @@ public class OrderPriceServiceImplTest {
                 splitOrderOnPricePeriods(order, timesheet);
 
 
-        assertEquals(1, pricePeriods.size());
+        Assert.assertEquals(1, pricePeriods.size());
 
-        assertEquals(Duration.between(order.getStart(), order.getEnd()),
+        Assert.assertEquals(Duration.between(order.getStart(), order.getEnd()),
                 fullDuration(pricePeriods));
 
     }
@@ -239,9 +239,9 @@ public class OrderPriceServiceImplTest {
                 splitOrderOnPricePeriods(order, timesheet);
 
 
-        assertEquals(1, pricePeriods.size());
+        Assert.assertEquals(1, pricePeriods.size());
 
-        assertEquals(Duration.between(order.getStart(), order.getEnd()),
+        Assert.assertEquals(Duration.between(order.getStart(), order.getEnd()),
                 fullDuration(pricePeriods));
 
     }
@@ -261,9 +261,9 @@ public class OrderPriceServiceImplTest {
                 splitOrderOnPricePeriods(order, timesheet);
 
 
-        assertEquals(3, pricePeriods.size());
+        Assert.assertEquals(3, pricePeriods.size());
 
-        assertEquals(Duration.between(order.getStart(), order.getEnd()),
+        Assert.assertEquals(Duration.between(order.getStart(), order.getEnd()),
                 fullDuration(pricePeriods));
 
     }

@@ -1,11 +1,11 @@
 package com.omniesoft.commerce.user.service.order;
 
+import com.omniesoft.commerce.common.component.order.dto.SaveOrderDto;
+import com.omniesoft.commerce.common.component.order.dto.order.AbstractOrderDto;
+import com.omniesoft.commerce.common.component.order.dto.price.OrderPriceDto;
 import com.omniesoft.commerce.common.order.Timesheet;
 import com.omniesoft.commerce.persistence.entity.account.UserEntity;
 import com.omniesoft.commerce.persistence.projection.order.OrderUserSummary;
-import com.omniesoft.commerce.user.controller.order.payload.OrderDetailsDto;
-import com.omniesoft.commerce.user.controller.order.payload.OrderPriceDto;
-import com.omniesoft.commerce.user.controller.order.payload.SaveOrderDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -24,7 +24,7 @@ public interface OrderService {
 
     OrderPriceDto orderPrice(SaveOrderDto order, UserEntity user);
 
-    OrderDetailsDto getOrderDetails(UUID serviceId, UUID orderId);
+    AbstractOrderDto getOrderDetails(UUID serviceId, UUID orderId);
 
     void confirmOrder(UUID serviceId, UUID orderId, UserEntity user);
 

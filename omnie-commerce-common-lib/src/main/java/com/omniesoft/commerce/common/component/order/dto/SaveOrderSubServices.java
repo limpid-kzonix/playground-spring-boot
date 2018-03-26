@@ -1,11 +1,12 @@
-package com.omniesoft.commerce.owner.controller.order.payload;
+package com.omniesoft.commerce.common.component.order.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Max;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
@@ -24,8 +25,6 @@ public class SaveOrderSubServices {
     @Min(1)
     private int count;
 
-
-    @NotNull
     @Min(0)
     private Long duration = 0L;
 
@@ -35,8 +34,8 @@ public class SaveOrderSubServices {
 
     @ApiModelProperty(required = true)
     @NotNull
-    @Min(0)
-    @Max(100)
+    @DecimalMin("0.0")
+    @DecimalMax("100.0")
     private Double discountPercent;
 
     @ApiModelProperty(dataType = "UUID")

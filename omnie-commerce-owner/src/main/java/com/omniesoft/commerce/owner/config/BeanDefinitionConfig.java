@@ -15,10 +15,11 @@ import com.omniesoft.commerce.common.ws.notification.NotificationRestTemplate;
 import com.omniesoft.commerce.common.ws.notification.impl.admin.AdminServiceNotificationRestTemplateImpl;
 import com.omniesoft.commerce.common.ws.statistic.impl.AdminStatisticRestTemplate;
 import com.omniesoft.commerce.common.ws.statistic.impl.admin.AdminStatisticRestTemplateImpl;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -30,13 +31,13 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import java.util.concurrent.Executor;
 
 @Configuration
+@ComponentScan({"com.omniesoft.commerce.common.component.order"})
+@RequiredArgsConstructor
 public class BeanDefinitionConfig {
 
-    @Autowired
-    private TokenRestTemplate tokenRestTemplate;
+    private final TokenRestTemplate tokenRestTemplate;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
 
     @Bean
     public MethodValidationPostProcessor methodValidationPostProcessor() {

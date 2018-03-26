@@ -1,9 +1,11 @@
-package com.omniesoft.commerce.user.controller.order.payload;
+package com.omniesoft.commerce.common.component.order.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.Valid;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -38,10 +40,13 @@ public class SaveOrderDto {
     @Valid
     private List<SaveOrderSubServices> subServices;
 
-    @ApiModelProperty(readOnly = true, example = "0.0")
+    @ApiModelProperty(required = true, example = "0.0")
+    @NotNull
+    @DecimalMin("0.0")
+    @DecimalMax("100.0")
     private Double discountPercent;
 
-    @ApiModelProperty(readOnly = true, dataType = "UUID")
+    @ApiModelProperty(dataType = "UUID")
     private UUID discountId;
 }
 

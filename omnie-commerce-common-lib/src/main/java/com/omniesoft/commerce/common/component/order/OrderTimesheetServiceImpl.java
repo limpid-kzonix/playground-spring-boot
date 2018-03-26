@@ -1,6 +1,5 @@
-package com.omniesoft.commerce.owner.service.order;
+package com.omniesoft.commerce.common.component.order;
 
-import com.omniesoft.commerce.common.converter.ServicePriceConverter;
 import com.omniesoft.commerce.common.handler.exception.custom.UsefulException;
 import com.omniesoft.commerce.common.handler.exception.custom.enums.OwnerModuleErrorCodes;
 import com.omniesoft.commerce.common.order.Timesheet;
@@ -9,16 +8,11 @@ import com.omniesoft.commerce.common.order.schedule.SingleDayScheduleBuilder;
 import com.omniesoft.commerce.common.order.timesheet.OrderPeriod;
 import com.omniesoft.commerce.common.order.timesheet.SingleDayTimesheetBuilder;
 import com.omniesoft.commerce.common.order.timesheet.TimesheetBuilder;
-import com.omniesoft.commerce.owner.converter.OrderConverter;
 import com.omniesoft.commerce.persistence.entity.order.OrderEntity;
 import com.omniesoft.commerce.persistence.entity.service.ServiceTimingEntity;
-import com.omniesoft.commerce.persistence.repository.order.OrderRepository;
-import com.omniesoft.commerce.persistence.repository.service.ServicePriceRepository;
-import com.omniesoft.commerce.persistence.repository.service.ServiceTimingRepository;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -32,17 +26,11 @@ import java.util.UUID;
  * @author Vitalii Martynovskyi
  * @since 21.11.17
  */
-@Service
+@Component
 @RequiredArgsConstructor
+@Slf4j
 public class OrderTimesheetServiceImpl implements OrderTimesheetService {
-
-    private final Logger log = LoggerFactory.getLogger(OrderServiceImpl.class);
-
-    private final ServiceTimingRepository serviceTimingRepository;
-    private final ServicePriceRepository servicePriceRepository;
-    private final ServicePriceConverter servicePriceConverter;
     private final OrderConverter orderConverter;
-    private final OrderRepository orderRepository;
 
     public Timesheet buildSingleDaySchedule(UUID serviceId,
                                             LocalDate scheduleDate,
@@ -81,7 +69,26 @@ public class OrderTimesheetServiceImpl implements OrderTimesheetService {
     }
 
     @Override
-    public void insertAllOrders(Timesheet timesheet, List<OrderEntity> orders) {
+    public void insertAllOrdersNoDetails(Timesheet timesheet, List<OrderEntity> orders) {
+
+        TimesheetBuilder timesheetBuilder = new SingleDayTimesheetBuilder(timesheet);
+
+        for (OrderEntity order : orders) {
+            OrderPeriod op = timesheetBuilder.orderPeriod(order.getStart(),
+                    order.getEnd(),
+                    null,
+                    null,
+                    null,
+                    null,
+                    orderConverter.transformOrderSubServices(order.getSubServices()));
+
+            timesheetBuilder.put(op);
+
+        }
+    }
+
+    @Override
+    public void insertAllOrdersWithDetails(Timesheet timesheet, List<OrderEntity> orders) {
 
         TimesheetBuilder timesheetBuilder = new SingleDayTimesheetBuilder(timesheet);
 

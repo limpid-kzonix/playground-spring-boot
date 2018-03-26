@@ -1,7 +1,6 @@
-package com.omniesoft.commerce.user.service.order.impl;
+package com.omniesoft.commerce.common.component.order.dto;
 
 import com.omniesoft.commerce.common.order.OrderSubService;
-import com.omniesoft.commerce.user.controller.order.payload.SaveOrderSubServices;
 import lombok.RequiredArgsConstructor;
 
 import java.util.UUID;
@@ -35,19 +34,19 @@ public class SaveSubServiceAdapter implements OrderSubService {
         return subService.getDiscountPercent();
     }
 
-    @Override
-    public Double getSubServicePrice() {
-        return null;
-    }
-
-    @Override
-    public Double getSubServiceExpense() {
-        return null;
-    }
-
-    @Override
-    public Double getTotalPrice() {
-        return null;
-    }
+//    @Override
+//    public Double getSubServicePrice() {
+//        return null;
+//    }
+//
+//    @Override
+//    public Double getSubServiceExpense() {
+//        return null;
+//    }
+//
+//    @Override
+//    public Double getTotalPrice() {
+//        return null;
+//    }
 }
 

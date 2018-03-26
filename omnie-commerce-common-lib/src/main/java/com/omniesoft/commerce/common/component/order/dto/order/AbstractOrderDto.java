@@ -1,4 +1,4 @@
-package com.omniesoft.commerce.owner.controller.order.payload;
+package com.omniesoft.commerce.common.component.order.dto.order;
 
 import com.omniesoft.commerce.persistence.entity.enums.OrderStatus;
 import lombok.AllArgsConstructor;
@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -16,7 +15,7 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderDetailsDto {
+public abstract class AbstractOrderDto {
     private UUID id;
 
     private Integer number;
@@ -35,19 +34,8 @@ public class OrderDetailsDto {
 
     private Double discountPercent;
 
-    private Double servicePrice;
-
-    private Double serviceExpense;
-
     private Double totalPrice;
 
     private LocalDateTime createTime;
 
-    private LocalDateTime updateTime;
-
-    private List<OrderSubServicesDetailsDto> subServices;
-
-//    private UserEntity user;
-//    private UserEntity doneBy;
-//    private UserEntity updateBy;
 }

@@ -1,11 +1,11 @@
 package com.omniesoft.commerce.owner.controller.order;
 
+import com.omniesoft.commerce.common.component.order.dto.SaveOrderDto;
+import com.omniesoft.commerce.common.component.order.dto.order.OrderWithPricesDto;
+import com.omniesoft.commerce.common.component.order.dto.price.OrderFullPriceDto;
 import com.omniesoft.commerce.common.order.Timesheet;
 import com.omniesoft.commerce.common.responce.ResponseMessage;
 import com.omniesoft.commerce.owner.controller.AbstractServiceController;
-import com.omniesoft.commerce.owner.controller.order.payload.OrderDetailsDto;
-import com.omniesoft.commerce.owner.controller.order.payload.OrderPriceDto;
-import com.omniesoft.commerce.owner.controller.order.payload.SaveOrderDto;
 import com.omniesoft.commerce.owner.service.order.OrderService;
 import com.omniesoft.commerce.owner.service.organization.OwnerAccessControlService;
 import com.omniesoft.commerce.persistence.entity.account.UserEntity;
@@ -78,9 +78,9 @@ public class OrderController extends AbstractServiceController {
     }
 
     @PostMapping(path = "{service-id}/order-price", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public OrderPriceDto orderPrice(@PathVariable("service-id") UUID serviceId,
-                                    @RequestBody @Valid SaveOrderDto order,
-                                    @ApiIgnore UserEntity user) {
+    public OrderFullPriceDto orderPrice(@PathVariable("service-id") UUID serviceId,
+                                        @RequestBody @Valid SaveOrderDto order,
+                                        @ApiIgnore UserEntity user) {
 
         accessControl.hasPermissionByServiceId(user, serviceId, TIMESHEET_MANAGEMENT);
         order.setServiceId(serviceId);
@@ -102,9 +102,9 @@ public class OrderController extends AbstractServiceController {
     }
 
     @GetMapping(path = "{service-id}/order/{order-id}", produces = APPLICATION_JSON_VALUE)
-    public OrderDetailsDto getOrderDetails(@PathVariable("service-id") UUID serviceId,
-                                           @PathVariable("order-id") UUID orderId,
-                                           @ApiIgnore UserEntity user) {
+    public OrderWithPricesDto getOrderDetails(@PathVariable("service-id") UUID serviceId,
+                                              @PathVariable("order-id") UUID orderId,
+                                              @ApiIgnore UserEntity user) {
 
         accessControl.hasPermissionByServiceId(user, serviceId, TIMESHEET_MANAGEMENT);
 
