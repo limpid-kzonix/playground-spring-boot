@@ -50,10 +50,6 @@
         <appender-ref ref="FILE"/>
     </logger>
 
-    <logger name="com.omniesoft" level="DEBUG" additivity="false">
-        <appender-ref ref="FILE-DEBUG"/>
-    </logger>
-
     <logger name="org.springframework" level="WARN" additivity="false">
         <appender-ref ref="FILE"/>
     </logger>
@@ -70,8 +66,12 @@
         <appender-ref ref="FILE"/>
     </logger>
 
-    <logger name="jdbc.resultsettable" level="INFO" additivity="false">
-        <appender-ref ref="FILE"/>
+    <logger name="ROOT" level="WARN" additivity="false">
+        <appender-ref ref="FILE-DEBUG"/>
+    </logger>
+
+    <logger name="com.omniesoft" level="DEBUG" additivity="false">
+        <appender-ref ref="FILE-DEBUG"/>
     </logger>
 
 </configuration>
