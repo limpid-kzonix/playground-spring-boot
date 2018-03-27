@@ -61,7 +61,7 @@ public class OrganizationRepositoryImpl implements OrganizationRepositoryCustom 
                 "   left    join            org.inUsersFavorites inUsers " +
                 "where " +
                 " org.id = :organization " +
-                " and inUsers =:user or inUsers is null " +
+                " and (inUsers =:user or inUsers is null) " +
                 "group by" +
                 "       org.id," +
                 "       inUsers.id," +
