@@ -1,5 +1,6 @@
 package com.omniesoft.commerce.common.component.order;
 
+import com.omniesoft.commerce.common.component.order.dto.SaveFullOrderSubServices;
 import com.omniesoft.commerce.common.component.order.dto.SaveOrderSubServices;
 import com.omniesoft.commerce.common.component.order.dto.order.OrderDto;
 import com.omniesoft.commerce.common.component.order.dto.order.OrderWithPricesDto;
@@ -19,6 +20,8 @@ public interface OrderConverter {
     List<OrderSubService> transformOrderSubServices(List<OrderSubServicesEntity> subServices);
 
     List<OrderSubService> transformSaveOrderSubServices(List<SaveOrderSubServices> subServices);
+
+    List<OrderSubService> mapSaveFullOrderSubServices(List<SaveFullOrderSubServices> subServices);
 
     OrderDto mapToOrderDto(OrderEntity orderEntity);
 

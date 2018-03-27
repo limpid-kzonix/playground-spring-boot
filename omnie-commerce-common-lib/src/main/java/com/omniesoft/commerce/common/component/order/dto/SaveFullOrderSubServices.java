@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.UUID;
@@ -16,7 +18,7 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SaveOrderSubServices {
+public class SaveFullOrderSubServices {
 
     @ApiModelProperty(required = true)
     @NotNull
@@ -30,13 +32,13 @@ public class SaveOrderSubServices {
     @NotNull
     private UUID subServiceId;
 
-    //    @ApiModelProperty(required = true)
-//    @NotNull
-//    @DecimalMin("0.0")
-//    @DecimalMax("100.0")
+    @ApiModelProperty(required = true)
+    @NotNull
+    @DecimalMin("0.0")
+    @DecimalMax("100.0")
     private Double discountPercent;
-//
-//    @ApiModelProperty(dataType = "UUID")
-//    private UUID discountId;
+
+    @ApiModelProperty(dataType = "UUID")
+    private UUID discountId;
 
 }

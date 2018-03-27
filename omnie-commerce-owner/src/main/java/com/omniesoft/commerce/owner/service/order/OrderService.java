@@ -1,6 +1,6 @@
 package com.omniesoft.commerce.owner.service.order;
 
-import com.omniesoft.commerce.common.component.order.dto.SaveOrderDto;
+import com.omniesoft.commerce.common.component.order.dto.SaveFullOrderDto;
 import com.omniesoft.commerce.common.component.order.dto.order.OrderWithPricesDto;
 import com.omniesoft.commerce.common.component.order.dto.price.OrderFullPriceDto;
 import com.omniesoft.commerce.common.order.Timesheet;
@@ -14,13 +14,13 @@ import java.util.UUID;
  * @since 20.11.17
  */
 public interface OrderService {
-    UUID makeOrder(SaveOrderDto order, UserEntity admin);
+    UUID makeOrder(SaveFullOrderDto order, UserEntity admin);
 
     Timesheet createTimesheetForAdministrator(UUID serviceId, LocalDate date);
 
     Timesheet createHorizontalTimesheetForAdministrator(UUID serviceId, LocalDate date);
 
-    void editOrder(UUID orderId, SaveOrderDto order, UserEntity admin);
+    void editOrder(UUID orderId, SaveFullOrderDto order, UserEntity admin);
 
     void cancelOrder(UUID serviceId, UUID orderId, UserEntity admin);
 
@@ -32,7 +32,7 @@ public interface OrderService {
 
     OrderWithPricesDto getOrderDetails(UUID serviceId, UUID orderId);
 
-    OrderFullPriceDto orderPrice(SaveOrderDto order, UserEntity admin);
+    OrderFullPriceDto orderPrice(SaveFullOrderDto order, UserEntity admin);
 
 }
 

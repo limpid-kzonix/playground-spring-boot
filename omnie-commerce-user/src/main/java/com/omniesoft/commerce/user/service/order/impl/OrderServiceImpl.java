@@ -342,7 +342,8 @@ public class OrderServiceImpl implements OrderService {
         OrderEntity orderEntity = new OrderEntity();
         orderEntity.setStart(order.getStart());
         orderEntity.setEnd(order.getEnd());
-        orderEntity.setDiscountPercent(order.getDiscountPercent());
+        // TODO: 27.03.18 test for user
+//        orderEntity.setDiscountPercent(order.getDiscountPercent());
         orderEntity.setStatus(status);
         orderEntity.setComment(order.getComment());
 

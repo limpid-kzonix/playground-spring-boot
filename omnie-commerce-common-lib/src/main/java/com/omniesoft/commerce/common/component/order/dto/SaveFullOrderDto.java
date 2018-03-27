@@ -4,6 +4,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.Valid;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,7 +16,7 @@ import java.util.UUID;
  * @since 21.11.17
  */
 @Data
-public class SaveOrderDto {
+public class SaveFullOrderDto {
     @ApiModelProperty(required = true, example = "2017-12-01T10:00")
     @NotNull
     private LocalDateTime start;
@@ -36,15 +38,15 @@ public class SaveOrderDto {
     private String comment;
 
     @Valid
-    private List<SaveOrderSubServices> subServices;
+    private List<SaveFullOrderSubServices> subServices;
 
-//    @ApiModelProperty(required = true, example = "0.0")
-//    @NotNull
-//    @DecimalMin("0.0")
-//    @DecimalMax("100.0")
-//    private Double discountPercent;
-//
-//    @ApiModelProperty(dataType = "UUID")
-//    private UUID discountId;
+    @ApiModelProperty(required = true, example = "0.0")
+    @NotNull
+    @DecimalMin("0.0")
+    @DecimalMax("100.0")
+    private Double discountPercent;
+
+    @ApiModelProperty(dataType = "UUID")
+    private UUID discountId;
 }
 

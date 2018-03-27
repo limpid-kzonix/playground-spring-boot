@@ -1,8 +1,6 @@
 package com.omniesoft.commerce.common.component.order;
 
-import com.omniesoft.commerce.common.component.order.dto.SaveOrderSubServices;
-import com.omniesoft.commerce.common.component.order.dto.SaveSubServiceAdapter;
-import com.omniesoft.commerce.common.component.order.dto.SubServiceEntityAdapter;
+import com.omniesoft.commerce.common.component.order.dto.*;
 import com.omniesoft.commerce.common.component.order.dto.order.OrderDto;
 import com.omniesoft.commerce.common.component.order.dto.order.OrderSubServicesDto;
 import com.omniesoft.commerce.common.component.order.dto.order.OrderSubServicesWithPricesDto;
@@ -47,6 +45,16 @@ public class OrderConverterImpl implements OrderConverter {
         if (subServices != null) {
             return subServices.stream()
                     .map(SaveSubServiceAdapter::new)
+                    .collect(Collectors.toCollection(ArrayList::new));
+        }
+        return Collections.emptyList();
+    }
+
+    @Override
+    public List<OrderSubService> mapSaveFullOrderSubServices(List<SaveFullOrderSubServices> subServices) {
+        if (subServices != null) {
+            return subServices.stream()
+                    .map(SaveFullSubServiceAdapter::new)
                     .collect(Collectors.toCollection(ArrayList::new));
         }
         return Collections.emptyList();

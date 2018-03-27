@@ -3,8 +3,8 @@ package com.omniesoft.commerce.owner.service.order;
 import com.omniesoft.commerce.common.component.order.OrderConverter;
 import com.omniesoft.commerce.common.component.order.OrderPriceService;
 import com.omniesoft.commerce.common.component.order.OrderTimesheetService;
-import com.omniesoft.commerce.common.component.order.dto.SaveOrderDto;
-import com.omniesoft.commerce.common.component.order.dto.SaveOrderSubServices;
+import com.omniesoft.commerce.common.component.order.dto.SaveFullOrderDto;
+import com.omniesoft.commerce.common.component.order.dto.SaveFullOrderSubServices;
 import com.omniesoft.commerce.common.component.order.dto.order.OrderWithPricesDto;
 import com.omniesoft.commerce.common.component.order.dto.price.OrderFullPriceDto;
 import com.omniesoft.commerce.common.converter.ServicePriceConverter;
@@ -113,7 +113,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void editOrder(UUID orderId, SaveOrderDto order, UserEntity admin) {
+    public void editOrder(UUID orderId, SaveFullOrderDto order, UserEntity admin) {
         LocalDateTime start = LocalDateTime.of(order.getStart().toLocalDate(), LocalTime.of(0, 0));
 
         ServiceTimingEntity serviceTiming = serviceTimingRepository.findByServiceId(order.getServiceId(), start);
@@ -148,7 +148,7 @@ public class OrderServiceImpl implements OrderService {
                 null,
                 order.getCustomerId(),
                 order.getCustomerName(),
-                orderConverter.transformSaveOrderSubServices(order.getSubServices())
+                orderConverter.mapSaveFullOrderSubServices(order.getSubServices())
         );
 
         if (builder.put(op)) {
@@ -176,7 +176,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public UUID makeOrder(SaveOrderDto order, UserEntity admin) {
+    public UUID makeOrder(SaveFullOrderDto order, UserEntity admin) {
 
         LocalDateTime start = LocalDateTime.of(order.getStart().toLocalDate(), LocalTime.of(0, 0));
 
@@ -209,7 +209,7 @@ public class OrderServiceImpl implements OrderService {
                 null,
                 order.getCustomerId(),
                 order.getCustomerName(),
-                orderConverter.transformSaveOrderSubServices(order.getSubServices())
+                orderConverter.mapSaveFullOrderSubServices(order.getSubServices())
         );
 
         if (builder.put(op)) {
@@ -228,7 +228,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderFullPriceDto orderPrice(SaveOrderDto order, UserEntity admin) {
+    public OrderFullPriceDto orderPrice(SaveFullOrderDto order, UserEntity admin) {
 
         LocalDateTime start = LocalDateTime.of(order.getStart().toLocalDate(), LocalTime.of(0, 0));
 
@@ -261,7 +261,7 @@ public class OrderServiceImpl implements OrderService {
                 null,
                 order.getCustomerId(),
                 order.getCustomerName(),
-                orderConverter.transformSaveOrderSubServices(order.getSubServices())
+                orderConverter.mapSaveFullOrderSubServices(order.getSubServices())
         );
 
         if (builder.put(op)) {
@@ -320,7 +320,7 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-    private OrderEntity createOrderEntityWithoutPrices(SaveOrderDto order, UserEntity admin, OrderStatus status) {
+    private OrderEntity createOrderEntityWithoutPrices(SaveFullOrderDto order, UserEntity admin, OrderStatus status) {
 
         OrderEntity orderEntity = new OrderEntity();
         orderEntity.setStart(order.getStart());
@@ -349,7 +349,7 @@ public class OrderServiceImpl implements OrderService {
         return orderEntity;
     }
 
-    private List<OrderSubServicesEntity> createOrderSubServiceEntitiesWithoutPrices(SaveOrderDto order, OrderEntity
+    private List<OrderSubServicesEntity> createOrderSubServiceEntitiesWithoutPrices(SaveFullOrderDto order, OrderEntity
             orderEntity) {
 
         if (order == null || order.getSubServices() == null || order.getSubServices().isEmpty()) {
@@ -358,7 +358,7 @@ public class OrderServiceImpl implements OrderService {
 
         List<OrderSubServicesEntity> result = new ArrayList<>();
 
-        for (SaveOrderSubServices orderSubService : order.getSubServices()) {
+        for (SaveFullOrderSubServices orderSubService : order.getSubServices()) {
             OrderSubServicesEntity orderSubServiceEntity = new OrderSubServicesEntity();
             orderSubServiceEntity.setSubService(
                     subServiceRepository.findByIdAndServiceId(orderSubService.getSubServiceId(), order.getServiceId())

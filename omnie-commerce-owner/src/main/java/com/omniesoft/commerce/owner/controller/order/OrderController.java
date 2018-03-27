@@ -1,6 +1,6 @@
 package com.omniesoft.commerce.owner.controller.order;
 
-import com.omniesoft.commerce.common.component.order.dto.SaveOrderDto;
+import com.omniesoft.commerce.common.component.order.dto.SaveFullOrderDto;
 import com.omniesoft.commerce.common.component.order.dto.order.OrderWithPricesDto;
 import com.omniesoft.commerce.common.component.order.dto.price.OrderFullPriceDto;
 import com.omniesoft.commerce.common.order.Timesheet;
@@ -68,7 +68,7 @@ public class OrderController extends AbstractServiceController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "{service-id}/timesheet", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public ResponseMessage.Created makeOrder(@PathVariable("service-id") UUID serviceId,
-                                             @RequestBody @Valid SaveOrderDto order,
+                                             @RequestBody @Valid SaveFullOrderDto order,
                                              @ApiIgnore UserEntity user) {
 
         accessControl.hasPermissionByServiceId(user, serviceId, TIMESHEET_MANAGEMENT);
@@ -79,7 +79,7 @@ public class OrderController extends AbstractServiceController {
 
     @PostMapping(path = "{service-id}/order-price", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public OrderFullPriceDto orderPrice(@PathVariable("service-id") UUID serviceId,
-                                        @RequestBody @Valid SaveOrderDto order,
+                                        @RequestBody @Valid SaveFullOrderDto order,
                                         @ApiIgnore UserEntity user) {
 
         accessControl.hasPermissionByServiceId(user, serviceId, TIMESHEET_MANAGEMENT);
@@ -92,7 +92,7 @@ public class OrderController extends AbstractServiceController {
     @PutMapping(path = "{service-id}/order/{order-id}", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public void editOrder(@PathVariable("service-id") UUID serviceId,
                           @PathVariable("order-id") UUID orderId,
-                          @RequestBody @Valid SaveOrderDto order,
+                          @RequestBody @Valid SaveFullOrderDto order,
                           @ApiIgnore UserEntity user) {
 
         accessControl.hasPermissionByServiceId(user, serviceId, TIMESHEET_MANAGEMENT);
