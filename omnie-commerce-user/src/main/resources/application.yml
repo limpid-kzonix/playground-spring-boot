@@ -153,17 +153,6 @@ security:
       jwt:
         keyUri: http://omnie-gateway:9999/omnie-security/api/oauth/token_key
 
-
-#
-# [ Logging Configuration Attributes ]
-#
-log4jdbc:
-  trim:
-    sql: false
-  dump:
-    sql:
-      maxlinelength: 120
-      select: false
 #
 # [ Logging Configuration Attributes ]
 #

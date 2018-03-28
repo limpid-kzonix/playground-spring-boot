@@ -38,35 +38,35 @@ public class OrganizationRepositoryImpl implements OrganizationRepositoryCustom 
     @Override
     @Transactional
     public OrganizationRowExtendDto findWithUserOrganizationInfo(UUID organizationId, UserEntity userEntity) {
-        return em.createQuery("" +
+        return em.createQuery(
                 "select " +
-                "   new com.omniesoft.commerce.persistence.dto.organization.OrganizationRowExtendDto(" +
-                "       org.id," +
-                "       org.name," +
-                "       org.email," +
-                "       org.logoId," +
-                "       org.freezeStatus," +
-                "       org.createTime," +
-                "       (case when :user in inUsers then true  else false end)," +
-                "       coalesce( mark.rating, 0), " +
-                "       org.title, " +
-                "       org.description," +
-                "       org.reason," +
-                "       org.placeId," +
-                "       org.longitude," +
-                "       org.latitude" +
-                "   )" +
-                "from OrganizationEntity org " +
-                "   left    join            org.mark mark" +
-                "   left    join            org.inUsersFavorites inUsers " +
-                "where " +
-                " org.id = :organization " +
-                " and (inUsers =:user or inUsers is null) " +
-                "group by" +
-                "       org.id," +
-                "       inUsers.id," +
-                "       mark.rating " +
-                "", OrganizationRowExtendDto.class)
+                        "   new com.omniesoft.commerce.persistence.dto.organization.OrganizationRowExtendDto(" +
+                        "       org.id," +
+                        "       org.name," +
+                        "       org.email," +
+                        "       org.logoId," +
+                        "       org.freezeStatus," +
+                        "       org.createTime," +
+                        "       (case when :user in inUsers then true  else false end)," +
+                        "       coalesce( mark.rating, 0), " +
+                        "       org.title, " +
+                        "       org.description," +
+                        "       org.reason," +
+                        "       org.placeId," +
+                        "       org.longitude," +
+                        "       org.latitude" +
+                        "   )" +
+                        "from OrganizationEntity org " +
+                        "   left    join            org.mark mark" +
+                        "   left    join            org.inUsersFavorites inUsers " +
+                        "where " +
+                        " org.id = :organization " +
+                        " and (inUsers =:user or inUsers is null) " +
+                        "group by" +
+                        "       org.id," +
+                        "       inUsers.id," +
+                        "       mark.rating ",
+                OrganizationRowExtendDto.class)
                 .setParameter("organization", organizationId)
                 .setParameter("user", userEntity)
                 .getSingleResult();
