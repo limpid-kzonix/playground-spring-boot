@@ -13,15 +13,15 @@ spring:
     name: omnie-user
   jpa:
     generate-ddl: false
-    show-sql: false
+    show-sql: true
     database: postgresql
     hibernate:
-      ddl-auto: validate
+      ddl-auto: none
       naming:
         strategy: org.hibernate.cfg.ImprovedNamingStrategy
     properties:
       hibernate:
-        format_sql: false
+        format_sql: true
   datasource:
     platform: POSTGRESQL
     driver-class-name: org.postgresql.Driver
@@ -135,6 +135,17 @@ service:
 ###
 spring:
     profiles: dev
+    jpa:
+      generate-ddl: false
+      show-sql: false
+      database: postgresql
+      hibernate:
+        ddl-auto: validate
+        naming:
+          strategy: org.hibernate.cfg.ImprovedNamingStrategy
+      properties:
+        hibernate:
+          format_sql: false
     datasource:
       url: jdbc:postgresql://db:5432/omnie_commerce
 

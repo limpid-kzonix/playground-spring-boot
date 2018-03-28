@@ -47,7 +47,11 @@ public class OrganizationRepositoryImpl implements OrganizationRepositoryCustom 
                         "       org.logoId," +
                         "       org.freezeStatus," +
                         "       org.createTime," +
-                        "       (case when :user in inUsers then true  else false end)," +
+                        "       (case when (select u.id " +
+                        "                       from UserEntity u " +
+                        "                       join u.favoriteOrganizations fo " +
+                        "                       where u =:user and fo.id = :organization)" +
+                        " is not null then true else false end)," +
                         "       coalesce( mark.rating, 0), " +
                         "       org.title, " +
                         "       org.description," +
@@ -56,15 +60,12 @@ public class OrganizationRepositoryImpl implements OrganizationRepositoryCustom 
                         "       org.longitude," +
                         "       org.latitude" +
                         "   )" +
-                        "from OrganizationEntity org " +
+                        " from OrganizationEntity org " +
                         "   left    join            org.mark mark" +
-                        "   left    join            org.inUsersFavorites inUsers " +
-                        "where " +
+                        " where " +
                         " org.id = :organization " +
-                        " and (inUsers =:user or inUsers is null) " +
                         "group by" +
                         "       org.id," +
-                        "       inUsers.id," +
                         "       mark.rating ",
                 OrganizationRowExtendDto.class)
                 .setParameter("organization", organizationId)
