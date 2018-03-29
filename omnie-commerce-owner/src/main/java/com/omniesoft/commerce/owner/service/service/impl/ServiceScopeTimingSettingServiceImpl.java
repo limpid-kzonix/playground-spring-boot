@@ -20,6 +20,7 @@ import java.util.UUID;
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class ServiceScopeTimingSettingServiceImpl implements ServiceScopeTimingSettingService {
 
     private final ServiceTimingRepository serviceTimingRepository;
@@ -28,15 +29,17 @@ public class ServiceScopeTimingSettingServiceImpl implements ServiceScopeTimingS
     private final OrderRepository orderRepository;
 
     @Override
-    @Transactional
-    public ServiceTimingPayload setServiceTimingSetting(ServiceTimingPayload payload, UUID org, UUID service,
+    public ServiceTimingPayload setServiceTimingSetting(ServiceTimingPayload payload,
+                                                        UUID org,
+                                                        UUID service,
                                                         UserEntity userEntity) {
 
         ServiceEntity serviceEntity = serviceRepository.findOne(service);
 
         LocalDateTime lastDateOfOrderForService = orderRepository.findLastDateOfOrderForService(service);
-        ServiceTimingEntity serviceTimingEntity = serviceTimingRepository
-                .findByServiceId(service, LocalDateTime.now());
+
+        ServiceTimingEntity serviceTimingEntity = serviceTimingRepository.findByServiceId(service, LocalDateTime.now());
+
         if (isUpdatable(serviceTimingEntity, lastDateOfOrderForService)) {
             serviceTimingEntity = prepareServiceTiming(payload, serviceTimingEntity, lastDateOfOrderForService);
         } else {
@@ -48,9 +51,10 @@ public class ServiceScopeTimingSettingServiceImpl implements ServiceScopeTimingS
     }
 
     private boolean isUpdatable(ServiceTimingEntity serviceTimingEntity, LocalDateTime availableDate) {
-        return serviceTimingEntity != null && serviceTimingEntity.getActiveFrom() != null && serviceTimingEntity
-                .getActiveFrom()
-                .equals(availableDate);
+        return serviceTimingEntity != null
+                && serviceTimingEntity.getActiveFrom() != null
+                && (serviceTimingEntity.getActiveFrom().isAfter(availableDate)
+                || serviceTimingEntity.getActiveFrom().isEqual(availableDate));
     }
 
     @Override
@@ -64,12 +68,12 @@ public class ServiceScopeTimingSettingServiceImpl implements ServiceScopeTimingS
     }
 
     private ServiceTimingPayload map(ServiceTimingEntity byServiceId) {
-
         return modelMapper.map(byServiceId, ServiceTimingPayload.class);
     }
 
-    private ServiceTimingEntity prepareServiceTiming(ServiceTimingPayload payload, ServiceTimingEntity
-            serviceTimingEntity, LocalDateTime activeFrom) {
+    private ServiceTimingEntity prepareServiceTiming(ServiceTimingPayload payload,
+                                                     ServiceTimingEntity serviceTimingEntity,
+                                                     LocalDateTime activeFrom) {
         serviceTimingEntity.setMaxDiscount(payload.getMaxDiscount());
         serviceTimingEntity.setSlotCount(payload.getSlotCount());
         serviceTimingEntity.setPauseMillis(payload.getPauseMillis());

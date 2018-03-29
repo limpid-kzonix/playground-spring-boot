@@ -10,6 +10,7 @@ import java.util.UUID;
 
 public interface ServiceTimingRepository extends CrudRepository<ServiceTimingEntity, UUID> {
 
+    // TODO: 28.03.18
     @Query("select" +
             "   sts " +
             "from ServiceTimingEntity sts " +

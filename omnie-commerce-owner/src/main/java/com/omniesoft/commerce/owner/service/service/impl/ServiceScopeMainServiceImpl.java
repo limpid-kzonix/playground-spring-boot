@@ -38,6 +38,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class ServiceScopeMainServiceImpl implements ServiceScopeMainService {
 
     private final ServiceRepository serviceRepository;
@@ -58,7 +59,6 @@ public class ServiceScopeMainServiceImpl implements ServiceScopeMainService {
 
 
     @Override
-    @Transactional
     public ServicePayload save(ServicePayload servicePayload, UUID org, UserEntity userEntity) {
 
         OrganizationEntity organizationEntity = getOrganizationEntity(org);
@@ -170,7 +170,7 @@ public class ServiceScopeMainServiceImpl implements ServiceScopeMainService {
                     ServiceLanguageEntity serviceLanguageEntity = new ServiceLanguageEntity();
                     serviceLanguageEntity.setId(new ServiceLanguageKey(languageEntity, serviceEntity));
                     return serviceLanguageEntity;
-                } ).collect(Collectors.toList());
+                }).collect(Collectors.toList());
     }
 
     private List<SubCategoryEntity> mapSubCategories(List<UUID> categories) {
@@ -194,7 +194,6 @@ public class ServiceScopeMainServiceImpl implements ServiceScopeMainService {
     }
 
     @Override
-    @org.springframework.transaction.annotation.Transactional
     public List<ServiceLanguageSummary> saveServiceLanguages(List<LanguagePayload> languagePayloads, UUID service, UUID org,
                                                              UserEntity userEntity) {
 
