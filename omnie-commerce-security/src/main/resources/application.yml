@@ -150,11 +150,32 @@ service:
       password: EuReKaPasSs
 
 ---
-### Profile: test
+### Profile: prod
 spring:
-  profiles: test
+  profiles: prod
   datasource:
-    username: postgres
-    password: WrMlCyebTMF7frgT
+    url: jdbc:postgresql://omnie-prod:5432/omnie_commerce
+
+#
+# [ Logging Configuration Attributes ]
+#
+logging:
+  config: classpath:logger-to-file.xml
+
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    securePortEnabled: false
+    prefer-ip-address: true
+  client:
+    healthcheck:
+      enabled: true
+
+service:
+  discovery:
+    host: omnie-discovery
+    client:
+      user: eureka-client
+      password: EuReKaPasSs
 
 

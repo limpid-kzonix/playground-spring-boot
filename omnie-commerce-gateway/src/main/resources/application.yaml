@@ -133,6 +133,34 @@ eureka:
     healthcheck:
       enabled: true
 
+---
+###
+### Profile: prod
+###
+spring:
+  profiles: prod
+  redis:
+    host: omnie-prod
+    port: 6379
+
+logging:
+  config: classpath:logger-to-file.xml
+
+service:
+  discovery:
+    host: omnie-discovery
+    client:
+      user: eureka-client
+      password: EuReKaPasSs
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    securePortEnabled: false
+    prefer-ip-address: true
+  client:
+    healthcheck:
+      enabled: true
+
 
 
 

@@ -161,3 +161,52 @@ service:
       user: eureka-client
       password: EuReKaPasSs
 
+---
+###
+### Profile: prod
+###
+spring:
+    profiles: prod
+    data:
+      mongodb:
+        uri: mongodb://omnie-prod:27017
+
+#
+# [ Security Configuration Attributes ]
+#
+security:
+  oauth2:
+    client:
+      clientId: web-client
+      clientSecret: secret
+      accessTokenUri: http://omnie-prod:9999/omnie-security/api/oauth/check_token
+      userAuthorizationUri: http://omnie-prod:9999/omnie-security/api/oauth/authorize
+    resource:
+      filter-order: 3
+      jwt:
+        keyUri: http://omnie-prod:9999/omnie-security/api/oauth/token_key
+
+
+#
+# [ Logging Configuration Attributes ]
+#
+
+logging:
+  config: classpath:logger-to-file.xml
+
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    securePortEnabled: false
+    prefer-ip-address: true
+  client:
+    healthcheck:
+      enabled: true
+
+service:
+  discovery:
+    host: omnie-discovery
+    client:
+      user: eureka-client
+      password: EuReKaPasSs
+
