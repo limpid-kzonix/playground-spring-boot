@@ -39,9 +39,9 @@ import static javax.persistence.CascadeType.REFRESH;
 public class UserEntity {
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "uuid", unique = true, nullable = false)
     @GenericGenerator(name = "uuid", strategy = "uuid2")
+    @GeneratedValue(generator = "uuid")
+    @Column(name = "uuid", unique = true, nullable = false)
     @Type(type = "pg-uuid")
     private UUID id;
 
