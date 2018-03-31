@@ -90,8 +90,8 @@ logging:
     org.springframework.cache: debug
     org.hibernate: info
     org.apache: info
-    jdbc: warn
-    jdbc.resultsettable: info
+#    jdbc: warn
+#    jdbc.resultsettable: info
 
 
 #
