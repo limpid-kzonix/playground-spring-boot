@@ -5,7 +5,7 @@ RUN apk add --no-cache curl
 COPY target/omniecom-security.jar  app.jar
 COPY start.sh start.sh
 
-ENV JAVA_OPTS="-server -Xmx1g" \
+ENV JAVA_OPTS="-server -Xmx1g -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap" \
     APP_OPTS="--spring.profiles.active=dev"
 
 
