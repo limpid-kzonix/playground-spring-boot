@@ -62,6 +62,10 @@
         <appender-ref ref="FILE"/>
     </logger>
 
+    <logger name="jdbc.resultsettable" level="WARN" additivity="false">
+        <appender-ref ref="FILE"/>
+    </logger>
+
     <logger name="ROOT" level="WARN" additivity="false">
         <appender-ref ref="FILE-DEBUG"/>
     </logger>
