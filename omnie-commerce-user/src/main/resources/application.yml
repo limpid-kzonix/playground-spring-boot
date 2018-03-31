@@ -170,6 +170,8 @@ security:
 
 logging:
   config: classpath:logger-to-file.xml
+  level:
+    jdbc:warn
 
 #
 # [ Rest Templates ]
