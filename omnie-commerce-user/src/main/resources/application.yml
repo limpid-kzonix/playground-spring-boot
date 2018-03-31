@@ -87,8 +87,8 @@ logging:
     org.springframework: info
     org.hibernate: info
     org.apache: info
-    jdbc: warn
-    jdbc.resultsettable: info
+#    jdbc: warn
+#    jdbc.resultsettable: info
 
 
 #
@@ -171,7 +171,7 @@ security:
 logging:
   config: classpath:logger-to-file.xml
   level:
-    jdbc:warn
+    jdbc: warn
 
 #
 # [ Rest Templates ]
