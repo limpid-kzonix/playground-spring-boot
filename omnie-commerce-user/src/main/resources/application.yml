@@ -168,14 +168,6 @@ security:
 # [ Logging Configuration Attributes ]
 #
 
-log4jdbc:
-  trim:
-    sql: false
-  dump:
-    sql:
-      maxlinelength: 90
-      select: false
-
 logging:
   config: classpath:logger-to-file.xml
 
