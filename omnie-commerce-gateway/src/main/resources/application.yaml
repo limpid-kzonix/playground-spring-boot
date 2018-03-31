@@ -140,7 +140,7 @@ eureka:
 spring:
   profiles: prod
   redis:
-    host: omnie-prod
+    host: redis
     port: 6379
 
 logging:

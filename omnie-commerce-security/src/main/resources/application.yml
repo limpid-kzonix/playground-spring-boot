@@ -154,7 +154,7 @@ service:
 spring:
   profiles: prod
   datasource:
-    url: jdbc:postgresql://omnie-prod:5432/omnie_commerce
+    url: jdbc:postgresql://postgres:5432/omnie_commerce
 
 #
 # [ Logging Configuration Attributes ]

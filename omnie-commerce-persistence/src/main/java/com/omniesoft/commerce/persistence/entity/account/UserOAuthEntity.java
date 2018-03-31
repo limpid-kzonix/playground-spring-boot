@@ -17,7 +17,7 @@ public class UserOAuthEntity {
 
     @Id
     @GenericGenerator(name = "uuid", strategy = "uuid2")
-    @GeneratedValue(generator = "uuid")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "uuid")
     @Type(type = "pg-uuid")
     private UUID id;

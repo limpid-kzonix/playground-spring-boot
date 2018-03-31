@@ -38,8 +38,6 @@ logging:
 ### Profile: dev
 ###
 
-
-
 spring:
   profiles: dev
 eureka:

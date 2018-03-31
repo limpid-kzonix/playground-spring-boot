@@ -152,10 +152,10 @@ service:
 spring:
     profiles: prod
     datasource:
-      url: jdbc:postgresql://omnie-prod:5432/omnie_commerce
+      url: jdbc:postgresql://postgres:5432/omnie_commerce
     data:
       mongodb:
-        uri: mongodb://omnie-prod:27017
+        uri: mongodb://mongo:27017
 
 #
 # [ Security Configuration Attributes ]
@@ -165,12 +165,12 @@ security:
     client:
       clientId: web-client
       clientSecret: secret
-      accessTokenUri: http://omnie-prod9999/omnie-security/api/oauth/check_token
-      userAuthorizationUri: http://omnie-prod:9999/omnie-security/api/oauth/authorize
+      accessTokenUri: http://omnie-gateway:9999/omnie-security/api/oauth/check_token
+      userAuthorizationUri: http://omnie-gateway:9999/omnie-security/api/oauth/authorize
     resource:
       filter-order: 3
       jwt:
-        keyUri: http://omnie-prod:9999/omnie-security/api/oauth/token_key
+        keyUri: http://omnie-gateway:9999/omnie-security/api/oauth/token_key
 
 
 #

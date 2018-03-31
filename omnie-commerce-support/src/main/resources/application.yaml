@@ -196,7 +196,7 @@ service:
 spring:
     profiles: prod
     datasource:
-      url: jdbc:postgresql://omnie-prod:5432/omnie_commerce
+      url: jdbc:postgresql://postgres:5432/omnie_commerce
     jpa:
       show-sql: false
 
@@ -210,7 +210,7 @@ security:
       clientSecret: secret
     resource:
       jwt:
-        keyUri: http://omnie-prod:9999/omnie-security/api/oauth/token_key
+        keyUri: http://omnie-gateway:9999/omnie-security/api/oauth/token_key
 
 
 #
@@ -226,16 +226,16 @@ communication:
   services:
     token-service:
       api:
-        baseUrl: http://omnie-prod:9999/omnie-security/api/oauth/token
+        baseUrl: http://omnie-gateway:9999/omnie-security/api/oauth/token
     image-service:
       api:
-        baseUrl: http://omnie-prod:9999/omnie-imagestorage/api
+        baseUrl: http://omnie-gateway:9999/omnie-imagestorage/api
     statistic-service:
       api:
-        baseUrl: http://omnie-prod:9999/omnie-statistic/api
+        baseUrl: http://omnie-gateway:9999/omnie-statistic/api
     notification-service:
       api:
-        baseUrl: http://omnie-prod:9999/omnie-notification/api
+        baseUrl: http://omnie-gateway:9999/omnie-notification/api
 
 
 #
