@@ -3,7 +3,7 @@
 INSERT INTO category (uuid, eng_name, rus_name, ukr_name, logo_id) VALUES
   ('00000000-0000-0000-0000-000000000001',
    'Auto-moto', 'Авто-мото', 'Авто-мото',
-   'c6ej492h6fh4g7odqpct0ia1qhde8be413-4b8f-4ef0-b166-3180a020ff66');
+   'none');
 --   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   - -
 INSERT INTO sub_category (uuid, category_id, eng_name, rus_name, ukr_name, create_time) VALUES
   ('00000000-0000-0000-0001-000000000001', '00000000-0000-0000-0000-000000000001',
@@ -57,7 +57,7 @@ INSERT INTO sub_category (uuid, category_id, eng_name, rus_name, ukr_name, creat
 INSERT INTO category (uuid, eng_name, rus_name, ukr_name, logo_id) VALUES
   ('00000000-0000-0000-0000-000000000002',
    'Business services', 'Бизнес услуги', 'Бізнес послуги',
-   '51k3elb6knq41ek2ip83kdeafae5ca0f89-65e4-48d0-b312-e95b74712c38');
+   'none');
 --  -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -  -
 INSERT INTO sub_category (uuid, category_id, eng_name, rus_name, ukr_name, create_time) VALUES
   ('00000000-0000-0000-0002-000000000001', '00000000-0000-0000-0000-000000000002',
@@ -127,7 +127,7 @@ INSERT INTO sub_category (uuid, category_id, eng_name, rus_name, ukr_name, creat
 INSERT INTO category (uuid, eng_name, rus_name, ukr_name, logo_id) VALUES
   ('00000000-0000-0000-0000-000000000003',
    'Construction and repair', 'Строительство и ремонт', 'Будівництво і ремонт',
-   '93ictim1utfdu7neluvpm09dsjd830c509-5b6d-4a4a-b900-6ed5df23db8f');
+   'none');
 --  -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -  -
 INSERT INTO sub_category (uuid, category_id, eng_name, rus_name, ukr_name, create_time) VALUES
   ('00000000-0000-0000-0003-000000000001', '00000000-0000-0000-0000-000000000003',
@@ -267,7 +267,7 @@ INSERT INTO sub_category (uuid, category_id, eng_name, rus_name, ukr_name, creat
 INSERT INTO category (uuid, eng_name, rus_name, ukr_name, logo_id) VALUES
   ('00000000-0000-0000-0000-000000000004',
    'State institutions', 'Госучреждения', 'Держустанови',
-   '9eef8nt566193i4j4up5cu046d6f5fc54c-0d69-468b-868e-a90d263058c9');
+   'none');
 --  -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -  -
 INSERT INTO sub_category (uuid, category_id, eng_name, rus_name, ukr_name, create_time) VALUES
   ('00000000-0000-0000-0004-000000000001', '00000000-0000-0000-0000-000000000004',
@@ -327,7 +327,7 @@ INSERT INTO sub_category (uuid, category_id, eng_name, rus_name, ukr_name, creat
 INSERT INTO category (uuid, eng_name, rus_name, ukr_name, logo_id) VALUES
   ('00000000-0000-0000-0000-000000000005',
    'House and Life', 'Дом и быт', 'Дім та побут',
-   'jgh81f22kd0e9ttm4qipmeh4qib7f411ee-2ad6-4f76-996c-deac5f042e4b');
+   'none');
 --  -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -  -
 INSERT INTO sub_category (uuid, category_id, eng_name, rus_name, ukr_name, create_time) VALUES
   ('00000000-0000-0000-0005-000000000001', '00000000-0000-0000-0000-000000000005',
@@ -362,7 +362,7 @@ INSERT INTO sub_category (uuid, category_id, eng_name, rus_name, ukr_name, creat
 INSERT INTO category (uuid, eng_name, rus_name, ukr_name, logo_id) VALUES
   ('00000000-0000-0000-0000-000000000006',
    'Pets', 'Зоомир', 'Зоосвіт',
-   '6125kisg43r6qr6epemne33mdpfb962bf2-9028-468c-b10a-a8a13982c345');
+   'none');
 --  -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -  -
 INSERT INTO sub_category (uuid, category_id, eng_name, rus_name, ukr_name, create_time) VALUES
   ('00000000-0000-0000-0006-000000000001', '00000000-0000-0000-0000-000000000006',
@@ -394,7 +394,7 @@ INSERT INTO sub_category (uuid, category_id, eng_name, rus_name, ukr_name, creat
 INSERT INTO category (uuid, eng_name, rus_name, ukr_name, logo_id) VALUES
   ('00000000-0000-0000-0000-000000000007',
    'IT services', 'IT услуги', 'IT послуги',
-   'ii0vi37rf9sm1v2mo5j70gafhb5858f370-6942-4455-a01c-ae8637f088db');
+   'none');
 --  -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -  -
 INSERT INTO sub_category (uuid, category_id, eng_name, rus_name, ukr_name, create_time) VALUES
   ('00000000-0000-0000-0007-000000000001', '00000000-0000-0000-0000-000000000007',
@@ -446,7 +446,7 @@ INSERT INTO sub_category (uuid, category_id, eng_name, rus_name, ukr_name, creat
 INSERT INTO category (uuid, eng_name, rus_name, ukr_name, logo_id) VALUES
   ('00000000-0000-0000-0000-000000000009',
    'Beauty and health', 'Красота и здоровье', 'Краса та здоров’я',
-   '3tm4d9o1oj1ajl43it7plt453j56afc6b7-d74b-40b9-9cb9-d705e82ecaf2');
+   'none');
 --  -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -  -
 INSERT INTO sub_category (uuid, category_id, eng_name, rus_name, ukr_name, create_time) VALUES
   ('00000000-0000-0000-0009-000000000001', '00000000-0000-0000-0000-000000000009',
@@ -488,7 +488,7 @@ INSERT INTO sub_category (uuid, category_id, eng_name, rus_name, ukr_name, creat
 INSERT INTO category (uuid, eng_name, rus_name, ukr_name, logo_id) VALUES
   ('00000000-0000-0000-0000-000000000010',
    'Medicine', 'Медицина', 'Медицина',
-   'ghfcqndrtsdseieq8ui6u8tiu17c56b330-0f57-4902-aedd-d3ee44bc5b99');
+   'none');
 --  -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -  -
 INSERT INTO sub_category (uuid, category_id, eng_name, rus_name, ukr_name, create_time) VALUES
   ('00000000-0000-0000-0010-000000000001', '00000000-0000-0000-0000-000000000010',
@@ -570,7 +570,7 @@ INSERT INTO sub_category (uuid, category_id, eng_name, rus_name, ukr_name, creat
 INSERT INTO category (uuid, eng_name, rus_name, ukr_name, logo_id) VALUES
   ('00000000-0000-0000-0000-000000000011',
    'Education', 'Обучение и образование', 'Навчання та освіта',
-   'r0gv4q9ldka0tarlninqi1vqhk2ee0009a-7b58-4a63-b626-df9815c49419');
+   'none');
 --  -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -  -
 INSERT INTO sub_category (uuid, category_id, eng_name, rus_name, ukr_name, create_time) VALUES
   ('00000000-0000-0000-0011-000000000001', '00000000-0000-0000-0000-000000000011',
@@ -639,7 +639,7 @@ INSERT INTO sub_category (uuid, category_id, eng_name, rus_name, ukr_name, creat
 INSERT INTO category (uuid, eng_name, rus_name, ukr_name, logo_id) VALUES
   ('00000000-0000-0000-0000-000000000012',
    'Mass-media', 'Средства массовой информации', 'Засоби масової інформації',
-   '4p1ne3dp2v7mhj3ivk39i513dtfe02b3a6-2648-4728-b0cc-3a4ef94d2e30');
+   'none');
 --  -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -  -
 INSERT INTO sub_category (uuid, category_id, eng_name, rus_name, ukr_name, create_time) VALUES
   ('00000000-0000-0000-0012-000000000001', '00000000-0000-0000-0000-000000000012',
@@ -659,7 +659,7 @@ INSERT INTO sub_category (uuid, category_id, eng_name, rus_name, ukr_name, creat
 INSERT INTO category (uuid, eng_name, rus_name, ukr_name, logo_id) VALUES
   ('00000000-0000-0000-0000-000000000013',
    'Security services', 'Охранные услуги', 'Охоронні послуги',
-   'asds89gjr8fmlcutscm48pmkdea5363304-8454-4204-996a-b0a8ab978015');
+   'none');
 --  -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -  -
 INSERT INTO sub_category (uuid, category_id, eng_name, rus_name, ukr_name, create_time) VALUES
   ('00000000-0000-0000-0013-000000000001', '00000000-0000-0000-0000-000000000013',
@@ -697,7 +697,7 @@ INSERT INTO sub_category (uuid, category_id, eng_name, rus_name, ukr_name, creat
 INSERT INTO category (uuid, eng_name, rus_name, ukr_name, logo_id) VALUES
   ('00000000-0000-0000-0000-000000000014',
    'Advertising and printing', 'Реклама и полиграфия', 'Реклама та поліграфія',
-   'kamg6jci7e94g6t5stgpinfb3df69c57e4-9eff-465d-a516-8e2cedf2fbe8');
+   'none');
 --  -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -  -
 INSERT INTO sub_category (uuid, category_id, eng_name, rus_name, ukr_name, create_time) VALUES
   ('00000000-0000-0000-0014-000000000001', '00000000-0000-0000-0000-000000000014',
@@ -741,7 +741,7 @@ INSERT INTO sub_category (uuid, category_id, eng_name, rus_name, ukr_name, creat
 INSERT INTO category (uuid, eng_name, rus_name, ukr_name, logo_id) VALUES
   ('00000000-0000-0000-0000-000000000016',
    'Sports and fitness', 'Спорт и фитнес', 'Спорт і фітнес',
-   '9k6odtdk797f8i95man9rud0fj5aebec0a-0183-42d3-8567-33425efa8d71');
+   'none');
 --  -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -  -
 INSERT INTO sub_category (uuid, category_id, eng_name, rus_name, ukr_name, create_time) VALUES
   ('00000000-0000-0000-0016-000000000001', '00000000-0000-0000-0000-000000000016',
@@ -787,7 +787,7 @@ INSERT INTO sub_category (uuid, category_id, eng_name, rus_name, ukr_name, creat
 INSERT INTO category (uuid, eng_name, rus_name, ukr_name, logo_id) VALUES
   ('00000000-0000-0000-0000-000000000017',
    'Transport services', 'Транспортные услуги', 'Транспортні послуги',
-   'ak4blgu8v8sg2iscpnnb0pp8ve6fae5886-e162-4f8c-855a-234925f31a61');
+   'none');
 --  -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -  -
 INSERT INTO sub_category (uuid, category_id, eng_name, rus_name, ukr_name, create_time) VALUES
   ('00000000-0000-0000-0017-000000000001', '00000000-0000-0000-0000-000000000017',
@@ -827,7 +827,7 @@ INSERT INTO sub_category (uuid, category_id, eng_name, rus_name, ukr_name, creat
 INSERT INTO category (uuid, eng_name, rus_name, ukr_name, logo_id) VALUES
   ('00000000-0000-0000-0000-000000000018',
    'Tourist services', 'Туристические услуги', 'Туристичні послуги',
-   '3dm8n90bbjjhlbfrbaaqfbibt11a96741e-d37a-4c6c-928d-900abd371796');
+   'none');
 --  -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -  -
 INSERT INTO sub_category (uuid, category_id, eng_name, rus_name, ukr_name, create_time) VALUES
   ('00000000-0000-0000-0018-000000000001', '00000000-0000-0000-0000-000000000018',
@@ -859,7 +859,7 @@ INSERT INTO sub_category (uuid, category_id, eng_name, rus_name, ukr_name, creat
 INSERT INTO category (uuid, eng_name, rus_name, ukr_name, logo_id) VALUES
   ('00000000-0000-0000-0000-000000000019',
    'Recreation and entertainment', 'Отдых и развлечения', 'Відпочинок і розваги',
-   'r6at9hnmd2q00in0eq0rlkcb1of3189af6-ca5e-4c03-844d-205f23d29b6');
+   'none');
 --  -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -   -  -
 INSERT INTO sub_category (uuid, category_id, eng_name, rus_name, ukr_name, create_time) VALUES
   ('00000000-0000-0000-0019-000000000001', '00000000-0000-0000-0000-000000000019',

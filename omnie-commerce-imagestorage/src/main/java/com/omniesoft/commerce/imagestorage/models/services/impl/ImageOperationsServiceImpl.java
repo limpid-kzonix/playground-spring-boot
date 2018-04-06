@@ -29,28 +29,23 @@ public class ImageOperationsServiceImpl implements ImageOperationsService {
 
     @Override
     public InputStream prepareSmall(BufferedImage originalImage, ImageMimeType mimeType) throws IOException {
-
         return transformation(originalImage, mimeType, 150, 150);
     }
 
     @Override
     public InputStream prepareMedium(BufferedImage originalImage, ImageMimeType mimeType) throws IOException {
-
-
         return transformation(originalImage, mimeType, 500, 500);
     }
 
     @Override
     public InputStream prepareLarge(BufferedImage originalImage, ImageMimeType mimeType) throws IOException {
-
         return transformation(originalImage, mimeType, 1000, 1000);
     }
 
     @Override
     public InputStream prepareOriginal(BufferedImage originalImage, ImageMimeType mimeType) throws IOException {
 
-
-        return transformation(originalImage, mimeType, originalImage.getHeight(), originalImage.getWidth());
+        return transformation(originalImage, mimeType, originalImage.getWidth(), originalImage.getHeight());
     }
 
     @NotNull
