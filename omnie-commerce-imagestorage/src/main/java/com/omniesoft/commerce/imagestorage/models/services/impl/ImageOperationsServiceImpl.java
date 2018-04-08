@@ -50,14 +50,20 @@ public class ImageOperationsServiceImpl implements ImageOperationsService {
 
     @NotNull
     private InputStream transformation(BufferedImage originalImage, ImageMimeType mimeType, int w, int h) throws IOException {
-        if (isCompressed(mimeType))
+        if (isCompressed(mimeType)) {
             return transform(
-                    Scalr.resize(crop(originalImage, getImageDimension(originalImage)),
+                    Scalr.resize(
+                            crop(originalImage, getImageDimension(originalImage)),
                             Scalr.Method.ULTRA_QUALITY,
-                            Scalr.Mode.AUTOMATIC, w, h), mimeType
+                            Scalr.Mode.AUTOMATIC, w, h
+                    ),
+                    mimeType
             );
-        else {
-            return transform(resize(originalImage, w, h), mimeType);
+        } else {
+            return transform(
+                    resize(originalImage, w, h),
+                    mimeType
+            );
         }
 
     }

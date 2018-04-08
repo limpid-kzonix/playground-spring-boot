@@ -67,9 +67,7 @@ public class PicturesRepositoryImpl implements PicturesRepository {
 
         Map<String, Object> metaData = metaData(originalFileName, type);
 
-        GridFSFile store = gridFsTemplate
-                .store(inputStream, originalFileName, contentType,
-                        metaData);
+        GridFSFile store = gridFsTemplate.store(inputStream, originalFileName, contentType, metaData);
         return store.getId().toString();
     }
 

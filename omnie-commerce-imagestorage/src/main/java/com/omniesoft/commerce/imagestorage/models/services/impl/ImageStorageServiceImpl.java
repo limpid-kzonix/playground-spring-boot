@@ -188,14 +188,19 @@ public class ImageStorageServiceImpl implements ImageStorageService {
     CompletableFuture<Void> writeOriginal(MultipartFile file, ImageMimeType type, BufferedImage read, String generated) {
 
         return runAsync(() -> {
-            try {
-                picturesRepository
-                        .storeSource(imageOperationsService.prepareOriginal(read, type), generated, file
-                                .getContentType(), ImageType.ORIGINAL);
-            } catch (IOException e) {
-                throw new UsefulException(ImageModuleErrorCodes.IMAGE_PROCESSING_ERROR);
-            }
-        }, mongoWriterExecutor);
+                    try {
+                        picturesRepository.storeSource(
+                                imageOperationsService.prepareOriginal(read, type),
+                                generated,
+                                file.getContentType(),
+                                ImageType.ORIGINAL
+                        );
+                    } catch (IOException e) {
+                        throw new UsefulException(ImageModuleErrorCodes.IMAGE_PROCESSING_ERROR);
+                    }
+                },
+                mongoWriterExecutor
+        );
 
     }
 }

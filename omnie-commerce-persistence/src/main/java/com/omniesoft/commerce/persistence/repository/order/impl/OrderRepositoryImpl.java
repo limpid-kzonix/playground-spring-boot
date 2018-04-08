@@ -27,11 +27,11 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
     public List<OrderEntity> findReadyToProcessing(LocalDateTime start, LocalDateTime end, UUID serviceId) {
         return em.createQuery(
                 "select o" +
-                        " from OrderEntity o  " +
-                        " inner join o.service" +
-                        " left join o.user" +
+                        " from OrderEntity o" +
+                        " inner join fetch o.service" +
+                        " left join fetch o.user" +
                         " left join fetch o.subServices" +
-                        " where o.service.id = :serviceId " +
+                        " where o.service.id = :serviceId" +
                         " and o.end between :start and :ends" +
                         " and (o.status = :PFU " +
                         " or  o.status = :PFA " +
@@ -55,11 +55,11 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
     public List<OrderEntity> findAccepted(LocalDateTime start, LocalDateTime end, UUID serviceId) {
         return em.createQuery(
                 "select o" +
-                        " from OrderEntity o  " +
-                        " inner join o.service" +
-                        " left join o.user" +
+                        " from OrderEntity o" +
+                        " inner join fetch o.service" +
+                        " left join fetch o.user" +
                         " left join fetch o.subServices" +
-                        " where o.service.id = :serviceId " +
+                        " where o.service.id = :serviceId" +
                         " and o.end between :start and :ends" +
                         " and ( o.status = :CBU" +
                         " or  o.status = :CBA" +
@@ -78,25 +78,28 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
     @Override
     public LocalDateTime findLastDateOfOrderForService(UUID service) {
 
-        LocalDateTime singleResult = em.createQuery("" +
-                "select max(o.end) from OrderEntity o " +
-                "where o.service.id = :serviceId " +
-                "and o.status = :CBA or o.status = :CBU or o.status = :D", LocalDateTime.class)
+        LocalDateTime singleResult = em.createQuery(
+                "select max(o.end) from OrderEntity o" +
+                        " where o.service.id = :serviceId" +
+                        " and o.status = :CBA or o.status = :CBU or o.status = :D",
+                LocalDateTime.class)
                 .setParameter("serviceId", service)
                 .setParameter("CBA", OrderStatus.CONFIRM_BY_ADMIN)
                 .setParameter("CBU", OrderStatus.CONFIRM_BY_USER)
                 .setParameter("D", OrderStatus.DONE)
                 .getSingleResult();
-        if (singleResult == null) return LocalDateTime.of(LocalDate.now(), LocalTime.MIN);
+        if (singleResult == null) {
+            return LocalDateTime.of(LocalDate.now(), LocalTime.MIN);
+        }
         return singleResult;
     }
 
     @Override
     public List<LocalDateTime> findAllDayDateWithOrders(UUID userId, LocalDate startDate, LocalDate endDate) {
-        return em.createQuery("" +
-                "   select o.start from OrderEntity o " +
-                "   where o.start between :startDate and :endDate " +
-                "", LocalDateTime.class)
+        return em.createQuery(
+                "select o.start from OrderEntity o" +
+                        "   where o.start between :startDate and :endDate ",
+                LocalDateTime.class)
                 .setParameter("startDate", LocalDateTime.of(startDate, LocalTime.MIN))
                 .setParameter("endDate", LocalDateTime.of(endDate, LocalTime.MAX))
                 .getResultList();
