@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://ch.qos.logback/xml/ns/logback "
+        xmlns="http://ch.qos.logback/xml/ns/logback">
+
+    <property name="LOG_FILE" value="imagestorage-app"/>
+    <property name="MAX_FILE_SIZE" value="10MB"/>
+    <property name="MAX_HISTORY" value="28"/>
+    <property name="TOTAL_SIZE_CAP" value="300MB"/>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/log/${LOG_FILE}.log</file>
+        <encoder>
+            <pattern>
+                %d{dd HH:mm:ss.SSS} [%thread] %-5level %logger{36}.%M - %msg%n
+            </pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>/log/archive/${LOG_FILE}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>${MAX_FILE_SIZE:-10MB}</maxFileSize>
+            <maxHistory>${MAX_HISTORY:-2}</maxHistory>
+            <totalSizeCap>${TOTAL_SIZE_CAP:-50MB}</totalSizeCap>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="FILE-DEBUG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/log/debug-${LOG_FILE}.log</file>
+        <encoder>
+            <pattern>
+                %d{dd HH:mm:ss.SSS} [%thread] %-5level %logger{36}.%M - %msg%n
+            </pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>/log/archive/debug-${LOG_FILE}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>${MAX_FILE_SIZE:-10MB}</maxFileSize>
+            <maxHistory>${MAX_HISTORY:-2}</maxHistory>
+            <totalSizeCap>${TOTAL_SIZE_CAP:-50MB}</totalSizeCap>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+        </rollingPolicy>
+    </appender>
+
+    <logger name="ROOT" level="WARN" additivity="false">
+        <appender-ref ref="FILE"/>
+    </logger>
+
+    <logger name="com.omniesoft" level="WARN" additivity="false">
+        <appender-ref ref="FILE"/>
+    </logger>
+
+    <logger name="org.springframework" level="WARN" additivity="false">
+        <appender-ref ref="FILE"/>
+    </logger>
+
+    <logger name="org.hibernate" level="WARN" additivity="false">
+        <appender-ref ref="FILE"/>
+    </logger>
+
+    <logger name="org.apache" level="WARN" additivity="false">
+        <appender-ref ref="FILE"/>
+    </logger>
+
+
+    <logger name="ROOT" level="WARN" additivity="false">
+        <appender-ref ref="FILE-DEBUG"/>
+    </logger>
+
+    <logger name="com.omniesoft" level="DEBUG" additivity="false">
+        <appender-ref ref="FILE-DEBUG"/>
+    </logger>
+
+</configuration>

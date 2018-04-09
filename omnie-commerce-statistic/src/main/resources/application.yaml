@@ -127,7 +127,7 @@ security:
 #
 
 logging:
-  config: classpath:logger-to-file.xml
+  config: classpath:log-config/dev.xml
 
 eureka:
   instance:
@@ -178,7 +178,7 @@ security:
 #
 
 logging:
-  config: classpath:logger-to-file.xml
+  config: classpath:log-config/prod.xml
 
 eureka:
   instance:

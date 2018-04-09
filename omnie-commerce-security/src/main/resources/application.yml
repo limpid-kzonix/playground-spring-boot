@@ -131,7 +131,7 @@ log4jdbc:
       maxlinelength: 90
       select: true
 logging:
-  config: classpath:logger-to-file.xml
+  config: classpath:log-config/dev.xml
 
 eureka:
   instance:
@@ -160,7 +160,7 @@ spring:
 # [ Logging Configuration Attributes ]
 #
 logging:
-  config: classpath:logger-to-file.xml
+  config: classpath:log-config/prod.xml
 
 eureka:
   instance:

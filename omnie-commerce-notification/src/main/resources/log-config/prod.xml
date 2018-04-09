@@ -5,10 +5,10 @@
         xmlns="http://ch.qos.logback/xml/ns/logback"
         xsi:schemaLocation="http://ch.qos.logback/xml/ns/logback http://ch.qos.logback/xml/ns/logback/logback.xsd">
 
-    <property name="LOG_FILE" value="support-app"/>
+    <property name="LOG_FILE" value="notification-app"/>
     <property name="MAX_FILE_SIZE" value="10MB"/>
-    <property name="MAX_HISTORY" value="14"/>
-    <property name="TOTAL_SIZE_CAP" value="200MB"/>
+    <property name="MAX_HISTORY" value="28"/>
+    <property name="TOTAL_SIZE_CAP" value="300MB"/>
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>/log/${LOG_FILE}.log</file>
@@ -22,6 +22,7 @@
             <maxFileSize>${MAX_FILE_SIZE:-10MB}</maxFileSize>
             <maxHistory>${MAX_HISTORY:-2}</maxHistory>
             <totalSizeCap>${TOTAL_SIZE_CAP:-50MB}</totalSizeCap>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
         </rollingPolicy>
     </appender>
 
@@ -37,6 +38,7 @@
             <maxFileSize>${MAX_FILE_SIZE:-10MB}</maxFileSize>
             <maxHistory>${MAX_HISTORY:-2}</maxHistory>
             <totalSizeCap>${TOTAL_SIZE_CAP:-50MB}</totalSizeCap>
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
         </rollingPolicy>
     </appender>
 

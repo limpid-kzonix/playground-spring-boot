@@ -116,7 +116,7 @@ spring:
     port: 6379
 
 logging:
-  config: classpath:logger-to-file.xml
+  config: classpath:log-config/dev.xml
 
 service:
   discovery:
@@ -144,7 +144,7 @@ spring:
     port: 6379
 
 logging:
-  config: classpath:logger-to-file.xml
+  config: classpath:log-config/prod.xml
 
 service:
   discovery:

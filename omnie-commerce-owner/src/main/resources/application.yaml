@@ -163,7 +163,7 @@ log4jdbc:
       maxlinelength: 120
       select: true
 logging:
-  config: classpath:logger-to-file.xml
+  config: classpath:log-config/dev.xml
 
 
 #
@@ -227,7 +227,7 @@ security:
 # [ Logging Configuration Attributes ]
 #
 logging:
-  config: classpath:logger-to-file.xml
+  config: classpath:log-config/prod.xml
 
 
 #
