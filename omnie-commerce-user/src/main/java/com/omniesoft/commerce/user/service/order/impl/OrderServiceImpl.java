@@ -126,7 +126,7 @@ public class OrderServiceImpl implements OrderService {
 
         TimesheetBuilder builder = new SingleDayTimesheetBuilder(timesheet);
 
-        insertData(order.getSubServices(), start);
+        insertSubServiceData(order.getSubServices(), start);
 
         OrderPeriod op = builder.orderPeriod(order.getStart(),
                 order.getEnd(),
@@ -182,7 +182,7 @@ public class OrderServiceImpl implements OrderService {
 
         TimesheetBuilder builder = new SingleDayTimesheetBuilder(timesheet);
 
-        insertData(order.getSubServices(), start);
+        insertSubServiceData(order.getSubServices(), start);
 
         OrderPeriod op = builder.orderPeriod(order.getStart(),
                 order.getEnd(),
@@ -344,7 +344,7 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-    private void insertData(List<SaveOrderSubServices> subServices, LocalDateTime activeFrom) {
+    private void insertSubServiceData(List<SaveOrderSubServices> subServices, LocalDateTime activeFrom) {
         for (SaveOrderSubServices subService : emptyIfNull(subServices)) {
             SubServicePriceEntity price = subServicePriceRepository.find(subService.getSubServiceId(), activeFrom);
             subService.setDuration(price.getDurationMillis());
@@ -353,7 +353,6 @@ public class OrderServiceImpl implements OrderService {
             }
 
         }
-
     }
 
     private OrderEntity createOrderEntityWithoutPrices(SaveOrderDto order, UserEntity customer, OrderStatus status) {
@@ -361,8 +360,6 @@ public class OrderServiceImpl implements OrderService {
         OrderEntity orderEntity = new OrderEntity();
         orderEntity.setStart(order.getStart());
         orderEntity.setEnd(order.getEnd());
-        // TODO: 27.03.18 test for user
-//        orderEntity.setDiscountPercent(order.getDiscountPercent());
         orderEntity.setStatus(status);
         orderEntity.setComment(order.getComment());
 

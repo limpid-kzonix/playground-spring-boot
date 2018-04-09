@@ -31,6 +31,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -42,6 +43,7 @@ import java.util.UUID;
 
 import static com.omniesoft.commerce.common.handler.exception.custom.enums.OwnerModuleErrorCodes.DISCOUNT_VIOLATION_LIMITS;
 import static com.omniesoft.commerce.persistence.entity.enums.OrderStatus.*;
+import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
 /**
  * @author Vitalii Martynovskyi
@@ -50,6 +52,7 @@ import static com.omniesoft.commerce.persistence.entity.enums.OrderStatus.*;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
@@ -203,6 +206,7 @@ public class OrderServiceImpl implements OrderService {
 
         TimesheetBuilder builder = new SingleDayTimesheetBuilder(timesheet);
 
+        insertSubServiceData(order.getSubServices(), start);
         OrderPeriod op = builder.orderPeriod(order.getStart(),
                 order.getEnd(),
                 null,
@@ -255,6 +259,7 @@ public class OrderServiceImpl implements OrderService {
 
         TimesheetBuilder builder = new SingleDayTimesheetBuilder(timesheet);
 
+        insertSubServiceData(order.getSubServices(), start);
         OrderPeriod op = builder.orderPeriod(order.getStart(),
                 order.getEnd(),
                 null,
@@ -313,7 +318,6 @@ public class OrderServiceImpl implements OrderService {
                                     orderSubService.getDiscountPercent() +
                                     " > max discount: " + subServicePrice.getMaxDiscount(), DISCOUNT_VIOLATION_LIMITS);
                         }
-
                     }
                 }
             }
@@ -347,6 +351,17 @@ public class OrderServiceImpl implements OrderService {
         orderEntity.setSubServices(createOrderSubServiceEntitiesWithoutPrices(order, orderEntity));
 
         return orderEntity;
+    }
+
+    private void insertSubServiceData(List<SaveFullOrderSubServices> subServices, LocalDateTime activeFrom) {
+        for (SaveFullOrderSubServices subService : emptyIfNull(subServices)) {
+            SubServicePriceEntity price = subServicePriceRepository.find(subService.getSubServiceId(), activeFrom);
+            subService.setDuration(price.getDurationMillis());
+            if (subService.getDiscountPercent() == null) {
+                subService.setDiscountPercent(0D);
+            }
+
+        }
     }
 
     private List<OrderSubServicesEntity> createOrderSubServiceEntitiesWithoutPrices(SaveFullOrderDto order, OrderEntity
