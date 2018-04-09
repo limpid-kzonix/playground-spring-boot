@@ -38,8 +38,8 @@ public class ServiceRepositoryImpl implements ServiceRepositoryCustom {
     @Override
     @Transactional
     public ServiceRowUserExtendDto findWithUserServiceInfo(UUID serviceId, UUID organizationId, UserEntity userEntity) {
-        return em.createQuery("" +
-                        "select " +
+        return em.createQuery(
+                "select " +
                         "   new com.omniesoft.commerce.persistence.dto.service.ServiceRowUserExtendDto(" +
                         "       service.id," +
                         "       service.name," +
@@ -48,20 +48,23 @@ public class ServiceRepositoryImpl implements ServiceRepositoryCustom {
                         "       service.freezeStatus," +
                         "       service.reason," +
                         "       service.createTime," +
-                        "       (case when :user in inUsers then true  else false end)," +
+                        "       (case when (select u.id" +
+                        "                        from UserEntity u" +
+                        "                        join u.favoriteServices fs" +
+                        "                        where u =:user and fs.id = :service)" +
+                        "        is not null  then true  else false end)," +
                         "       coalesce( mark.rating, 0)," +
                         "       organization.id," +
                         "       organization.name  " +
                         "   ) " +
                         "from ServiceEntity service" +
-                        "   left    join            service.mark mark " +
-                        "   left   join            service.inUsersFavorites inUsers " +
-                        "   left   join             service.organization organization " +
+                        "   left   join     service.mark mark " +
+                        "   left   join     service.organization organization " +
                         "where " +
-                        "    service.id = :service and organization.id = :organization " +
+                        "    service.id = :service" +
+                        "    and organization.id = :organization " +
                         "group by" +
                         "       service.id," +
-                        "       inUsers.id," +
                         "       organization.id," +
                         "       mark.id"
                 , ServiceRowUserExtendDto.class)
