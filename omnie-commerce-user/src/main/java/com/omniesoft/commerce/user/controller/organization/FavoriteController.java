@@ -36,17 +36,17 @@ public class FavoriteController {
                 .getOrganizationFavorites(userEntity, pageable);
     }
 
-    @ResponseStatus(HttpStatus.RESET_CONTENT)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @PostMapping(path = "/organizations", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void addOrganizationToToFavorites(
+    public void addOrganizationToFavorite(
             @RequestParam("organization_id") UUID id,
             @ApiIgnore UserEntity userEntity) {
 
         favoriteService.addOrganizationToFavorites(id, userEntity);
     }
 
-    @ResponseStatus(HttpStatus.RESET_CONTENT)
-    @DeleteMapping(path = "/organizations", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping(path = "/organizations")
     public void deleteOrganizationFromFavorites(
             @RequestParam("organization_id") UUID id,
             @ApiIgnore UserEntity userEntity) {
@@ -62,19 +62,17 @@ public class FavoriteController {
         return favoriteService.getServiceFavorites(userEntity, pageable);
     }
 
-    @PostMapping(path = "/services",
-            produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void addServiceToToFavorites(
+    @PostMapping(path = "/services", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void addServiceToFavorite(
             @RequestParam("service_id") UUID id,
             @ApiIgnore UserEntity userEntity) {
 
         favoriteService.addServiceToFavorites(id, userEntity);
     }
 
-    @ResponseStatus(HttpStatus.RESET_CONTENT)
-    @DeleteMapping(path = "/services", produces = MediaType
-            .APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping(path = "/services")
     public void deleteServiceFromFavorites(
             @RequestParam("service_id") UUID id,
             @ApiIgnore UserEntity userEntity) {
