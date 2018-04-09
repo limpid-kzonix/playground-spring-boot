@@ -57,7 +57,7 @@ public class OrderPriceServiceImpl implements OrderPriceService {
         if (order.getSubServices() != null) {
             for (OrderSubServicesEntity orderSubServices : order.getSubServices()) {
                 SubServicePriceEntity subServicePriceEntity = subServicePriceRepository
-                        .findBySubServiceIdAndActiveFrom(orderSubServices.getSubService().getId(), order.getStart());
+                        .find(orderSubServices.getSubService().getId(), order.getStart());
 
                 double subServicePrice = orderSubServices.getCount() * subServicePriceEntity.getPrice();
                 double subServiceExpense = orderSubServices.getCount() * subServicePriceEntity.getExpense();

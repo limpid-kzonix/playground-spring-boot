@@ -155,7 +155,7 @@ public class DiscountServiceImpl implements DiscountService {
         SubServiceEntity subService = subServiceRepository.findByIdAndOrganizationId(subServiceId, organizationId);
 
         SubServicePriceEntity subServicePrice = subServicePriceRepository
-                .findBySubServiceIdAndActiveFrom(subServiceId, discount.getStartTime());
+                .find(subServiceId, discount.getStartTime());
         if (subServicePrice == null) {
             throw new UsefulException("Invalid discount 'startTime'. Available sub-service-setting`s 'activeFrom' datetime is after discount`s 'startTime' datetime. It is meaning that you want put discount 'startTime' less than sub-service 'createTime", OwnerModuleErrorCodes.DISCOUNT_DATE_CONFIGURATION_INCORRECT);
         }

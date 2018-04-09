@@ -28,6 +28,6 @@ public interface SubServicePriceRepository extends CrudRepository<SubServicePric
             "and ssp.activeFrom <= :date " +
             ")"
     )
-    SubServicePriceEntity findBySubServiceIdAndActiveFrom(@Param("subService") UUID subServiceId,
-                                                          @Param("date") LocalDateTime now);
+    SubServicePriceEntity find(@Param("subService") UUID subServiceId,
+                               @Param("date") LocalDateTime now);
 }

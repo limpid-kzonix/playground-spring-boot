@@ -60,7 +60,7 @@ public class SubServiceScopeServiceImpl implements SubServiceScopeService {
     private SubServicePriceEntity prepareSubServicePrice(SubServicePayload subServicePayload, LocalDateTime now,
                                                          SubServiceEntity savedSubService) {
 
-        SubServicePriceEntity subServicePriceEntity = subServicePriceRepository.findBySubServiceIdAndActiveFrom(savedSubService.getId(), now);
+        SubServicePriceEntity subServicePriceEntity = subServicePriceRepository.find(savedSubService.getId(), now);
         if (subServicePriceEntity == null)
             subServicePriceEntity = new SubServicePriceEntity();
 

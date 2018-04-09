@@ -1,7 +1,7 @@
 package com.omniesoft.commerce.user.service.order;
 
 import com.omniesoft.commerce.common.component.order.dto.SaveOrderDto;
-import com.omniesoft.commerce.common.component.order.dto.order.AbstractOrderDto;
+import com.omniesoft.commerce.common.component.order.dto.order.OrderDto;
 import com.omniesoft.commerce.common.component.order.dto.price.OrderPriceDto;
 import com.omniesoft.commerce.common.order.Timesheet;
 import com.omniesoft.commerce.persistence.entity.account.UserEntity;
@@ -24,7 +24,7 @@ public interface OrderService {
 
     OrderPriceDto orderPrice(SaveOrderDto order, UserEntity user);
 
-    AbstractOrderDto getOrderDetails(UUID serviceId, UUID orderId);
+    OrderDto getOrderDetails(UUID serviceId, UUID orderId);
 
     void confirmOrder(UUID serviceId, UUID orderId, UserEntity user);
 

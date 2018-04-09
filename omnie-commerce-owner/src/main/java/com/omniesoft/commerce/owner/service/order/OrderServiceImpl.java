@@ -305,7 +305,7 @@ public class OrderServiceImpl implements OrderService {
                     //validate discount limit
                     else {
                         SubServicePriceEntity subServicePrice = subServicePriceRepository
-                                .findBySubServiceIdAndActiveFrom(orderSubService.getSubService().getId(), order.getStart());
+                                .find(orderSubService.getSubService().getId(), order.getStart());
 
                         if (orderSubService.getDiscountPercent() < 0
                                 || orderSubService.getDiscountPercent() > subServicePrice.getMaxDiscount()) {

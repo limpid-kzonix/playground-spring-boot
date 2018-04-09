@@ -5,7 +5,7 @@ import com.omniesoft.commerce.common.component.order.OrderPriceService;
 import com.omniesoft.commerce.common.component.order.OrderTimesheetService;
 import com.omniesoft.commerce.common.component.order.dto.SaveOrderDto;
 import com.omniesoft.commerce.common.component.order.dto.SaveOrderSubServices;
-import com.omniesoft.commerce.common.component.order.dto.order.AbstractOrderDto;
+import com.omniesoft.commerce.common.component.order.dto.order.OrderDto;
 import com.omniesoft.commerce.common.component.order.dto.price.OrderPriceDto;
 import com.omniesoft.commerce.common.converter.ServicePriceConverter;
 import com.omniesoft.commerce.common.handler.exception.custom.UsefulException;
@@ -32,6 +32,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -40,6 +41,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.omniesoft.commerce.persistence.entity.enums.OrderStatus.*;
+import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
 /**
  * @author Vitalii Martynovskyi
@@ -47,6 +49,7 @@ import static com.omniesoft.commerce.persistence.entity.enums.OrderStatus.*;
  */
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class OrderServiceImpl implements OrderService {
 
     private final ServiceRepository serviceRepository;
@@ -123,6 +126,8 @@ public class OrderServiceImpl implements OrderService {
 
         TimesheetBuilder builder = new SingleDayTimesheetBuilder(timesheet);
 
+        insertData(order.getSubServices(), start);
+
         OrderPeriod op = builder.orderPeriod(order.getStart(),
                 order.getEnd(),
                 null,
@@ -145,7 +150,7 @@ public class OrderServiceImpl implements OrderService {
             return orderEntity.getId();
 
         } else {
-            throw new UsefulException(OwnerModuleErrorCodes.ORDER_TIMESHEET_CONFLICT);
+            throw new UsefulException("Order schedule conflict", OwnerModuleErrorCodes.ORDER_TIMESHEET_CONFLICT);
         }
     }
 
@@ -177,6 +182,8 @@ public class OrderServiceImpl implements OrderService {
 
         TimesheetBuilder builder = new SingleDayTimesheetBuilder(timesheet);
 
+        insertData(order.getSubServices(), start);
+
         OrderPeriod op = builder.orderPeriod(order.getStart(),
                 order.getEnd(),
                 null,
@@ -187,7 +194,7 @@ public class OrderServiceImpl implements OrderService {
         );
 
         if (builder.put(op)) {
-            OrderEntity orderEntity = createOrderEntityWithoutPrices(order, user, CONFIRM_BY_ADMIN);
+            OrderEntity orderEntity = createOrderEntityWithoutPrices(order, user, PENDING_FOR_ADMIN);
 
             Optional<DiscountEntity> discountForService = discountService.findMaxServiceDiscount(orderEntity);
             Map<UUID, DiscountEntity> subServicesDiscounts = discountService.findMaxSubServicesDiscounts(orderEntity);
@@ -198,12 +205,12 @@ public class OrderServiceImpl implements OrderService {
             return orderConverter.mapToPriceDto(orderEntity);
 
         } else {
-            throw new UsefulException(OwnerModuleErrorCodes.ORDER_TIMESHEET_CONFLICT);
+            throw new UsefulException("Order schedule conflict", OwnerModuleErrorCodes.ORDER_TIMESHEET_CONFLICT);
         }
     }
 
     @Override
-    public AbstractOrderDto getOrderDetails(UUID serviceId, UUID orderId) {
+    public OrderDto getOrderDetails(UUID serviceId, UUID orderId) {
 
         OrderEntity orderEntity = orderRepository.findByIdAndServiceId(orderId, serviceId);
 
@@ -320,7 +327,7 @@ public class OrderServiceImpl implements OrderService {
                     //validate discount limit
                     else {
                         SubServicePriceEntity subServicePrice = subServicePriceRepository
-                                .findBySubServiceIdAndActiveFrom(orderSubService.getSubService().getId(),
+                                .find(orderSubService.getSubService().getId(),
                                         order.getStart());
 
                         if (orderSubService.getDiscountPercent() < 0
@@ -335,6 +342,18 @@ public class OrderServiceImpl implements OrderService {
                 }
             }
         }
+    }
+
+    private void insertData(List<SaveOrderSubServices> subServices, LocalDateTime activeFrom) {
+        for (SaveOrderSubServices subService : emptyIfNull(subServices)) {
+            SubServicePriceEntity price = subServicePriceRepository.find(subService.getSubServiceId(), activeFrom);
+            subService.setDuration(price.getDurationMillis());
+            if (subService.getDiscountPercent() == null) {
+                subService.setDiscountPercent(0D);
+            }
+
+        }
+
     }
 
     private OrderEntity createOrderEntityWithoutPrices(SaveOrderDto order, UserEntity customer, OrderStatus status) {
