@@ -11,7 +11,9 @@ import com.omniesoft.commerce.common.component.order.dto.price.OrderSubServiceFu
 import com.omniesoft.commerce.common.component.order.dto.price.OrderSubServicePriceDto;
 import com.omniesoft.commerce.common.order.OrderSubService;
 import com.omniesoft.commerce.persistence.entity.order.OrderEntity;
+import com.omniesoft.commerce.persistence.entity.order.OrderStoryEntity;
 import com.omniesoft.commerce.persistence.entity.order.OrderSubServicesEntity;
+import com.omniesoft.commerce.persistence.entity.order.OrderSubServicesStoryEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -173,5 +175,42 @@ public class OrderConverterImpl implements OrderConverter {
             price.getSubServices().add(ssPrice);
         }
         return price;
+    }
+
+    @Override
+    public OrderStoryEntity mapToStory(OrderEntity order) {
+        if (order != null) {
+            OrderStoryEntity story = new OrderStoryEntity();
+            story.setOrder(order);
+            story.setUser(order.getUser());
+            story.setService(order.getService());
+            story.setStatus(order.getStatus());
+            story.setStart(order.getStart());
+            story.setEnd(order.getEnd());
+            story.setComment(order.getComment());
+            story.setCustomerName(order.getCustomerName());
+            story.setCustomerPhone(order.getCustomerPhone());
+            story.setDiscount(order.getDiscount());
+            story.setDiscountPercent(order.getDiscountPercent());
+            story.setServicePrice(order.getServicePrice());
+            story.setTotalPrice(order.getTotalPrice());
+
+            List<OrderSubServicesStoryEntity> ssStories = new ArrayList<>();
+            for (OrderSubServicesEntity subService : emptyIfNull(order.getSubServices())) {
+                OrderSubServicesStoryEntity ssStory = new OrderSubServicesStoryEntity();
+                ssStory.setSubService(subService.getSubService());
+                ssStory.setOrderStory(story);
+                ssStory.setDiscount(subService.getDiscount());
+                ssStory.setDiscountPercent(subService.getDiscountPercent());
+                ssStory.setCount(subService.getCount());
+                ssStory.setSubServicePrice(subService.getSubServicePrice());
+                ssStory.setTotalPrice(subService.getTotalPrice());
+
+                ssStories.add(ssStory);
+            }
+            story.setSubServicesStory(ssStories);
+            return story;
+
+        }
     }
 }

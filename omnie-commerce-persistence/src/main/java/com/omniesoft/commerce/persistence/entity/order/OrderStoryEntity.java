@@ -2,13 +2,16 @@ package com.omniesoft.commerce.persistence.entity.order;
 
 import com.omniesoft.commerce.persistence.entity.account.UserEntity;
 import com.omniesoft.commerce.persistence.entity.discount.DiscountEntity;
+import com.omniesoft.commerce.persistence.entity.enums.OrderStatus;
 import com.omniesoft.commerce.persistence.entity.service.ServiceEntity;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
+
+import static javax.persistence.CascadeType.PERSIST;
+import static javax.persistence.CascadeType.REFRESH;
 
 /**
  * @author Vitalii Martynovskyi
@@ -18,10 +21,8 @@ import java.util.UUID;
 @Table(name = "order_story")
 public class OrderStoryEntity {
     @Id
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
-    @GeneratedValue(generator = "uuid")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "uuid")
-    @Type(type = "pg-uuid")
     private UUID id;
 
     @ManyToOne
@@ -36,8 +37,9 @@ public class OrderStoryEntity {
     @JoinColumn(name = "service_id")
     private ServiceEntity service;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private String status;
+    private OrderStatus status;
 
     @Column(name = "start_time")
     private LocalDateTime start;
@@ -47,6 +49,12 @@ public class OrderStoryEntity {
 
     @Column(name = "comment")
     private String comment;
+
+    @Column(name = "customer_name")
+    private String customerName;
+
+    @Column(name = "customer_phone")
+    private String customerPhone;
 
     @ManyToOne
     @JoinColumn(name = "discount_id")
@@ -61,13 +69,15 @@ public class OrderStoryEntity {
     @Column(name = "total_price")
     private Double totalPrice;
 
-    @Column(name = "create_time")
+    @Column(name = "create_time", insertable = false, updatable = false)
     private LocalDateTime createTime;
 
     @ManyToOne
     @JoinColumn(name = "change_by")
     private UserEntity changeByUser;
 
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = {PERSIST, REFRESH})
+    private List<OrderSubServicesStoryEntity> subServicesStory;
 
     public UUID getId() {
         return id;
@@ -101,11 +111,11 @@ public class OrderStoryEntity {
         this.service = service;
     }
 
-    public String getStatus() {
+    public OrderStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(OrderStatus status) {
         this.status = status;
     }
 
@@ -179,5 +189,29 @@ public class OrderStoryEntity {
 
     public void setChangeByUser(UserEntity changeByUser) {
         this.changeByUser = changeByUser;
+    }
+
+    public List<OrderSubServicesStoryEntity> getSubServicesStory() {
+        return subServicesStory;
+    }
+
+    public void setSubServicesStory(List<OrderSubServicesStoryEntity> subServicesStory) {
+        this.subServicesStory = subServicesStory;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public String getCustomerPhone() {
+        return customerPhone;
+    }
+
+    public void setCustomerPhone(String customerPhone) {
+        this.customerPhone = customerPhone;
     }
 }

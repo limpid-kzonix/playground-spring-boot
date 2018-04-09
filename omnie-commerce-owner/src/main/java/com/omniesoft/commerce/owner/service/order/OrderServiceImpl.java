@@ -20,6 +20,7 @@ import com.omniesoft.commerce.persistence.entity.account.UserEntity;
 import com.omniesoft.commerce.persistence.entity.discount.DiscountEntity;
 import com.omniesoft.commerce.persistence.entity.enums.OrderStatus;
 import com.omniesoft.commerce.persistence.entity.order.OrderEntity;
+import com.omniesoft.commerce.persistence.entity.order.OrderStoryEntity;
 import com.omniesoft.commerce.persistence.entity.order.OrderSubServicesEntity;
 import com.omniesoft.commerce.persistence.entity.service.ServiceTimingEntity;
 import com.omniesoft.commerce.persistence.entity.service.SubServicePriceEntity;
@@ -167,6 +168,9 @@ public class OrderServiceImpl implements OrderService {
 
             orderPriceService.calculatePrice(orderEntity, timesheet);
             orderRepository.save(orderEntity);
+            OrderStoryEntity orderStoryEntity = orderConverter.mapToStory(orderEntity);
+            orderStoryEntity.setChangeByUser(admin);
+            orderStoryRepository.save(orderStoryEntity);
 
         } else throw new UsefulException(OwnerModuleErrorCodes.ORDER_TIMESHEET_CONFLICT);
     }

@@ -2,8 +2,6 @@ package com.omniesoft.commerce.persistence.entity.order;
 
 import com.omniesoft.commerce.persistence.entity.discount.DiscountEntity;
 import com.omniesoft.commerce.persistence.entity.service.SubServiceEntity;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -16,11 +14,10 @@ import java.util.UUID;
 @Entity
 @Table(name = "order_sub_service_story")
 public class OrderSubServicesStoryEntity {
+
     @Id
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
-    @GeneratedValue(generator = "uuid")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "uuid")
-    @Type(type = "pg-uuid")
     private UUID id;
 
     @ManyToOne
@@ -41,8 +38,8 @@ public class OrderSubServicesStoryEntity {
     @Column(name = "discount_percent")
     private Double discountPercent;
 
-    @Column(name = "service_price")
-    private Double servicePrice;
+    @Column(name = "sub_service_price")
+    private Double subServicePrice;
 
     @Column(name = "total_price")
     private Double totalPrice;
@@ -95,12 +92,12 @@ public class OrderSubServicesStoryEntity {
         this.discountPercent = discountPercent;
     }
 
-    public Double getServicePrice() {
-        return servicePrice;
+    public Double getSubServicePrice() {
+        return subServicePrice;
     }
 
-    public void setServicePrice(Double servicePrice) {
-        this.servicePrice = servicePrice;
+    public void setSubServicePrice(Double subServicePrice) {
+        this.subServicePrice = subServicePrice;
     }
 
     public Double getTotalPrice() {

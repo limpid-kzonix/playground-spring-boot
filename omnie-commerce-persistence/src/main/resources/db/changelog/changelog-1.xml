@@ -316,4 +316,20 @@
         <comment></comment>
     </changeSet>
 
+    <changeSet id="23" author="limpid">
+        <sql dbms="postgresql">
+            ALTER TABLE order_story ADD COLUMN customer_name VARCHAR(128) NOT NULL;
+            ALTER TABLE order_story ADD COLUMN customer_phone VARCHAR(32) NOT NULL;
+            ALTER TABLE order_sub_service_story RENAME service_price TO sub_service_price;
+        </sql>
+        <rollback>
+            <sql>
+                ALTER TABLE order_story DROP COLUMN customer_name;
+                ALTER TABLE order_story DROP COLUMN customer_phone;
+                ALTER TABLE order_sub_service_story RENAME sub_service_price TO service_price;
+            </sql>
+        </rollback>
+        <comment></comment>
+    </changeSet>
+
 </databaseChangeLog>

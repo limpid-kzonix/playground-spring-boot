@@ -8,6 +8,7 @@ import com.omniesoft.commerce.common.component.order.dto.price.OrderFullPriceDto
 import com.omniesoft.commerce.common.component.order.dto.price.OrderPriceDto;
 import com.omniesoft.commerce.common.order.OrderSubService;
 import com.omniesoft.commerce.persistence.entity.order.OrderEntity;
+import com.omniesoft.commerce.persistence.entity.order.OrderStoryEntity;
 import com.omniesoft.commerce.persistence.entity.order.OrderSubServicesEntity;
 
 import java.util.List;
@@ -30,4 +31,6 @@ public interface OrderConverter {
     OrderPriceDto mapToPriceDto(OrderEntity orderEntity);
 
     OrderFullPriceDto mapToFullPriceDto(OrderEntity orderEntity);
+
+    OrderStoryEntity mapToStory(OrderEntity order);
 }
