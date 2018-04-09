@@ -2,6 +2,7 @@ package com.omniesoft.commerce.gateway;
 
 import com.google.common.collect.Lists;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import springfox.documentation.swagger.web.SwaggerResource;
 import springfox.documentation.swagger.web.SwaggerResourcesProvider;
@@ -10,6 +11,7 @@ import java.util.List;
 
 @Component
 @Primary
+@Profile("!prod")
 public class DocumentationProvider implements SwaggerResourcesProvider {
 
     @Override

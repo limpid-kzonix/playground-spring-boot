@@ -7,8 +7,8 @@
 
     <property name="LOG_FILE" value="imagestorage-app"/>
     <property name="MAX_FILE_SIZE" value="10MB"/>
-    <property name="MAX_HISTORY" value="2"/>
-    <property name="TOTAL_SIZE_CAP" value="50MB"/>
+    <property name="MAX_HISTORY" value="14"/>
+    <property name="TOTAL_SIZE_CAP" value="200MB"/>
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>/log/${LOG_FILE}.log</file>
