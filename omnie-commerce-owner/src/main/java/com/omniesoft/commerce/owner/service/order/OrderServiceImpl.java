@@ -157,7 +157,7 @@ public class OrderServiceImpl implements OrderService {
             OrderStoryEntity orderStoryEntity = orderConverter.mapToStory(savedOrder);
             savedOrder.getSubServices().removeIf(o -> o.getId() != null);
 
-            OrderEntity orderEntity = createOrderEntityWithoutPrices(order, admin, CONFIRM_BY_ADMIN);
+            OrderEntity orderEntity = createOrderEntityWithoutPrices(order, admin, PENDING_FOR_USER);
             orderEntity.setId(orderId);
 
             DiscountEntity discountForService = discountService.findMaxServiceDiscount(orderEntity);
