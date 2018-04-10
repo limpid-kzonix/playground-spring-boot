@@ -372,7 +372,7 @@ public class OrderServiceImpl implements OrderService {
             return null;
         }
 
-        Set<OrderSubServicesEntity> result = new ArrayList<>();
+        Set<OrderSubServicesEntity> result = new HashSet<>();
 
         for (SaveFullOrderSubServices orderSubService : order.getSubServices()) {
             OrderSubServicesEntity orderSubServiceEntity = new OrderSubServicesEntity();

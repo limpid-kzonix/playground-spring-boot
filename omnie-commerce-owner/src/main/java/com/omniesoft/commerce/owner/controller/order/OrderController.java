@@ -97,6 +97,7 @@ public class OrderController extends AbstractServiceController {
 
         accessControl.hasPermissionByServiceId(user, serviceId, TIMESHEET_MANAGEMENT);
         order.setServiceId(serviceId);
+        log.debug("EDIT ORDER: {}", order);
         orderService.editOrder(orderId, order, user);
 
     }
