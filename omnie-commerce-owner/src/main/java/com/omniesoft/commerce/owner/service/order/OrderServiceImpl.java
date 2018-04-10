@@ -154,6 +154,7 @@ public class OrderServiceImpl implements OrderService {
 
         if (builder.put(op)) {
             OrderEntity savedOrder = orderRepository.findByIdAndServiceId(orderId, order.getServiceId());
+            OrderStoryEntity orderStoryEntity = orderConverter.mapToStory(savedOrder);
             savedOrder.getSubServices().removeIf(o -> o.getId() != null);
 
             OrderEntity orderEntity = createOrderEntityWithoutPrices(order, admin, CONFIRM_BY_ADMIN);
@@ -165,7 +166,6 @@ public class OrderServiceImpl implements OrderService {
 
             orderPriceService.calculatePrice(orderEntity, timesheet);
             orderRepository.save(orderEntity);
-            OrderStoryEntity orderStoryEntity = orderConverter.mapToStory(orderEntity);
             orderStoryEntity.setChangeByUser(admin);
             orderStoryRepository.save(orderStoryEntity);
 
