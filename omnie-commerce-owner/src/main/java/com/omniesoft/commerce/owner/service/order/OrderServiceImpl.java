@@ -140,7 +140,7 @@ public class OrderServiceImpl implements OrderService {
         orders.removeIf(o -> o.getId().equals(orderId));
 
         timesheetService.insertAllOrdersWithDetails(timesheet, orders);
-
+        insertSubServiceData(order.getSubServices(), start);
         TimesheetBuilder builder = new SingleDayTimesheetBuilder(timesheet);
 
         OrderPeriod op = builder.orderPeriod(order.getStart(),
