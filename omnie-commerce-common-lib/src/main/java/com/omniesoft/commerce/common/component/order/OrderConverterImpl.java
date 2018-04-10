@@ -15,14 +15,11 @@ import com.omniesoft.commerce.persistence.entity.order.OrderStoryEntity;
 import com.omniesoft.commerce.persistence.entity.order.OrderSubServicesEntity;
 import com.omniesoft.commerce.persistence.entity.order.OrderSubServicesStoryEntity;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.SetUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
-
-import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 
 /**
  * @author Vitalii Martynovskyi
@@ -33,7 +30,7 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 public class OrderConverterImpl implements OrderConverter {
 
     @Override
-    public List<OrderSubService> transformOrderSubServices(List<OrderSubServicesEntity> subServices) {
+    public List<OrderSubService> transformOrderSubServices(Set<OrderSubServicesEntity> subServices) {
         if (subServices != null) {
             return subServices.stream()
                     .map(SubServiceEntityAdapter::new)
@@ -140,7 +137,7 @@ public class OrderConverterImpl implements OrderConverter {
         price.setTotalPrice(orderEntity.getTotalPrice());
         price.setSubServices(new ArrayList<>());
 
-        for (OrderSubServicesEntity orderSubServicesEntity : emptyIfNull(orderEntity.getSubServices())) {
+        for (OrderSubServicesEntity orderSubServicesEntity : SetUtils.emptyIfNull(orderEntity.getSubServices())) {
             OrderSubServicePriceDto ssPrice = new OrderSubServicePriceDto();
 
             ssPrice.setSubServiceId(orderSubServicesEntity.getSubService().getId());
@@ -162,7 +159,7 @@ public class OrderConverterImpl implements OrderConverter {
         price.setTotalPrice(orderEntity.getTotalPrice());
         price.setSubServices(new ArrayList<>());
 
-        for (OrderSubServicesEntity orderSubServicesEntity : emptyIfNull(orderEntity.getSubServices())) {
+        for (OrderSubServicesEntity orderSubServicesEntity : SetUtils.emptyIfNull(orderEntity.getSubServices())) {
             OrderSubServiceFullPriceDto ssPrice = new OrderSubServiceFullPriceDto();
 
             ssPrice.setSubServiceId(orderSubServicesEntity.getSubService().getId());
@@ -179,38 +176,36 @@ public class OrderConverterImpl implements OrderConverter {
 
     @Override
     public OrderStoryEntity mapToStory(OrderEntity order) {
-        if (order != null) {
-            OrderStoryEntity story = new OrderStoryEntity();
-            story.setOrder(order);
-            story.setUser(order.getUser());
-            story.setService(order.getService());
-            story.setStatus(order.getStatus());
-            story.setStart(order.getStart());
-            story.setEnd(order.getEnd());
-            story.setComment(order.getComment());
-            story.setCustomerName(order.getCustomerName());
-            story.setCustomerPhone(order.getCustomerPhone());
-            story.setDiscount(order.getDiscount());
-            story.setDiscountPercent(order.getDiscountPercent());
-            story.setServicePrice(order.getServicePrice());
-            story.setTotalPrice(order.getTotalPrice());
+        OrderStoryEntity story = new OrderStoryEntity();
+        story.setOrder(order);
+        story.setUser(order.getUser());
+        story.setService(order.getService());
+        story.setStatus(order.getStatus());
+        story.setStart(order.getStart());
+        story.setEnd(order.getEnd());
+        story.setComment(order.getComment());
+        story.setCustomerName(order.getCustomerName());
+        story.setCustomerPhone(order.getCustomerPhone());
+        story.setDiscount(order.getDiscount());
+        story.setDiscountPercent(order.getDiscountPercent());
+        story.setServicePrice(order.getServicePrice());
+        story.setTotalPrice(order.getTotalPrice());
 
-            List<OrderSubServicesStoryEntity> ssStories = new ArrayList<>();
-            for (OrderSubServicesEntity subService : emptyIfNull(order.getSubServices())) {
-                OrderSubServicesStoryEntity ssStory = new OrderSubServicesStoryEntity();
-                ssStory.setSubService(subService.getSubService());
-                ssStory.setOrderStory(story);
-                ssStory.setDiscount(subService.getDiscount());
-                ssStory.setDiscountPercent(subService.getDiscountPercent());
-                ssStory.setCount(subService.getCount());
-                ssStory.setSubServicePrice(subService.getSubServicePrice());
-                ssStory.setTotalPrice(subService.getTotalPrice());
+        Set<OrderSubServicesStoryEntity> ssStories = new HashSet<>();
+        for (OrderSubServicesEntity subService : SetUtils.emptyIfNull(order.getSubServices())) {
+            OrderSubServicesStoryEntity ssStory = new OrderSubServicesStoryEntity();
+            ssStory.setSubService(subService.getSubService());
+            ssStory.setOrderStory(story);
+            ssStory.setDiscount(subService.getDiscount());
+            ssStory.setDiscountPercent(subService.getDiscountPercent());
+            ssStory.setCount(subService.getCount());
+            ssStory.setSubServicePrice(subService.getSubServicePrice());
+            ssStory.setTotalPrice(subService.getTotalPrice());
 
-                ssStories.add(ssStory);
-            }
-            story.setSubServicesStory(ssStories);
-            return story;
-
+            ssStories.add(ssStory);
         }
+        story.setSubServicesStory(ssStories);
+
+        return story;
     }
 }

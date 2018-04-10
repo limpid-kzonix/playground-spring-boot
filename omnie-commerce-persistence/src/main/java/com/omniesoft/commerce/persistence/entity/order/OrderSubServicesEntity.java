@@ -6,6 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -132,5 +133,20 @@ public class OrderSubServicesEntity {
 
     public void setDuration(Long duration) {
         this.duration = duration;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OrderSubServicesEntity that = (OrderSubServicesEntity) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(order, that.order);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, order);
     }
 }

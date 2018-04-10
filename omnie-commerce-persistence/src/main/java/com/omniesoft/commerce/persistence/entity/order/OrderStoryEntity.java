@@ -7,7 +7,8 @@ import com.omniesoft.commerce.persistence.entity.service.ServiceEntity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 import static javax.persistence.CascadeType.PERSIST;
@@ -76,8 +77,8 @@ public class OrderStoryEntity {
     @JoinColumn(name = "change_by")
     private UserEntity changeByUser;
 
-    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = {PERSIST, REFRESH})
-    private List<OrderSubServicesStoryEntity> subServicesStory;
+    @OneToMany(mappedBy = "orderStory", fetch = FetchType.LAZY, cascade = {PERSIST, REFRESH})
+    private Set<OrderSubServicesStoryEntity> subServicesStory;
 
     public UUID getId() {
         return id;
@@ -191,11 +192,11 @@ public class OrderStoryEntity {
         this.changeByUser = changeByUser;
     }
 
-    public List<OrderSubServicesStoryEntity> getSubServicesStory() {
+    public Set<OrderSubServicesStoryEntity> getSubServicesStory() {
         return subServicesStory;
     }
 
-    public void setSubServicesStory(List<OrderSubServicesStoryEntity> subServicesStory) {
+    public void setSubServicesStory(Set<OrderSubServicesStoryEntity> subServicesStory) {
         this.subServicesStory = subServicesStory;
     }
 
@@ -213,5 +214,20 @@ public class OrderStoryEntity {
 
     public void setCustomerPhone(String customerPhone) {
         this.customerPhone = customerPhone;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OrderStoryEntity that = (OrderStoryEntity) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(order, that.order) &&
+                Objects.equals(user, that.user);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, order, user);
     }
 }

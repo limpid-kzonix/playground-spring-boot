@@ -12,13 +12,14 @@ import com.omniesoft.commerce.persistence.entity.order.OrderStoryEntity;
 import com.omniesoft.commerce.persistence.entity.order.OrderSubServicesEntity;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Vitalii Martynovskyi
  * @since 22.11.17
  */
 public interface OrderConverter {
-    List<OrderSubService> transformOrderSubServices(List<OrderSubServicesEntity> subServices);
+    List<OrderSubService> transformOrderSubServices(Set<OrderSubServicesEntity> subServices);
 
     List<OrderSubService> transformSaveOrderSubServices(List<SaveOrderSubServices> subServices);
 

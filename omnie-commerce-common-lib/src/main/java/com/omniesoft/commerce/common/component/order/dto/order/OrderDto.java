@@ -17,4 +17,5 @@ import java.util.List;
 @NoArgsConstructor
 public class OrderDto extends AbstractOrderDto {
     private List<OrderSubServicesDto> subServices;
+    private OrderDto prevOrder;
 }

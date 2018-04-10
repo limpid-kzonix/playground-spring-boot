@@ -76,6 +76,20 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
     }
 
     @Override
+    public OrderEntity findByIdAndServiceIdGraph(UUID id, UUID serviceId, String graphName) {
+        return em.createQuery(
+                "select o" +
+                        " from OrderEntity o" +
+                        " where o.id = :id" +
+                        " and o.service.id = :serviceId",
+                OrderEntity.class)
+                .setParameter("id", id)
+                .setParameter("serviceId", serviceId)
+                .setHint("javax.persistence.fetchgraph", em.getEntityGraph(graphName))
+                .getSingleResult();
+    }
+
+    @Override
     public LocalDateTime findLastDateOfOrderForService(UUID service) {
 
         LocalDateTime singleResult = em.createQuery(

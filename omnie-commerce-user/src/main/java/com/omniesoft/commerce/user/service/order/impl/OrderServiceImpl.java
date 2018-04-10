@@ -17,6 +17,7 @@ import com.omniesoft.commerce.common.order.timesheet.SingleDayTimesheetBuilder;
 import com.omniesoft.commerce.common.order.timesheet.TimesheetBuilder;
 import com.omniesoft.commerce.persistence.entity.account.UserEntity;
 import com.omniesoft.commerce.persistence.entity.discount.DiscountEntity;
+import com.omniesoft.commerce.persistence.entity.enums.GraphNames;
 import com.omniesoft.commerce.persistence.entity.enums.OrderStatus;
 import com.omniesoft.commerce.persistence.entity.order.OrderEntity;
 import com.omniesoft.commerce.persistence.entity.order.OrderSubServicesEntity;
@@ -212,7 +213,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderDto getOrderDetails(UUID serviceId, UUID orderId) {
 
-        OrderEntity orderEntity = orderRepository.findByIdAndServiceId(orderId, serviceId);
+        OrderEntity orderEntity = orderRepository.findByIdAndServiceIdGraph(orderId, serviceId, GraphNames.Order.allData);
 
         return orderConverter.mapToOrderDto(orderEntity);
     }
@@ -374,14 +375,14 @@ public class OrderServiceImpl implements OrderService {
         return orderEntity;
     }
 
-    private List<OrderSubServicesEntity> createOrderSubServiceEntitiesWithoutPrices(SaveOrderDto order, OrderEntity
+    private Set<OrderSubServicesEntity> createOrderSubServiceEntitiesWithoutPrices(SaveOrderDto order, OrderEntity
             orderEntity) {
 
         if (order == null || order.getSubServices() == null || order.getSubServices().isEmpty()) {
             return null;
         }
 
-        List<OrderSubServicesEntity> result = new ArrayList<>();
+        Set<OrderSubServicesEntity> result = new HashSet<>();
 
         for (SaveOrderSubServices orderSubService : order.getSubServices()) {
             OrderSubServicesEntity orderSubServiceEntity = new OrderSubServicesEntity();

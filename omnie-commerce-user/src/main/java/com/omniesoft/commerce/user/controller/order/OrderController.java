@@ -1,7 +1,7 @@
 package com.omniesoft.commerce.user.controller.order;
 
 import com.omniesoft.commerce.common.component.order.dto.SaveOrderDto;
-import com.omniesoft.commerce.common.component.order.dto.order.AbstractOrderDto;
+import com.omniesoft.commerce.common.component.order.dto.order.OrderDto;
 import com.omniesoft.commerce.common.component.order.dto.price.OrderPriceDto;
 import com.omniesoft.commerce.common.order.Timesheet;
 import com.omniesoft.commerce.common.request.PageableRequest;
@@ -76,9 +76,9 @@ public class OrderController {
 
 
     @GetMapping(path = "services/{service-id}/orders/{order-id}", produces = APPLICATION_JSON_VALUE)
-    public AbstractOrderDto getOrderDetails(@PathVariable("service-id") UUID serviceId,
-                                            @PathVariable("order-id") UUID orderId,
-                                            @ApiIgnore UserEntity user) {
+    public OrderDto getOrderDetails(@PathVariable("service-id") UUID serviceId,
+                                    @PathVariable("order-id") UUID orderId,
+                                    @ApiIgnore UserEntity user) {
 
         return orderService.getOrderDetails(serviceId, orderId);
 
@@ -112,7 +112,7 @@ public class OrderController {
             @ApiParam(required = true, defaultValue = "2017-12-01")
             @RequestParam(required = true, name = "end_date") LocalDate endDate
     ) {
-        log.debug(startDate.toString() + endDate.toString());
+        log.debug("getListOfDateWithOrderByUser: from {} to {} ", startDate, endDate);
         return orderService.fetchDateWithOrdersByStartDateAndEndDateAndUser(startDate, endDate, userEntity);
     }
 

@@ -2,6 +2,7 @@ package com.omniesoft.commerce.persistence.entity.order;
 
 import com.omniesoft.commerce.persistence.entity.account.UserEntity;
 import com.omniesoft.commerce.persistence.entity.discount.DiscountEntity;
+import com.omniesoft.commerce.persistence.entity.enums.GraphNames;
 import com.omniesoft.commerce.persistence.entity.enums.OrderStatus;
 import com.omniesoft.commerce.persistence.entity.service.ServiceEntity;
 import org.hibernate.annotations.GenericGenerator;
@@ -9,7 +10,8 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
 
 import static javax.persistence.CascadeType.PERSIST;
@@ -22,6 +24,12 @@ import static javax.persistence.CascadeType.REFRESH;
 
 @Entity
 @Table(name = "orders")
+@NamedEntityGraph(name = GraphNames.Order.allData,
+        attributeNodes = {@NamedAttributeNode("subServices"),
+                @NamedAttributeNode("story"),
+                @NamedAttributeNode("service")
+        }
+)
 public class OrderEntity {
     @Id
     @GenericGenerator(name = "uuid", strategy = "uuid2")
@@ -91,7 +99,10 @@ public class OrderEntity {
     private UserEntity doneBy;
 
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = {PERSIST, REFRESH})
-    private List<OrderSubServicesEntity> subServices;
+    private Set<OrderSubServicesEntity> subServices;
+
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
+    private Set<OrderStoryEntity> story;
 
     public UUID getId() {
         return id;
@@ -245,11 +256,35 @@ public class OrderEntity {
         this.doneBy = doneBy;
     }
 
-    public List<OrderSubServicesEntity> getSubServices() {
+    public Set<OrderSubServicesEntity> getSubServices() {
         return subServices;
     }
 
-    public void setSubServices(List<OrderSubServicesEntity> subServices) {
+    public void setSubServices(Set<OrderSubServicesEntity> subServices) {
         this.subServices = subServices;
+    }
+
+    public Set<OrderStoryEntity> getStory() {
+        return story;
+    }
+
+    public void setStory(Set<OrderStoryEntity> story) {
+        this.story = story;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OrderEntity that = (OrderEntity) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(user, that.user) &&
+                Objects.equals(number, that.number);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, user, number);
     }
 }

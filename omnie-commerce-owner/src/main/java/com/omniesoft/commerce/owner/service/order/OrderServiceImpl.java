@@ -37,10 +37,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import static com.omniesoft.commerce.common.handler.exception.custom.enums.OwnerModuleErrorCodes.DISCOUNT_VIOLATION_LIMITS;
 import static com.omniesoft.commerce.persistence.entity.enums.OrderStatus.*;
@@ -368,14 +365,14 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-    private List<OrderSubServicesEntity> createOrderSubServiceEntitiesWithoutPrices(SaveFullOrderDto order, OrderEntity
+    private Set<OrderSubServicesEntity> createOrderSubServiceEntitiesWithoutPrices(SaveFullOrderDto order, OrderEntity
             orderEntity) {
 
         if (order == null || order.getSubServices() == null || order.getSubServices().isEmpty()) {
             return null;
         }
 
-        List<OrderSubServicesEntity> result = new ArrayList<>();
+        Set<OrderSubServicesEntity> result = new ArrayList<>();
 
         for (SaveFullOrderSubServices orderSubService : order.getSubServices()) {
             OrderSubServicesEntity orderSubServiceEntity = new OrderSubServicesEntity();

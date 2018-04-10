@@ -16,6 +16,8 @@ public interface OrderRepositoryCustom {
 
     List<OrderEntity> findAccepted(LocalDateTime start, LocalDateTime end, UUID serviceId);
 
+    OrderEntity findByIdAndServiceIdGraph(UUID id, UUID serviceId, String graphName);
+
     LocalDateTime findLastDateOfOrderForService(UUID service);
 
     List<LocalDateTime> findAllDayDateWithOrders(UUID userId, LocalDate startDate, LocalDate endDate);

@@ -4,6 +4,7 @@ import com.omniesoft.commerce.persistence.entity.discount.DiscountEntity;
 import com.omniesoft.commerce.persistence.entity.service.SubServiceEntity;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -106,5 +107,20 @@ public class OrderSubServicesStoryEntity {
 
     public void setTotalPrice(Double totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OrderSubServicesStoryEntity that = (OrderSubServicesStoryEntity) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(orderStory, that.orderStory);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, orderStory);
     }
 }
