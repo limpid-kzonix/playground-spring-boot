@@ -432,13 +432,13 @@ public class OrderServiceImpl implements OrderService {
         );
 
         if (builder.put(op)) {
-            if (orderEntity.getStatus() == PENDING_FOR_ADMIN) {
+            if (PENDING_FOR_ADMIN.equals(orderEntity.getStatus())) {
                 orderEntity.setStatus(CONFIRM_BY_ADMIN);
                 orderEntity.setUpdateTime(LocalDateTime.now());
                 orderEntity.setUpdateBy(admin);
                 orderRepository.save(orderEntity);
-            }
-            throw new UsefulException("Current status not PENDING_FOR_ADMIN", OwnerModuleErrorCodes.ORDER_STATUS_NOT_CHANGEABLE);
+            } else
+                throw new UsefulException("Current status not PENDING_FOR_ADMIN", OwnerModuleErrorCodes.ORDER_STATUS_NOT_CHANGEABLE);
 
         } else throw new UsefulException(OwnerModuleErrorCodes.ORDER_TIMESHEET_CONFLICT);
     }

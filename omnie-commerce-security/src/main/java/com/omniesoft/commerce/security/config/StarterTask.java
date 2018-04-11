@@ -23,8 +23,8 @@ public class StarterTask {
     private final PasswordEncoder passwordEncoder;
     private final AuthorityService authorityService;
 
-    private final String supperUserLogin;// = "felgeate";
-    private final String supperUserPassword;// = "HiriNARYPTibLefRAtENeOuTHdatEnIC";
+    private final String supperUserLogin;
+    private final String supperUserPassword;
 
     public StarterTask(UserRepository userRepository,
                        PasswordEncoder passwordEncoder,

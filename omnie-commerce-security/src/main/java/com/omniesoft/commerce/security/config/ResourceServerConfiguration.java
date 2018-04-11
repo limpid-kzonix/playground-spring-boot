@@ -27,11 +27,22 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests()
-                .antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security",
-                        "/swagger-ui.html", "/webjars/**", "/swagger-resources/configuration/ui", "/swagger-ui.html",
-                        "/swagger-resources/configuration/security", "/status", "**/oauth/check_token**",
-                        "/social/google/**", "/social/google**", "/social/facebook/**",
-                        "/social/facebook**").permitAll()
+                .antMatchers("/v2/api-docs",
+                        "/configuration/ui",
+                        "/swagger-resources",
+                        "/configuration/security",
+                        "/swagger-ui.html",
+                        "/webjars/**",
+                        "/swagger-resources/configuration/ui",
+                        "/swagger-ui.html",
+                        "/swagger-resources/configuration/security",
+                        "/status",
+                        "**/oauth/check_token**",
+                        "/social/google/**",
+                        "/social/google**",
+                        "/social/facebook/**",
+                        "/social/facebook**"
+                ).permitAll()
                 .and().authorizeRequests().anyRequest().authenticated();
         http.headers().cacheControl();
     }

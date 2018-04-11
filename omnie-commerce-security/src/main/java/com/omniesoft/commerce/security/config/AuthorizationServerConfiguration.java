@@ -91,7 +91,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
                 .secret("24QoO4YAf7iERNlW")
                 .scopes()
                 .scopes("read", "write", "trust")
-                .authorizedGrantTypes("client_credentials", "refresh_token")
+                .authorizedGrantTypes("client_credentials", "password", "refresh_token")
                 .accessTokenValiditySeconds(60 * 60 * 24 * 7)
         ;
 

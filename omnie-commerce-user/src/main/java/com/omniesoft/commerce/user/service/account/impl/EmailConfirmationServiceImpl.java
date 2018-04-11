@@ -28,7 +28,10 @@ public class EmailConfirmationServiceImpl implements EmailConfirmationService {
     private final UserRepository userRepository;
     private final ApplicationEventPublisher eventPublisher;
 
-    public EmailConfirmationServiceImpl(@Value("${front-end.application.url}") String frontEndAppUrl, UserEmailVerificationRepository emailVerificationRepository, UserRepository userRepository, ApplicationEventPublisher eventPublisher) {
+    public EmailConfirmationServiceImpl(@Value("${application.host}") String frontEndAppUrl,
+                                        UserEmailVerificationRepository emailVerificationRepository,
+                                        UserRepository userRepository,
+                                        ApplicationEventPublisher eventPublisher) {
         this.frontEndAppUrl = frontEndAppUrl;
         this.emailVerificationRepository = emailVerificationRepository;
         this.userRepository = userRepository;

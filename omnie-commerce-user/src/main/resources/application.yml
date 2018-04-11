@@ -109,9 +109,9 @@ communication:
       api:
         baseUrl: http://localhost:9999/omnie-notification/api
 
-front-end:
-  application:
-    url: http://dev.omniecom.com
+application:
+  host: http://dev.omniecom.com
+  port: 9999
 #
 # [ Eureka]
 #
@@ -267,9 +267,9 @@ communication:
       api:
         baseUrl: http://omnie-gateway:9999/omnie-notification/api
 
-front-end:
-  application:
-    url: http://omniecom.com.ua
+application:
+    host: http://omniecom.com.ua
+    port: 0
 
 eureka:
   instance:

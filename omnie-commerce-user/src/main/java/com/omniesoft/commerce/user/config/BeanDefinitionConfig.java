@@ -1,5 +1,7 @@
 package com.omniesoft.commerce.user.config;
 
+import com.omniesoft.commerce.common.component.url.UrlBuilder;
+import com.omniesoft.commerce.common.component.url.UrlBuilderImpl;
 import com.omniesoft.commerce.common.converter.OrganizationTimeSheetConverter;
 import com.omniesoft.commerce.common.converter.ServicePriceConverter;
 import com.omniesoft.commerce.common.converter.ServicePriceListConverter;
@@ -198,6 +200,12 @@ public class BeanDefinitionConfig {
         remoteTokenServices.setClientId(clientId);
         remoteTokenServices.setClientSecret(clientSecret);
         return remoteTokenServices;
+    }
+
+    @Bean
+    public UrlBuilder urlBuilder(final @Value("${application.host}") String host,
+                                 final @Value("${application.port}") int port) {
+        return new UrlBuilderImpl(host, port);
     }
 
     public TokenRestTemplate getTokenRestTemplate() {
