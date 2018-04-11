@@ -49,12 +49,12 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     public Page<OrganizationRowExtendDto> getOrganizations(String filter, UUID category, Pageable pageable, UserEntity userEntity) {
 
-        Page<OrganizationRowExtendDto> organizationsByFilterAndCategoryAndUserEntity = organizationRepository
-                .getOrganizationsByFilterAndCategoryAndUserEntity(filter, category, userEntity,
-                        pageable);
+        Page<OrganizationRowExtendDto> organizations = organizationRepository
+                .getOrganizationsByFilterAndCategoryAndUserEntity(filter, category, userEntity, pageable);
+
         userStatisticRestTemplate.logUserOrganizationSearch(userEntity.getId(), filter);
 
-        return organizationsByFilterAndCategoryAndUserEntity;
+        return organizations;
     }
 
     @Override

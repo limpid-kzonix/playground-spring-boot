@@ -27,7 +27,7 @@ public class OAuthProfileValidatorImpl implements OAuthProfileValidator {
 
     private void checkUserEmail(SocialProfile userProfile) {
 
-        if (userProfile.getEmail() == null && !userProfile.getEmail().matches(Patterns.EMAIL)) {
+        if (userProfile.getEmail() == null || !userProfile.getEmail().matches(Patterns.EMAIL)) {
             throw new UsefulException(
                     "Field is not valid: email (from social provider) is null or not compliance with pattern:" +
                             Patterns.EMAIL, SecurityModuleErrorCodes.SOCIAL_EMAIL_INCORRECT);

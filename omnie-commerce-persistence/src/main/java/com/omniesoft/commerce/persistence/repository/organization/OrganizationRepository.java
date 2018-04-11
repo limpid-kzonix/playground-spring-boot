@@ -61,7 +61,7 @@ public interface OrganizationRepository extends PagingAndSortingRepository<Organ
             "      OR lower(owprofile.lastName)   LIKE :filter%")
     Page<OrganizationRowDto> getOrganizationPage(@Param("filter") String filter, Pageable page);
 
-    @Query(value = "" +
+    @Query(value =
             "select " +
             "   new com.omniesoft.commerce.persistence.dto.organization.OrganizationRowExtendDto(" +
             "       org.id," +
@@ -95,7 +95,7 @@ public interface OrganizationRepository extends PagingAndSortingRepository<Organ
             "       inUsers.id," +
             "       mark.id "
             ,
-            countQuery = "" +
+            countQuery =
                     "select " +
                     "   count(org) " +
                     "from OrganizationEntity org" +
@@ -145,6 +145,8 @@ public interface OrganizationRepository extends PagingAndSortingRepository<Organ
             " group by org.id "
     )
     Page<OrganizationHandbookSummary> findForHandbook(@Param("filter") String filter, Pageable pageable);
+
+
 //    @Query(value = "SELECT new com.omniesoft.commerce.persistence.dto.organization.OrganizationRowDto( " +
 //            " o.id," +
 //            " o.name," +

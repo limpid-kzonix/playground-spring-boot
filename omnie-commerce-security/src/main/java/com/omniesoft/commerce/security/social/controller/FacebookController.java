@@ -32,8 +32,7 @@ public class FacebookController {
 
     @PostMapping()
     public OAuth2AccessToken signInProfileToUser(
-            @RequestParam("social_token") String facebookToken
-    ) {
+            @RequestParam("social_token") String facebookToken) {
 
         return oAuthHandlerAdapter.handle(facebookToken, OAuthClient.FACEBOOK);
     }

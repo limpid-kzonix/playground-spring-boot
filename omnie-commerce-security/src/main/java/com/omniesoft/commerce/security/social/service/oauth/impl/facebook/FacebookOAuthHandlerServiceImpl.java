@@ -6,12 +6,7 @@ import com.omniesoft.commerce.persistence.entity.account.UserEntity;
 import com.omniesoft.commerce.persistence.entity.enums.OAuthClient;
 import com.omniesoft.commerce.persistence.repository.account.UserOAuthRepository;
 import com.omniesoft.commerce.persistence.repository.account.UserRepository;
-import com.omniesoft.commerce.security.social.service.oauth.OAuthApiExplorer;
-import com.omniesoft.commerce.security.social.service.oauth.OAuthHandlerAdapter;
-import com.omniesoft.commerce.security.social.service.oauth.OAuthSignInService;
-import com.omniesoft.commerce.security.social.service.oauth.OAuthSignUpService;
-import com.omniesoft.commerce.security.social.service.oauth.SignInAdapter;
-import com.omniesoft.commerce.security.social.service.oauth.SignUpAdapter;
+import com.omniesoft.commerce.security.social.service.oauth.*;
 import com.omniesoft.commerce.security.social.service.oauth.impl.AbstractOAuthVerifierer;
 import com.omniesoft.commerce.security.social.service.oauth.model.SocialProfile;
 import lombok.extern.slf4j.Slf4j;
@@ -72,8 +67,7 @@ public class FacebookOAuthHandlerServiceImpl extends AbstractOAuthVerifierer imp
   @Override
   public void link(String oAuthToken, UserEntity userEntity, OAuthClient client) {
 
-    SocialProfile userProfile = oAuthApiExplorer
-        .fetchUserProfile(oAuthToken);
+      SocialProfile userProfile = oAuthApiExplorer.fetchUserProfile(oAuthToken);
     signInAdapter.link(userEntity, client, userProfile);
   }
 }
