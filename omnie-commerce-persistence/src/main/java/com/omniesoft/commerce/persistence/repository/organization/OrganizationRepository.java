@@ -64,50 +64,50 @@ public interface OrganizationRepository extends PagingAndSortingRepository<Organ
     @Query(value =
             "select " +
             "   new com.omniesoft.commerce.persistence.dto.organization.OrganizationRowExtendDto(" +
-            "       org.id," +
-            "       org.name," +
-            "       org.email," +
-            "       org.logoId," +
-            "       org.backgroundImageId," +
-            "       org.freezeStatus," +
-            "       org.createTime," +
-            "       (case when :user in inUsers then true  else false end)," +
-            "       coalesce( mark.rating, 0), " +
-            "       org.title, " +
-            "       org.description," +
-            "       org.reason," +
-            "       org.placeId," +
-            "       org.longitude," +
-            "       org.latitude" +
+                    "     org.id," +
+                    "     org.name," +
+                    "     org.email," +
+                    "     org.logoId," +
+                    "     org.backgroundImageId," +
+                    "     org.freezeStatus," +
+                    "     org.createTime," +
+                    "     (case when :user in inUsers then true  else false end)," +
+                    "     coalesce( mark.rating, 0), " +
+                    "     org.title, " +
+                    "     org.description," +
+                    "     org.reason," +
+                    "     org.placeId," +
+                    "     org.longitude," +
+                    "     org.latitude" +
             "   )" +
-            "from OrganizationEntity org " +
-            "   left   join            org.services service " +
-            "   left   join            service.subCategories subcategory " +
-            "   left   join            subcategory.category category " +
-            "   left    join            org.mark mark" +
-            "   left    join            org.inUsersFavorites inUsers " +
-            "where " +
+                    "from OrganizationEntity org" +
+                    " left join  org.services service" +
+                    " left join  service.subCategories subcategory" +
+                    " left join  subcategory.category category " +
+                    " left join  org.mark mark" +
+                    " left join  org.inUsersFavorites inUsers" +
+                    " where " +
             "   (lower(org.name) like %:filter%)" +
-            "   and (category.id = :c " +
-            "   or subcategory.id = :c) and org.deleteStatus = false " +
-            "group by" +
-            "       org.id," +
-            "       inUsers.id," +
-            "       mark.id "
-            ,
+                    "   and (category.id = :c or subcategory.id = :c)" +
+                    "   and org.deleteStatus = false" +
+//            "   and inUsers is null or inUsers = :user" +
+                    " group by" +
+                    "   org.id," +
+                    "   inUsers.id," +
+                    "   mark.id",
             countQuery =
                     "select " +
                     "   count(org) " +
                     "from OrganizationEntity org" +
-                    "   inner   join            org.services service " +
-                    "   inner   join            service.subCategories subcategory " +
-                    "   left   join            subcategory.category category " +
+                            "   inner join  org.services service " +
+                            "   inner join  service.subCategories subcategory " +
+                            "   left  join  subcategory.category category " +
                     "where " +
                     "   (lower(org.name) like %:filter%)" +
                     "   and (category.id = :c and :user <> null" +
                     "   or subcategory.id = :c) " +
                     "group by " +
-                    "       org.id"
+                            "   org.id"
     )
     Page<OrganizationRowExtendDto> getOrganizationsByFilterAndCategoryAndUserEntity(@Param("filter") String filter, @Param("c") UUID category, @Param("user") UserEntity user, Pageable pageable);
 

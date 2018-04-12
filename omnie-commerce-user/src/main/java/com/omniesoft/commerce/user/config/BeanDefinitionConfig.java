@@ -39,7 +39,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -57,13 +56,11 @@ public class BeanDefinitionConfig {
     @Order(Ordered.HIGHEST_PRECEDENCE)
     @Bean
     public ResponseEntityExceptionHandler entityExceptionHandler() {
-
         return new RestResponseEntityExceptionHandler();
     }
 
     @Bean
     public ModelMapper modelMapper() {
-
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
         return modelMapper;
@@ -71,32 +68,27 @@ public class BeanDefinitionConfig {
 
     @Bean
     public PasswordEncoder bCrypt() {
-
         return new BCryptPasswordEncoder();
     }
 
     @Bean
     public AccountMailService accountMailService() {
-
         return new AccountMailServiceImpl();
     }
 
     @Bean
     public MailService mailService() {
-
         return new MailServiceImpl();
     }
 
     @Bean
     public MailMessageBuilder messageBuilder() {
-
         return new MailContentBuilder();
     }
 
 
     @Bean
     public RestTemplate restTemplate() {
-
         return new RestTemplate();
     }
 
@@ -169,7 +161,6 @@ public class BeanDefinitionConfig {
 
     @Bean(name = "httpThreadPoolExecutor")
     public Executor httpThreadPoolExecutor() {
-
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(8);
         executor.setMaxPoolSize(64);
@@ -181,7 +172,6 @@ public class BeanDefinitionConfig {
 
     @Bean(name = "scheduleThreadPoolExecutor")
     public Executor scheduleThreadPoolExecutor() {
-
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(1);
         executor.setMaxPoolSize(2);
@@ -191,16 +181,16 @@ public class BeanDefinitionConfig {
         return executor;
     }
 
-    @Bean("remoteTokenService")
-    public RemoteTokenServices remoteTokenServices(final @Value("${security.oauth2.client.accessTokenUri}") String checkTokenUrl,
-                                                   final @Value("${security.oauth2.client.clientId}") String clientId,
-                                                   final @Value("${security.oauth2.client.clientSecret}") String clientSecret) {
-        final RemoteTokenServices remoteTokenServices = new RemoteTokenServices();
-        remoteTokenServices.setCheckTokenEndpointUrl(checkTokenUrl);
-        remoteTokenServices.setClientId(clientId);
-        remoteTokenServices.setClientSecret(clientSecret);
-        return remoteTokenServices;
-    }
+//    @Bean("remoteTokenService")
+//    public RemoteTokenServices remoteTokenServices(final @Value("${security.oauth2.client.accessTokenUri}") String checkTokenUrl,
+//                                                   final @Value("${security.oauth2.client.clientId}") String clientId,
+//                                                   final @Value("${security.oauth2.client.clientSecret}") String clientSecret) {
+//        final RemoteTokenServices remoteTokenServices = new RemoteTokenServices();
+//        remoteTokenServices.setCheckTokenEndpointUrl(checkTokenUrl);
+//        remoteTokenServices.setClientId(clientId);
+//        remoteTokenServices.setClientSecret(clientSecret);
+//        return remoteTokenServices;
+//    }
 
     @Bean
     public UrlBuilder urlBuilder(final @Value("${application.host}") String host,
