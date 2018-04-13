@@ -153,6 +153,8 @@ spring:
 # [ Security Configuration Attributes ]
 #
 security:
+  basic:
+    enabled: false
   oauth2:
     client:
       clientId: web-client
@@ -227,6 +229,8 @@ spring:
 # [ Security Configuration Attributes ]
 #
 security:
+  basic:
+    enabled: false
   oauth2:
     client:
       clientId: web-client
