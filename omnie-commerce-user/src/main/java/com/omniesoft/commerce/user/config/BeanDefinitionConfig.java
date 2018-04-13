@@ -39,7 +39,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -180,17 +179,6 @@ public class BeanDefinitionConfig {
         executor.setThreadNamePrefix("ScheduleTemplateServiceLookup-");
         executor.initialize();
         return executor;
-    }
-
-    @Bean("remoteTokenService")
-    public RemoteTokenServices remoteTokenServices(final @Value("${security.oauth2.client.accessTokenUri}") String checkTokenUrl,
-                                                   final @Value("${security.oauth2.client.clientId}") String clientId,
-                                                   final @Value("${security.oauth2.client.clientSecret}") String clientSecret) {
-        final RemoteTokenServices remoteTokenServices = new RemoteTokenServices();
-        remoteTokenServices.setCheckTokenEndpointUrl(checkTokenUrl);
-        remoteTokenServices.setClientId(clientId);
-        remoteTokenServices.setClientSecret(clientSecret);
-        return remoteTokenServices;
     }
 
     @Bean

@@ -41,16 +41,14 @@ public class TokenRestTemplateImpl extends RestTemplateAbstraction implements To
                 .queryParam("grant_type", "client_credentials").build().toUri();
         log.info("Inter-service secured call {}" + uri.toString());
         return restTemplate
-                .exchange(uri, HttpMethod.POST, new HttpEntity<>(httpHeaders),
-                        OAuth2AccessToken
-                                .class).getBody();
+                .exchange(uri, HttpMethod.POST, new HttpEntity<>(httpHeaders), OAuth2AccessToken.class)
+                .getBody();
     }
 
     private HttpHeaders createHeaders() {
 
         String auth = clientId + ":" + secret;
-        byte[] encodedAuth = Base64.encodeBase64(
-                auth.getBytes(Charset.forName("US-ASCII")));
+        byte[] encodedAuth = Base64.encodeBase64(auth.getBytes(Charset.forName("US-ASCII")));
         String authHeader = "Basic " + new String(encodedAuth);
 
         HttpHeaders httpHeaders = new HttpHeaders();

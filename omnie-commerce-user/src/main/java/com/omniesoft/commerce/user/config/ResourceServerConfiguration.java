@@ -1,13 +1,10 @@
 package com.omniesoft.commerce.user.config;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
-import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
 
 /**
  * @author Vitalii Martynovskyi
@@ -18,21 +15,6 @@ import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableResourceServer
 public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
-
-    private RemoteTokenServices remoteTokenServices;
-
-
-    public ResourceServerConfiguration(@Qualifier("remoteTokenService") RemoteTokenServices remoteTokenServices) {
-
-        this.remoteTokenServices = remoteTokenServices;
-    }
-
-
-    @Override
-    public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-        resources.tokenServices(remoteTokenServices);
-    }
-
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
@@ -42,8 +24,14 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
                 .and()
                 .authorizeRequests()
                 .antMatchers(
-                        "/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security",
-                        "/swagger-ui.html", "/webjars/**", "/swagger-resources/configuration/ui", "/swagger-ui.html",
+                        "/v2/api-docs",
+                        "/configuration/ui",
+                        "/swagger-resources",
+                        "/configuration/security",
+                        "/swagger-ui.html",
+                        "/webjars/**",
+                        "/swagger-resources/configuration/ui",
+                        "/swagger-ui.html",
                         "/swagger-resources/configuration/security",
                         "/account/signup**",
                         "/account/confirmation/**",
