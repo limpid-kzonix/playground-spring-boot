@@ -85,12 +85,11 @@ public interface OrganizationRepository extends PagingAndSortingRepository<Organ
                     " left join  service.subCategories subcategory" +
                     " left join  subcategory.category category " +
                     " left join  org.mark mark" +
-                    " left join  org.inUsersFavorites inUsers" +
+                    " left join  org.inUsersFavorites inUsers on inUsers = :user" +
                     " where " +
             "   (lower(org.name) like %:filter%)" +
                     "   and (category.id = :c or subcategory.id = :c)" +
                     "   and org.deleteStatus = false" +
-//            "   and inUsers is null or inUsers = :user" +
                     " group by" +
                     "   org.id," +
                     "   inUsers.id," +
@@ -109,7 +108,10 @@ public interface OrganizationRepository extends PagingAndSortingRepository<Organ
                     "group by " +
                             "   org.id"
     )
-    Page<OrganizationRowExtendDto> getOrganizationsByFilterAndCategoryAndUserEntity(@Param("filter") String filter, @Param("c") UUID category, @Param("user") UserEntity user, Pageable pageable);
+    Page<OrganizationRowExtendDto> getOrganizationsByFilterAndCategoryAndUserEntity(@Param("filter") String filter,
+                                                                                    @Param("c") UUID category,
+                                                                                    @Param("user") UserEntity user,
+                                                                                    Pageable pageable);
 
     List<OrganizationCardSummary> findAllByOwner(OwnerEntity ownerAccount);
 

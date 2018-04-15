@@ -102,53 +102,49 @@ public interface ServiceRepository extends PagingAndSortingRepository<ServiceEnt
                                                      @Param("filter") String filter,
                                                      Pageable page);
 
-    @Query(value = "" +
-            "select " +
-            "   new com.omniesoft.commerce.persistence.dto.service.ServiceRowUserExtendDto(" +
-            "       service.id," +
-            "       service.name," +
-            "       service.description," +
-            "       service.logoId," +
-            "       service.freezeStatus," +
-            "       service.reason," +
-            "       service.createTime," +
-            "       (case when :user in inUsers then true  else false end)," +
-            "       coalesce( mark.rating, 0), " +
-            "       organization.id," +
-            "       organization.name" +
-            "   ) " +
-            "from ServiceEntity service" +
-            "   left   join            service.subCategories subcategory " +
-            "   left    join            subcategory.category category " +
-            "   left    join            service.mark mark " +
-            "   left   join            service.inUsersFavorites inUsers " +
-            "   left   join             service.organization organization " +
-            "where " +
-            "   (lower(service.name) like %:filter%)" +
-            "   and (category.id = :c " +
-            "   or subcategory.id = :c) " +
-            "   and service.deleteStatus = false " +
-            "group by" +
-            "       service.id," +
-            "       inUsers.id," +
-            "       organization.id," +
-            "       mark.id"
-            ,
-            countQuery = "" +
-                    "select " +
-                    "   count(service) " +
-                    "from ServiceEntity service" +
-                    "   inner   join            service.subCategories subcategory " +
-                    "   inner   join            subcategory.category category " +
-                    "where " +
-                    "   (lower(service.name) like %:filter%)" +
-                    "   and (category.id = :c " +
-                    "   or subcategory.id = :c) " +
-                    "   and service.deleteStatus = false and :user <> null " +
-                    "group by " +
-                    "       service.id," +
-                    "       category.id "
-    )
+    @Query(value = "select " +
+            "  new com.omniesoft.commerce.persistence.dto.service.ServiceRowUserExtendDto(" +
+            "    service.id," +
+            "    service.name," +
+            "    service.description," +
+            "    service.logoId," +
+            "    service.freezeStatus," +
+            "    service.reason," +
+            "    service.createTime," +
+            "    (case when :user in inUsers then true  else false end)," +
+            "    coalesce( mark.rating, 0)," +
+            "    organization.id," +
+            "    organization.name" +
+            "  )" +
+            " from ServiceEntity service" +
+            "  left  join  service.subCategories subcategory" +
+            "  left  join  subcategory.category category" +
+            "  left  join  service.mark mark" +
+            "  left  join  service.inUsersFavorites inUsers on inUsers = :user" +
+            "  left  join  service.organization organization" +
+            " where " +
+            "  (lower(service.name) like %:filter%)" +
+            "  and (category.id = :c or subcategory.id = :c)" +
+            "  and service.deleteStatus = false" +
+            " group by" +
+            "  service.id," +
+            "  inUsers.id," +
+            "  organization.id," +
+            "  mark.id",
+            countQuery = "select " +
+                    "  count(service) " +
+                    " from ServiceEntity service" +
+                    "  inner  join  service.subCategories subcategory " +
+                    "  inner  join  subcategory.category category" +
+                    " where " +
+                    "  (lower(service.name) like %:filter%)" +
+                    "  and (category.id = :c" +
+                    "  or subcategory.id = :c)" +
+                    "  and service.deleteStatus = false" +
+                    "  and :user <> null" +
+                    " group by " +
+                    "  service.id," +
+                    "  category.id")
     Page<ServiceRowUserExtendDto> findServicesByFilterAndCategoryAndUserEntity(@Param("filter") String filter,
                                                                                @Param("c") UUID category,
                                                                                @Param("user") UserEntity user,
