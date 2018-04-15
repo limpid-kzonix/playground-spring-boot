@@ -71,7 +71,10 @@ public interface OrganizationRepository extends PagingAndSortingRepository<Organ
                     "     org.backgroundImageId," +
                     "     org.freezeStatus," +
                     "     org.createTime," +
-                    "     (case when :user in inUsers then true  else false end)," +
+                    "     (case when (select f.id.user.id" +
+                    "                 from OrganizationFavoriteEntity f " +
+                    "                 where f.id.user =:user and f.id.organization = org)" +
+                    "      is not null then true else false end)," +
                     "     coalesce( mark.rating, 0), " +
                     "     org.title, " +
                     "     org.description," +
@@ -85,14 +88,12 @@ public interface OrganizationRepository extends PagingAndSortingRepository<Organ
                     " left join  service.subCategories subcategory" +
                     " left join  subcategory.category category " +
                     " left join  org.mark mark" +
-                    " left join  org.inUsersFavorites inUsers on inUsers = :user" +
                     " where " +
             "   (lower(org.name) like %:filter%)" +
                     "   and (category.id = :c or subcategory.id = :c)" +
                     "   and org.deleteStatus = false" +
                     " group by" +
                     "   org.id," +
-                    "   inUsers.id," +
                     "   mark.id",
             countQuery =
                     "select " +

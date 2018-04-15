@@ -107,7 +107,10 @@ public interface ServiceRepository extends PagingAndSortingRepository<ServiceEnt
             "    service.freezeStatus," +
             "    service.reason," +
             "    service.createTime," +
-            "    (case when :user in inUsers then true  else false end)," +
+            "    (case when (select f.id.user.id" +
+            "                from ServiceFavoriteEntity f " +
+            "                where f.id.user =:user and f.id.service = service)" +
+            "    is not null then true else false end)," +
             "    coalesce( mark.rating, 0)," +
             "    organization.id," +
             "    organization.name" +
@@ -116,7 +119,6 @@ public interface ServiceRepository extends PagingAndSortingRepository<ServiceEnt
             "  left  join  service.subCategories subcategory" +
             "  left  join  subcategory.category category" +
             "  left  join  service.mark mark" +
-            "  left  join  service.inUsersFavorites inUsers on inUsers = :user" +
             "  left  join  service.organization organization" +
             " where " +
             "  lower(service.name) like %:filter%" +
@@ -124,7 +126,6 @@ public interface ServiceRepository extends PagingAndSortingRepository<ServiceEnt
             "  and service.deleteStatus = false" +
             " group by" +
             "  service.id," +
-            "  inUsers.id," +
             "  organization.id," +
             "  mark.id",
             countQuery = "select" +
@@ -155,14 +156,16 @@ public interface ServiceRepository extends PagingAndSortingRepository<ServiceEnt
             "  service.freezeStatus," +
             "  service.reason," +
             "  service.createTime," +
-            "  (case when :user in inUsers then true  else false end)," +
+            "    (case when (select f.id.user.id" +
+            "                from ServiceFavoriteEntity f " +
+            "                where f.id.user =:user and f.id.service = service)" +
+            "    is not null then true else false end)," +
             "  coalesce( mark.rating, 0)," +
             "  organization.id," +
             "  organization.name" +
             " )" +
             " from ServiceEntity service" +
             "    left  join  service.mark mark" +
-            "    left  join  service.inUsersFavorites inUsers on inUsers = :user" +
             "    left  join  service.organization organization" +
             " where " +
             "    lower(service.name) like %:filter%" +
@@ -170,7 +173,6 @@ public interface ServiceRepository extends PagingAndSortingRepository<ServiceEnt
             "    and service.deleteStatus = false" +
             " group by" +
             "  service.id," +
-            "  inUsers.id," +
             "  organization.id," +
             "  mark.id",
             countQuery = "select" +

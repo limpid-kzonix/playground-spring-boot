@@ -20,8 +20,8 @@ public interface OrganizationFavoriteRepository
             "select ofe from OrganizationFavoriteEntity ofe " +
             "left join fetch ofe.id.user user " +
             "left join fetch ofe.id.organization organization " +
-            "where user.id = :user " +
-            "", countQuery = "" +
+            "where user.id = :user ",
+            countQuery =
             "select count(ofe) from OrganizationFavoriteEntity ofe " +
             "left join ofe.id.user user " +
             "where user.id = :user ")
