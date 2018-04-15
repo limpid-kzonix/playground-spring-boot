@@ -44,8 +44,7 @@ public class ServiceController extends AbstractOrganizationController {
             @Valid PageableRequest pageableRequest, Pageable pageable,
             @RequestParam("category") UUID category,
             @ApiParam(defaultValue = "_", required = true) @RequestParam("search") String searchPattern,
-            @ApiIgnore UserEntity userEntity
-    ) {
+            @ApiIgnore UserEntity userEntity) {
         return serviceScopeService.getServicesByCategoryAndFilter(searchPattern, category, pageable, userEntity);
     }
 
@@ -54,8 +53,7 @@ public class ServiceController extends AbstractOrganizationController {
     public List<ServiceLanguageSummary> getServiceLanguages(
             @PathVariable("organization-id") UUID organizationId,
             @PathVariable("service-id") UUID serviceId,
-            @ApiIgnore UserEntity userEntity
-    ) {
+            @ApiIgnore UserEntity userEntity) {
         return serviceScopeService.findServiceLanguages(organizationId, serviceId, userEntity);
     }
 
@@ -64,8 +62,7 @@ public class ServiceController extends AbstractOrganizationController {
             @Valid PageableRequest pageableRequest, Pageable pageable,
             @PathVariable("organization-id") UUID orgId,
             @ApiParam(defaultValue = "_", required = true) @RequestParam("search") String searchPattern,
-            @ApiIgnore UserEntity userEntity
-    ) {
+            @ApiIgnore UserEntity userEntity) {
         return serviceScopeService.getServicesByOrganizationIdAndFilter(searchPattern, orgId, pageable, userEntity);
     }
 
@@ -73,51 +70,44 @@ public class ServiceController extends AbstractOrganizationController {
     public ServiceRowUserExtendDto getService(
             @PathVariable("service-id") UUID service,
             @PathVariable("organization-id") UUID organization,
-            @ApiIgnore UserEntity userEntity
-    ) {
+            @ApiIgnore UserEntity userEntity) {
         return serviceScopeService.find(organization, service, userEntity);
     }
 
-    @GetMapping(path = "/{organization-id}/services/{service-id}/gallery", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/{organization-id}/services/{service-id}/gallery",
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public List<ServiceGallerySummary> getServiceGallery(
             @PathVariable("service-id") UUID service,
             @PathVariable("organization-id") UUID organization,
-            @ApiIgnore UserEntity userEntity
-    ) {
+            @ApiIgnore UserEntity userEntity) {
         return serviceScopeService.getServiceGallery(service, organization, userEntity);
     }
 
-    @GetMapping(path = "/{organization-id}/services/{service-id}/timesheet", produces = MediaType
-            .APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/{organization-id}/services/{service-id}/timesheet",
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public Map<DayOfWeek, List<ServicePricePayload>> getServiceTimeSheet(
             @PathVariable("service-id") UUID service,
             @PathVariable("organization-id") UUID organization,
-            @ApiIgnore UserEntity userEntity
-    ) {
-
-        return serviceScopeService
-                .getServiceTimeSheet(service, organization, userEntity);
+            @ApiIgnore UserEntity userEntity) {
+        return serviceScopeService.getServiceTimeSheet(service, organization, userEntity);
     }
 
-    @GetMapping(path = "/{organization-id}/services/{service-id}/settings", produces = MediaType
-            .APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/{organization-id}/services/{service-id}/settings",
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public ServiceTimingPayload getServiceTimingSetting(
             @PathVariable("service-id") UUID service,
             @PathVariable("organization-id") UUID organization,
-            @ApiIgnore UserEntity userEntity
-    ) {
-        ServiceTimingEntity serviceTimingSetting = serviceScopeService
-                .getServiceTimingSetting(organization, service, userEntity);
-        return modelMapper.map(serviceTimingSetting, ServiceTimingPayload.class);
+            @ApiIgnore UserEntity userEntity) {
+        ServiceTimingEntity serviceTiming = serviceScopeService.getServiceTimingSetting(organization, service, userEntity);
+        return modelMapper.map(serviceTiming, ServiceTimingPayload.class);
     }
 
-    @GetMapping(path = "/{organization-id}/services/{service-id}/sub-services", produces = MediaType
-            .APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/{organization-id}/services/{service-id}/sub-services",
+            produces = MediaType.APPLICATION_JSON_VALUE)
     public List<SubServicePayload> getSubServices(
             @PathVariable("service-id") UUID service,
             @PathVariable("organization-id") UUID organization,
-            @ApiIgnore UserEntity userEntity
-    ) {
+            @ApiIgnore UserEntity userEntity) {
         return serviceScopeService.getSubServices(organization, service, userEntity);
     }
 

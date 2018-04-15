@@ -68,15 +68,23 @@ public class ServiceScopeServiceImpl implements ServiceScopeService {
     }
 
     @Override
-    public Page<ServiceRowUserExtendDto> getServicesByCategoryAndFilter(String filter, UUID category, Pageable pageable,
+    public Page<ServiceRowUserExtendDto> getServicesByCategoryAndFilter(String filter,
+                                                                        UUID category,
+                                                                        Pageable pageable,
                                                                         UserEntity userEntity) {
-        return serviceRepository.findServicesByFilterAndCategoryAndUserEntity(filter.toLowerCase(), category, userEntity, pageable);
+        return serviceRepository.findServicesByFilterAndCategoryAndUserEntity(
+                filter.toLowerCase(),
+                category,
+                userEntity,
+                pageable
+        );
     }
 
     @Override
-    public Page<ServiceRowUserExtendDto> getServicesByOrganizationIdAndFilter(String filter, UUID org,
-                                                                              Pageable pageable, UserEntity userEntity) {
-
+    public Page<ServiceRowUserExtendDto> getServicesByOrganizationIdAndFilter(String filter,
+                                                                              UUID org,
+                                                                              Pageable pageable,
+                                                                              UserEntity userEntity) {
         return serviceRepository.findOrganizationServices(filter, org, userEntity, pageable);
     }
 

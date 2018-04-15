@@ -15,10 +15,6 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
 
-/**
- * @author Vitalii Martynovskyi
- * @since 12.07.17
- */
 @Transactional
 public interface ServiceRepository extends PagingAndSortingRepository<ServiceEntity, UUID>, ServiceRepositoryCustom {
 
@@ -102,7 +98,7 @@ public interface ServiceRepository extends PagingAndSortingRepository<ServiceEnt
                                                      @Param("filter") String filter,
                                                      Pageable page);
 
-    @Query(value = "select " +
+    @Query(value = "select" +
             "  new com.omniesoft.commerce.persistence.dto.service.ServiceRowUserExtendDto(" +
             "    service.id," +
             "    service.name," +
@@ -123,7 +119,7 @@ public interface ServiceRepository extends PagingAndSortingRepository<ServiceEnt
             "  left  join  service.inUsersFavorites inUsers on inUsers = :user" +
             "  left  join  service.organization organization" +
             " where " +
-            "  (lower(service.name) like %:filter%)" +
+            "  lower(service.name) like %:filter%" +
             "  and (category.id = :c or subcategory.id = :c)" +
             "  and service.deleteStatus = false" +
             " group by" +
@@ -131,15 +127,14 @@ public interface ServiceRepository extends PagingAndSortingRepository<ServiceEnt
             "  inUsers.id," +
             "  organization.id," +
             "  mark.id",
-            countQuery = "select " +
+            countQuery = "select" +
                     "  count(service) " +
                     " from ServiceEntity service" +
                     "  inner  join  service.subCategories subcategory " +
                     "  inner  join  subcategory.category category" +
                     " where " +
-                    "  (lower(service.name) like %:filter%)" +
-                    "  and (category.id = :c" +
-                    "  or subcategory.id = :c)" +
+                    "  lower(service.name) like %:filter%" +
+                    "  and (category.id = :c or subcategory.id = :c)" +
                     "  and service.deleteStatus = false" +
                     "  and :user <> null" +
                     " group by " +
@@ -151,50 +146,49 @@ public interface ServiceRepository extends PagingAndSortingRepository<ServiceEnt
                                                                                Pageable pageable);
 
 
-    @Query(value = "" +
-            "select " +
-            "   new com.omniesoft.commerce.persistence.dto.service.ServiceRowUserExtendDto(" +
-            "       service.id," +
-            "       service.name," +
-            "       service.description," +
-            "       service.logoId," +
-            "       service.freezeStatus," +
-            "       service.reason," +
-            "       service.createTime," +
-            "       (case when :user in inUsers then true  else false end)," +
-            "       coalesce( mark.rating, 0), " +
-            "       organization.id," +
-            "       organization.name  " +
-            ")  " +
-            "from ServiceEntity service" +
-            "   left    join            service.mark mark " +
-            "   left   join            service.inUsersFavorites inUsers " +
-            "   left   join             service.organization organization " +
-            "where " +
-            "   (lower(service.name) like %:filter%)" +
-            "   and (organization.id = :o " +
-            "   and service.deleteStatus = false ) " +
-            "group by" +
-            "       service.id," +
-            "       inUsers.id," +
-            "       organization.id," +
-            "       mark.id"
-            ,
-            countQuery = "" +
-                    "select " +
-                    "   count(service) " +
-                    "from ServiceEntity service" +
-                    "   left   join             service.organization organization " +
-                    "where " +
-                    "   (lower(service.name) like %:filter%)" +
-                    "   and (organization.id = :o " +
-                    "   and service.deleteStatus = false) and :user <> null " +
-                    "group by " +
-                    "       service.id," +
-                    "       organization.id "
-    )
-    Page<ServiceRowUserExtendDto> findOrganizationServices(@Param("filter") String filter, @Param("o") UUID org,
-                                                           @Param("user") UserEntity user, Pageable pageable);
+    @Query(value = "select" +
+            " new com.omniesoft.commerce.persistence.dto.service.ServiceRowUserExtendDto(" +
+            "  service.id," +
+            "  service.name," +
+            "  service.description," +
+            "  service.logoId," +
+            "  service.freezeStatus," +
+            "  service.reason," +
+            "  service.createTime," +
+            "  (case when :user in inUsers then true  else false end)," +
+            "  coalesce( mark.rating, 0)," +
+            "  organization.id," +
+            "  organization.name" +
+            " )" +
+            " from ServiceEntity service" +
+            "    left  join  service.mark mark" +
+            "    left  join  service.inUsersFavorites inUsers on inUsers = :user" +
+            "    left  join  service.organization organization" +
+            " where " +
+            "    lower(service.name) like %:filter%" +
+            "    and organization.id = :o" +
+            "    and service.deleteStatus = false" +
+            " group by" +
+            "  service.id," +
+            "  inUsers.id," +
+            "  organization.id," +
+            "  mark.id",
+            countQuery = "select" +
+                    " count(service)" +
+                    " from ServiceEntity service" +
+                    "  left  join  service.organization organization" +
+                    " where" +
+                    "  lower(service.name) like %:filter%" +
+                    "  and organization.id = :o" +
+                    "  and service.deleteStatus = false" +
+                    "  and :user <> null" +
+                    " group by" +
+                    "  service.id," +
+                    "  organization.id")
+    Page<ServiceRowUserExtendDto> findOrganizationServices(@Param("filter") String filter,
+                                                           @Param("o") UUID org,
+                                                           @Param("user") UserEntity user,
+                                                           Pageable pageable);
 
 
     @Query(value = "" +
