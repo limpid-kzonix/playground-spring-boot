@@ -41,30 +41,23 @@ public class HandbookServiceImpl implements HandbookService {
         return organizationRepository.findForHandbook(searchPattern, pageable).map(convertOrgToHandbook());
     }
 
-
-
     @Override
     public Page<HandbookSummary> getHandbook(Pageable pageable, String searchPattern) {
-
-
         return handbookRepository.findHandbookItemsWithPhonesAndTags(searchPattern.toLowerCase(), pageable);
     }
 
     @Override
     public Page<HandbookSummary> getMyHandbookItems(Pageable pageable, String searchPattern, UserEntity userEntity) {
-
         return handbookRepository.findAllByUserEntity(searchPattern.toLowerCase(), userEntity, pageable);
     }
 
     @Override
     public HandbookEntity proposeHandbook(HandbookPayload handbookPayload, UserEntity userEntity) {
-
         return prepareHandbookPropose(handbookPayload, userEntity, new HandbookEntity());
     }
 
     @Override
     public HandbookEntity updateHandbook(UUID handbookId, HandbookPayload handbookPayload, UserEntity userEntity) {
-
         HandbookEntity byUserEntityAndId = handbookRepository.findByUserEntityAndId(userEntity, handbookId);
         checkHandbook(byUserEntityAndId);
         return prepareHandbookPropose(handbookPayload, userEntity, byUserEntityAndId);
@@ -72,14 +65,12 @@ public class HandbookServiceImpl implements HandbookService {
 
     @Override
     public void deleteHandbookItem(UUID id, UserEntity userEntity) {
-
         HandbookEntity byUserEntityAndId = handbookRepository.findByUserEntityAndId(userEntity, id);
         checkHandbook(byUserEntityAndId);
         handbookRepository.delete(id);
     }
 
     private void checkHandbook(HandbookEntity byUserEntityAndId) {
-
         if (byUserEntityAndId == null) {
             throw new UsefulException(UserModuleErrorCodes.HANDBOOK_ITEM_NOT_EXIST);
         } else if (byUserEntityAndId.getAcceptStatus() != null && byUserEntityAndId.getAcceptStatus()) {
@@ -153,8 +144,15 @@ public class HandbookServiceImpl implements HandbookService {
             handbookPayload.setAddress(source.getPlaceId());
             handbookPayload.setName(source.getName());
             handbookPayload.setImage(source.getLogoId());
-            handbookPayload.setTags(source.getServices().stream().flatMap(s -> s.getSubCategories().stream().map(sub -> new HandbookTagPayload(sub.getId(), sub.getUkrName()))).collect(Collectors.toList()));
-            handbookPayload.setPhones(source.getPhones().stream().map(hp -> new HandbookPhonePayload(hp.getId(), hp.getPhone())).collect(Collectors.toList()));
+            handbookPayload.setTags(
+                    source.getServices().stream()
+                            .flatMap(s -> s.getSubCategories().stream()
+                                    .map(sub -> new HandbookTagPayload(sub.getId(), sub.getUkrName())))
+                            .collect(Collectors.toSet()));
+            handbookPayload.setPhones(
+                    source.getPhones().stream()
+                            .map(hp -> new HandbookPhonePayload(hp.getId(), hp.getPhone()))
+                            .collect(Collectors.toList()));
             return handbookPayload;
         };
     }

@@ -10,6 +10,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -33,6 +34,6 @@ public class HandbookPayload {
     private List<HandbookPhonePayload> phones;
     @Valid
     @NotEmpty
-    private List<HandbookTagPayload> tags;
+    private Set<HandbookTagPayload> tags;
 
 }

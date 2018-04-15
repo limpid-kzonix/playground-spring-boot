@@ -49,11 +49,11 @@ public class HandbookController {
 
     @GetMapping(path = "/items/organizations", produces = MediaType.APPLICATION_JSON_VALUE)
     public Page<HandbookPayload> getHandbookOrgsItemsWithSearch(
-            @ApiParam(example = "For example : 'name, asc' or just 'name', where name is field of model",
-                    required = true) @Valid PageableRequest page, Pageable pageable,
-            @ApiParam(defaultValue = "_", required = true) @RequestParam("search") String search
-    ) {
-
+            @ApiParam(example = "For example : 'name, asc' or just 'name', where name is field of model", required = true)
+            @Valid PageableRequest page,
+            Pageable pageable,
+            @ApiParam(defaultValue = "_", required = true)
+            @RequestParam("search") String search) {
         return handbookService.getHandbookOrganization(pageable, search);
     }
 
