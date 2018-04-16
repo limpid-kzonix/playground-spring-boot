@@ -37,7 +37,6 @@ public class OrderPriceServiceImpl implements OrderPriceService {
         double servicePrice = 0D;
         double expense = 0D;
 
-
         for (PricePeriod pricePeriod : pricePeriods) {
             Duration orderDuration = Duration.between(pricePeriod.getStart(), pricePeriod.getEnd());
             ScheduleSetting setting = pricePeriod.getValue();

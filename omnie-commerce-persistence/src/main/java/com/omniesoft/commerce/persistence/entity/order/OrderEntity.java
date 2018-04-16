@@ -14,8 +14,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
-import static javax.persistence.CascadeType.PERSIST;
-import static javax.persistence.CascadeType.REFRESH;
+import static javax.persistence.CascadeType.ALL;
 
 /**
  * @author Vitalii Martynovskyi
@@ -98,7 +97,7 @@ public class OrderEntity {
     @JoinColumn(name = "done_by")
     private UserEntity doneBy;
 
-    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = {PERSIST, REFRESH})
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = ALL)
     private Set<OrderSubServicesEntity> subServices;
 
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
@@ -284,7 +283,6 @@ public class OrderEntity {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(id, user, number);
     }
 }

@@ -27,6 +27,7 @@ import com.omniesoft.commerce.persistence.entity.service.SubServicePriceEntity;
 import com.omniesoft.commerce.persistence.repository.account.UserRepository;
 import com.omniesoft.commerce.persistence.repository.order.OrderRepository;
 import com.omniesoft.commerce.persistence.repository.order.OrderStoryRepository;
+import com.omniesoft.commerce.persistence.repository.order.OrderSubServicesRepository;
 import com.omniesoft.commerce.persistence.repository.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -54,9 +55,8 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
+    private final OrderSubServicesRepository orderSubServicesRepository;
     private final OrderPriceService orderPriceService;
-
-    //TODO add order story
     private final OrderStoryRepository orderStoryRepository;
     private final OrderConverter orderConverter;
     private final DiscountService discountService;
@@ -130,7 +130,6 @@ public class OrderServiceImpl implements OrderService {
                 serviceTiming,
                 schedule);
 
-
         List<OrderEntity> orders = orderRepository.findAccepted(
                 timesheet.getStart(),
                 timesheet.getEnd(),
@@ -155,7 +154,7 @@ public class OrderServiceImpl implements OrderService {
         if (builder.put(op)) {
             OrderEntity savedOrder = orderRepository.findByIdAndServiceId(orderId, order.getServiceId());
             OrderStoryEntity orderStoryEntity = orderConverter.mapToStory(savedOrder);
-            savedOrder.getSubServices().removeIf(o -> o.getId() != null);
+            orderRepository.deleteSubServiceOrders(savedOrder);
 
             OrderEntity orderEntity = createOrderEntityWithoutPrices(order, admin, PENDING_FOR_USER);
             orderEntity.setId(orderId);
@@ -325,6 +324,40 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    private void updateOrderData(OrderEntity savedOrder,
+                                 SaveFullOrderDto order,
+                                 UserEntity admin,
+                                 OrderStatus status) {
+        savedOrder.setStart(order.getStart());
+        savedOrder.setEnd(order.getEnd());
+        savedOrder.setDiscountPercent(order.getDiscountPercent());
+        savedOrder.setStatus(status);
+        savedOrder.setComment(order.getComment());
+        savedOrder.setUpdateTime(LocalDateTime.now());
+
+        savedOrder.setService(serviceRepository.findOne(order.getServiceId()));
+        savedOrder.setUpdateBy(admin);
+        if (savedOrder.getSubServices() != null) {
+            orderRepository.deleteSubServiceOrders(savedOrder);
+            savedOrder.getSubServices().clear();
+        } else {
+            savedOrder.setSubServices(new HashSet<>());
+        }
+        for (SaveFullOrderSubServices orderSubService : emptyIfNull(order.getSubServices())) {
+            OrderSubServicesEntity orderSubServiceEntity = new OrderSubServicesEntity();
+            orderSubServiceEntity.setSubService(
+                    subServiceRepository.findByIdAndServiceId(orderSubService.getSubServiceId(), order.getServiceId())
+            );
+            orderSubServiceEntity.setOrder(savedOrder);
+
+            orderSubServiceEntity.setCount(orderSubService.getCount());
+            orderSubServiceEntity.setDuration(orderSubService.getDuration());
+            orderSubServiceEntity.setDiscountPercent(orderSubService.getDiscountPercent());
+
+            savedOrder.getSubServices().add(orderSubServiceEntity);
+        }
+    }
+
     private OrderEntity createOrderEntityWithoutPrices(SaveFullOrderDto order, UserEntity admin, OrderStatus status) {
 
         OrderEntity orderEntity = new OrderEntity();
@@ -365,8 +398,8 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
-    private Set<OrderSubServicesEntity> createOrderSubServiceEntitiesWithoutPrices(SaveFullOrderDto order, OrderEntity
-            orderEntity) {
+    private Set<OrderSubServicesEntity> createOrderSubServiceEntitiesWithoutPrices(SaveFullOrderDto order,
+                                                                                   OrderEntity orderEntity) {
 
         if (order == null || order.getSubServices() == null || order.getSubServices().isEmpty()) {
             return null;

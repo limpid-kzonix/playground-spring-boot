@@ -63,6 +63,7 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
                         " and o.end between :start and :ends" +
                         " and ( o.status = :CBU" +
                         " or  o.status = :CBA" +
+                        " or  o.status = :PFU" +
                         " or  o.status = :DONE)",
                 OrderEntity.class)
                 .setParameter("serviceId", serviceId)
@@ -70,8 +71,8 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
                 .setParameter("ends", end)
                 .setParameter("CBU", CONFIRM_BY_USER)
                 .setParameter("CBA", CONFIRM_BY_ADMIN)
+                .setParameter("PFU", PENDING_FOR_USER)
                 .setParameter("DONE", DONE)
-
                 .getResultList();
     }
 
@@ -106,6 +107,15 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
             return LocalDateTime.of(LocalDate.now(), LocalTime.MIN);
         }
         return singleResult;
+    }
+
+    @Override
+    public void deleteSubServiceOrders(OrderEntity order) {
+        em.createQuery(
+                "delete from OrderSubServicesEntity oss" +
+                        " where oss.order = :o")
+                .setParameter("o", order)
+                .executeUpdate();
     }
 
     @Override

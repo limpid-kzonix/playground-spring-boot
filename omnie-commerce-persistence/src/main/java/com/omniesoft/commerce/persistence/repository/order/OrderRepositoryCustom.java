@@ -20,5 +20,7 @@ public interface OrderRepositoryCustom {
 
     LocalDateTime findLastDateOfOrderForService(UUID service);
 
+    void deleteSubServiceOrders(OrderEntity order);
+
     List<LocalDateTime> findAllDayDateWithOrders(UUID userId, LocalDate startDate, LocalDate endDate);
 }
