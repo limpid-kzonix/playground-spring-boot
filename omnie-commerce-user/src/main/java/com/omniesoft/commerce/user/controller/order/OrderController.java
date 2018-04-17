@@ -84,7 +84,7 @@ public class OrderController {
 
     }
 
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @PatchMapping(path = "services/{service-id}/orders/{order-id}/confirm")
     public void confirmOrder(@PathVariable("service-id") UUID serviceId,
                              @PathVariable("order-id") UUID orderId,
@@ -95,7 +95,7 @@ public class OrderController {
 
     }
 
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @PatchMapping(path = "services/{service-id}/orders/{order-id}/cancel")
     public void cancelOrder(@PathVariable("service-id") UUID serviceId,
                             @PathVariable("order-id") UUID orderId,

@@ -52,27 +52,16 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 @RequiredArgsConstructor
 @Transactional
 public class OrderServiceImpl implements OrderService {
-
     private final ServiceRepository serviceRepository;
-
     private final ServiceTimingRepository serviceTimingRepository;
-
     private final ServicePriceRepository servicePriceRepository;
-
     private final OrderRepository orderRepository;
-
     private final ServicePriceConverter servicePriceConverter;
-
     private final OrderTimesheetService timesheetService;
-
     private final OrderConverter orderConverter;
-
     private final OrderPriceService orderPriceService;
-
     private final SubServiceRepository subServiceRepository;
-
     private final SubServicePriceRepository subServicePriceRepository;
-
     private final DiscountService discountService;
 
 
@@ -259,7 +248,7 @@ public class OrderServiceImpl implements OrderService {
         );
 
         if (builder.put(op)) {
-            if (orderEntity.getStatus() == PENDING_FOR_USER) {
+            if (PENDING_FOR_USER.equals(orderEntity.getStatus())) {
                 orderEntity.setStatus(CONFIRM_BY_USER);
                 orderRepository.save(orderEntity);
             }
@@ -276,11 +265,13 @@ public class OrderServiceImpl implements OrderService {
     public void cancelOrder(UUID serviceId, UUID orderId, UserEntity user) {
         OrderEntity orderEntity = orderRepository.findByIdAndServiceId(orderId, serviceId);
 
-        if (orderEntity.getStatus() != PENDING_FOR_USER) {
+        if (PENDING_FOR_ADMIN.equals(orderEntity.getStatus()) || PENDING_FOR_USER.equals(orderEntity.getStatus())) {
             orderEntity.setStatus(CANCEL_BY_USER);
             orderEntity.setUpdateTime(LocalDateTime.now());
             orderRepository.save(orderEntity);
-        } else throw new UsefulException("Current status DONE", OwnerModuleErrorCodes.ORDER_STATUS_NOT_CHANGEABLE);
+        } else {
+            throw new UsefulException("Current not PENDING...", OwnerModuleErrorCodes.ORDER_STATUS_NOT_CHANGEABLE);
+        }
     }
 
     @Override
