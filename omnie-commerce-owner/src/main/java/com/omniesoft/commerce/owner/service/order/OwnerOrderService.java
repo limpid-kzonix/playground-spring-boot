@@ -27,7 +27,6 @@ import com.omniesoft.commerce.persistence.entity.service.SubServicePriceEntity;
 import com.omniesoft.commerce.persistence.repository.account.UserRepository;
 import com.omniesoft.commerce.persistence.repository.order.OrderRepository;
 import com.omniesoft.commerce.persistence.repository.order.OrderStoryRepository;
-import com.omniesoft.commerce.persistence.repository.order.OrderSubServicesRepository;
 import com.omniesoft.commerce.persistence.repository.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -52,10 +51,9 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 @RequiredArgsConstructor
 @Slf4j
 @Transactional
-public class OrderServiceImpl implements OrderService {
+public class OwnerOrderService implements OrderService {
 
     private final OrderRepository orderRepository;
-    private final OrderSubServicesRepository orderSubServicesRepository;
     private final OrderPriceService orderPriceService;
     private final OrderStoryRepository orderStoryRepository;
     private final OrderConverter orderConverter;

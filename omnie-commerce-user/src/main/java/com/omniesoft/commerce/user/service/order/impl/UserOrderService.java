@@ -51,7 +51,7 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
 @Service
 @RequiredArgsConstructor
 @Transactional
-public class OrderServiceImpl implements OrderService {
+public class UserOrderService implements OrderService {
     private final ServiceRepository serviceRepository;
     private final ServiceTimingRepository serviceTimingRepository;
     private final ServicePriceRepository servicePriceRepository;

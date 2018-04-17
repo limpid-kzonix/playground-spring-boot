@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.async.DeferredResult;
 import springfox.documentation.builders.*;
 import springfox.documentation.schema.AlternateTypeRule;
@@ -65,15 +64,14 @@ public class SwaggerConfig {
                 .directModelSubstitute(LocalTime.class, String.class)
                 .directModelSubstitute(ZonedDateTime.class, String.class)
                 .alternateTypeRules(rules(), newMapRule(WildcardType.class, WildcardType.class))
-                .alternateTypeRules()
-                .globalResponseMessage(RequestMethod.GET, globalResponseMessages())
-                .globalResponseMessage(RequestMethod.POST, globalResponseMessages())
+//                .alternateTypeRules()
+//                .globalResponseMessage(RequestMethod.GET, globalResponseMessages())
+//                .globalResponseMessage(RequestMethod.POST, globalResponseMessages())
                 .globalOperationParameters(globalOperationParameters());
     }
 
 
     private ApiInfo apiInfo() {
-
         return new ApiInfoBuilder()
                 .title("Omnie Owner Microservice")
                 .version("1.0")
