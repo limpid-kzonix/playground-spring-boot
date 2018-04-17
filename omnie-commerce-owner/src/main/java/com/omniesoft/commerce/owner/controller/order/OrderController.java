@@ -113,7 +113,7 @@ public class OrderController extends AbstractServiceController {
 
     }
 
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @PatchMapping(path = "{service-id}/order/{order-id}/confirm")
     public void confirmOrder(@PathVariable("service-id") UUID serviceId,
                              @PathVariable("order-id") UUID orderId,
@@ -125,7 +125,7 @@ public class OrderController extends AbstractServiceController {
 
     }
 
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @PatchMapping(path = "{service-id}/order/{order-id}/done")
     public void doneOrder(@PathVariable("service-id") UUID serviceId,
                           @PathVariable("order-id") UUID orderId,
@@ -137,7 +137,7 @@ public class OrderController extends AbstractServiceController {
 
     }
 
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @PatchMapping(path = "{service-id}/order/{order-id}/cancel")
     public void cancelOrder(@PathVariable("service-id") UUID serviceId,
                             @PathVariable("order-id") UUID orderId,
@@ -149,7 +149,7 @@ public class OrderController extends AbstractServiceController {
 
     }
 
-    @ResponseStatus(HttpStatus.ACCEPTED)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @PatchMapping(path = "{service-id}/order/{order-id}/fail")
     public void failOrder(@PathVariable("service-id") UUID serviceId,
                           @PathVariable("order-id") UUID orderId,

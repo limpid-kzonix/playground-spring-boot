@@ -470,9 +470,9 @@ public class OrderServiceImpl implements OrderService {
                 orderEntity.setUpdateTime(LocalDateTime.now());
                 orderEntity.setUpdateBy(admin);
                 orderRepository.save(orderEntity);
-            } else
+            } else {
                 throw new UsefulException("Current status not PENDING_FOR_ADMIN", OwnerModuleErrorCodes.ORDER_STATUS_NOT_CHANGEABLE);
-
+            }
         } else throw new UsefulException(OwnerModuleErrorCodes.ORDER_TIMESHEET_CONFLICT);
     }
 
@@ -480,19 +480,21 @@ public class OrderServiceImpl implements OrderService {
     public void cancelOrder(UUID serviceId, UUID orderId, UserEntity admin) {
         OrderEntity orderEntity = orderRepository.findByIdAndServiceId(orderId, serviceId);
 
-        if (orderEntity.getStatus() != DONE) {
+        if (!DONE.equals(orderEntity.getStatus())) {
             orderEntity.setStatus(CANCEL_BY_ADMIN);
             orderEntity.setUpdateTime(LocalDateTime.now());
             orderEntity.setUpdateBy(admin);
             orderRepository.save(orderEntity);
-        } else throw new UsefulException("Current status DONE", OwnerModuleErrorCodes.ORDER_STATUS_NOT_CHANGEABLE);
+        } else {
+            throw new UsefulException("Current status DONE", OwnerModuleErrorCodes.ORDER_STATUS_NOT_CHANGEABLE);
+        }
     }
 
     @Override
     public void doneOrder(UUID serviceId, UUID orderId, UserEntity admin) {
         OrderEntity orderEntity = orderRepository.findByIdAndServiceId(orderId, serviceId);
 
-        if (orderEntity.getStatus() == CONFIRM_BY_USER || orderEntity.getStatus() == CONFIRM_BY_ADMIN) {
+        if (CONFIRM_BY_USER.equals(orderEntity.getStatus()) || CONFIRM_BY_ADMIN.equals(orderEntity.getStatus())) {
             orderEntity.setStatus(DONE);
             orderEntity.setUpdateTime(LocalDateTime.now());
             orderEntity.setDoneBy(admin);
@@ -505,7 +507,7 @@ public class OrderServiceImpl implements OrderService {
     public void failOrder(UUID serviceId, UUID orderId, UserEntity admin) {
         OrderEntity orderEntity = orderRepository.findByIdAndServiceId(orderId, serviceId);
 
-        if (orderEntity.getStatus() == CONFIRM_BY_USER || orderEntity.getStatus() == CONFIRM_BY_ADMIN) {
+        if (CONFIRM_BY_USER.equals(orderEntity.getStatus()) || CONFIRM_BY_ADMIN.equals(orderEntity.getStatus())) {
             orderEntity.setStatus(OrderStatus.FAIL_BY_USER);
             orderEntity.setUpdateTime(LocalDateTime.now());
             orderEntity.setDoneBy(admin);
