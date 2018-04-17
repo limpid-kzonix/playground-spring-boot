@@ -1,6 +1,7 @@
 package com.omniesoft.commerce.common.handler.exception.handler;
 
 import com.omniesoft.commerce.common.handler.exception.custom.MethodCustomParamsValidationException;
+import com.omniesoft.commerce.common.handler.exception.custom.UsefulException;
 import com.omniesoft.commerce.common.handler.exception.custom.WrappedRuntimeException;
 import com.omniesoft.commerce.common.handler.exception.custom.enums.ErrorCode;
 import com.omniesoft.commerce.common.handler.exception.custom.enums.InternalErrorCodes;
@@ -50,10 +51,12 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 @Slf4j
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(value = {OAuth2Exception.class, AccessDeniedException.class, ClientAuthenticationException
-            .class})
+    @ExceptionHandler(value = {OAuth2Exception.class,
+            AccessDeniedException.class,
+            ClientAuthenticationException.class})
     protected ResponseEntity<Object> handleOAuthException(Exception ex, WebRequest request) {
 
+        log.error("Exception during processing req for {} {}", request.getUserPrincipal().getName(), request.getContextPath());
         log.error(this.getClass().getSimpleName(), ex);
 
         ApiError apiError = new ApiError(HttpStatus.CONFLICT);
@@ -66,10 +69,15 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     @ExceptionHandler(value = {WrappedRuntimeException.class})
     protected ResponseEntity<Object> handleWrappedRuntimeException(WrappedRuntimeException ex, WebRequest request) {
 
+        log.error("Exception during processing req for {} {}", request.getUserPrincipal().getName(), request.getContextPath());
         log.error(this.getClass().getSimpleName(), ex);
 
         ApiError apiError = new ApiError(HttpStatus.CONFLICT);
-        apiError.setMessage(ex.getClass().getSimpleName() + " : " + ex.preparedMessage());
+        if (UsefulException.class.equals(ex.getClass())) {
+            apiError.setMessage(ex.preparedMessage());
+        } else {
+            apiError.setMessage(ex.getClass().getSimpleName() + " : " + ex.preparedMessage());
+        }
         apiError.setDebugMessage(ex.getLocalizedMessage());
         apiError.setDetailedCode(ex.getExceptionCode());
         return buildResponseEntity(apiError);
@@ -85,6 +93,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     @ExceptionHandler(value = {IllegalArgumentException.class, IllegalStateException.class})
     protected ResponseEntity<Object> handleConflict(RuntimeException ex, WebRequest request) {
 
+        log.error("Exception during processing req for {} {}", request.getUserPrincipal().getName(), request.getContextPath());
         log.error(this.getClass().getSimpleName(), ex);
         String bodyOfResponse = "This should be application specific";
         return handleExceptionInternal(ex, bodyOfResponse,
@@ -102,6 +111,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers,
                                                              HttpStatus status, WebRequest request) {
 
+        log.error("Exception during processing req for {} {}", request.getUserPrincipal().getName(), request.getContextPath());
         log.error(this.getClass().getSimpleName(), ex);
         return getObjectResponseEntity(ex, "Internal exception", status);
     }
@@ -120,7 +130,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex,
                                                                          HttpHeaders headers, HttpStatus status,
                                                                          WebRequest request) {
-
+        log.error("Exception during processing req for {} {}", request.getUserPrincipal().getName(), request.getContextPath());
         log.error(this.getClass().getSimpleName(), ex);
         String format = String.format("Http method type %s is not supported for this resuest", request.getContextPath());
         return getObjectResponseEntity(ex, status, format, InternalErrorCodes.INTERNAL);
@@ -139,7 +149,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     protected ResponseEntity<Object> handleMissingServletRequestParameter(
             MissingServletRequestParameterException ex, HttpHeaders headers,
             HttpStatus status, WebRequest request) {
-
+        log.error("Exception during processing req for {} {}", request.getUserPrincipal().getName(), request.getContextPath());
         log.error(this.getClass().getSimpleName(), ex);
         String error = ex.getParameterName() + " parameter is missing";
         return buildResponseEntity(new ApiError(BAD_REQUEST, error, ex)
@@ -161,7 +171,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
             HttpHeaders headers,
             HttpStatus status,
             WebRequest request) {
-
+        log.error("Exception during processing req for {} {}", request.getUserPrincipal().getName(), request.getContextPath());
         log.error(this.getClass().getSimpleName(), ex);
         StringBuilder builder = new StringBuilder();
         builder.append(ex.getContentType());
@@ -188,6 +198,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
             HttpHeaders headers,
             HttpStatus status,
             WebRequest request) {
+        log.error("Exception during processing req for {} {}", request.getUserPrincipal().getName(), request.getContextPath());
         ApiError apiError = new ApiError(BAD_REQUEST);
         apiError.setMessage("Validation error");
         apiError.addValidationErrors(ex.getBindingResult().getFieldErrors());
@@ -205,7 +216,6 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     @ExceptionHandler({ValidationException.class})
     protected ResponseEntity<Object> handleConstraintViolation(
             javax.validation.ValidationException ex) {
-
         log.error(this.getClass().getSimpleName(), ex);
         ApiError apiError = new ApiError(BAD_REQUEST);
         apiError.setMessage(ex.getMessage());
@@ -298,7 +308,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
                                                                   HttpHeaders headers, HttpStatus status,
                                                                   WebRequest request) {
-
+        log.error("Exception during processing req for {} {}", request.getUserPrincipal().getName(), request.getContextPath());
         ServletWebRequest servletWebRequest = (ServletWebRequest) request;
         log.info("{} to {}", servletWebRequest.getHttpMethod(), servletWebRequest.getRequest().getServletPath());
         String error = "Malformed JSON request";
@@ -319,7 +329,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     protected ResponseEntity<Object> handleHttpMessageNotWritable(HttpMessageNotWritableException ex,
                                                                   HttpHeaders headers, HttpStatus status,
                                                                   WebRequest request) {
-
+        log.error("Exception during processing req for {} {}", request.getUserPrincipal().getName(), request.getContextPath());
         String error = "Error writing JSON output";
         log.error(this.getClass().getSimpleName(), ex);
         return buildResponseEntity(new ApiError(status, error, ex).withDetailedCode(
@@ -335,7 +345,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     @ExceptionHandler(DataIntegrityViolationException.class)
     protected ResponseEntity<Object> handleDataIntegrityViolation(DataIntegrityViolationException ex,
                                                                   WebRequest request) {
-
+        log.error("Exception during processing req for {} {}", request.getUserPrincipal().getName(), request.getContextPath());
         if (ex.getCause() instanceof ConstraintViolationException) {
             return buildResponseEntity(new ApiError(HttpStatus.CONFLICT, "Database error", ex.getCause()));
         }
@@ -352,7 +362,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     protected ResponseEntity<Object> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex,
                                                                       WebRequest request) {
-
+        log.error("Exception during processing req for {} {}", request.getUserPrincipal().getName(), request.getContextPath());
         log.error(this.getClass().getSimpleName(), ex);
         ApiError apiError = new ApiError(BAD_REQUEST);
         apiError.setMessage(
@@ -378,7 +388,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     protected ResponseEntity<Object> handleHttpMediaTypeNotAcceptable(HttpMediaTypeNotAcceptableException ex,
                                                                       HttpHeaders headers, HttpStatus status,
                                                                       WebRequest request) {
-
+        log.error("Exception during processing req for {} {}", request.getUserPrincipal().getName(), request.getContextPath());
         log.error(this.getClass().getSimpleName(), ex);
         return getObjectResponseEntity(ex, status, "Media type is now supported", InternalErrorCodes.HTTP_MEDIA_TYPE_NOT_SUPPORTED);
     }
@@ -396,7 +406,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     @Override
     protected ResponseEntity<Object> handleMissingPathVariable(MissingPathVariableException ex, HttpHeaders headers,
                                                                HttpStatus status, WebRequest request) {
-
+        log.error("Exception during processing req for {} {}", request.getUserPrincipal().getName(), request.getContextPath());
         log.error(this.getClass().getSimpleName(), ex);
         return getObjectResponseEntity(
                 ex,
@@ -417,7 +427,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     protected ResponseEntity<Object> handleServletRequestBindingException(ServletRequestBindingException ex,
                                                                           HttpHeaders headers, HttpStatus status,
                                                                           WebRequest request) {
-
+        log.error("Exception during processing req for {} {}", request.getUserPrincipal().getName(), request.getContextPath());
         log.error(this.getClass().getSimpleName(), ex);
         return getObjectResponseEntity(ex, status, "Required parameters are not present", InternalErrorCodes.MISSING_SERVLET_REQUEST_PARAMETER);
     }
@@ -435,7 +445,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     protected ResponseEntity<Object> handleConversionNotSupported(ConversionNotSupportedException ex,
                                                                   HttpHeaders headers, HttpStatus status,
                                                                   WebRequest request) {
-
+        log.error("Exception during processing req for {} {}", request.getUserPrincipal().getName(), request.getContextPath());
         log.error(this.getClass().getSimpleName(), ex);
         return getObjectResponseEntity(ex, "Internal error", status);
     }
@@ -453,7 +463,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     @Override
     protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers,
                                                         HttpStatus status, WebRequest request) {
-
+        log.error("Exception during processing req for {} {}", request.getUserPrincipal().getName(), request.getContextPath());
         log.error(this.getClass().getSimpleName(), ex);
         return getObjectResponseEntity(ex, "Internal error", status);
     }
@@ -471,7 +481,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     protected ResponseEntity<Object> handleMissingServletRequestPart(MissingServletRequestPartException ex,
                                                                      HttpHeaders headers, HttpStatus status,
                                                                      WebRequest request) {
-
+        log.error("Exception during processing req for {} {}", request.getUserPrincipal().getName(), request.getContextPath());
         log.error(this.getClass().getSimpleName(), ex);
         return getObjectResponseEntity(ex, status, "Web application is not configured correctly for processing  multipart requests", InternalErrorCodes.INCORRECT_MULTIPART_ID);
     }
@@ -488,7 +498,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     @Override
     protected ResponseEntity<Object> handleBindException(BindException ex, HttpHeaders headers, HttpStatus status,
                                                          WebRequest request) {
-
+        log.error("Exception during processing req for {} {}", request.getUserPrincipal().getName(), request.getContextPath());
         log.error(this.getClass().getSimpleName(), ex);
         ApiError apiError = new ApiError(status);
         apiError.setMessage(ex.getMessage());
@@ -510,7 +520,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     @Override
     protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers,
                                                                    HttpStatus status, WebRequest request) {
-
+        log.error("Exception during processing req for {} {}", request.getUserPrincipal().getName(), request.getContextPath());
         log.error(this.getClass().getSimpleName(), ex);
         return getObjectResponseEntity(ex, status, "Resource not found", InternalErrorCodes.RESOURCE_NOT_FOUND);
     }
@@ -528,7 +538,6 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     protected ResponseEntity<Object> handleAsyncRequestTimeoutException(AsyncRequestTimeoutException ex,
                                                                         HttpHeaders headers, HttpStatus status,
                                                                         WebRequest webRequest) {
-
         log.error(this.getClass().getSimpleName(), ex);
         return getObjectResponseEntity(ex, status, "Async request times out", InternalErrorCodes.ASYNC_REQUEST_TIMEOUT);
     }
