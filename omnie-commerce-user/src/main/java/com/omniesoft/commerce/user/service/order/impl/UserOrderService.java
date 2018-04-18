@@ -252,9 +252,10 @@ public class UserOrderService implements OrderService {
             if (PENDING_FOR_USER.equals(orderEntity.getStatus())) {
                 orderEntity.setStatus(CONFIRM_BY_USER);
                 orderRepository.save(orderEntity);
+            } else {
+                throw new UsefulException("Current status not PENDING_FOR_USER",
+                        OwnerModuleErrorCodes.ORDER_STATUS_NOT_CHANGEABLE);
             }
-            throw new UsefulException("Current status not PENDING_FOR_USER",
-                    OwnerModuleErrorCodes.ORDER_STATUS_NOT_CHANGEABLE);
 
         } else {
             throw new UsefulException(OwnerModuleErrorCodes.ORDER_TIMESHEET_CONFLICT);
