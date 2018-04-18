@@ -24,9 +24,12 @@ import static javax.persistence.CascadeType.ALL;
 @Entity
 @Table(name = "orders")
 @NamedEntityGraph(name = GraphNames.Order.allData,
-        attributeNodes = {@NamedAttributeNode("subServices"),
-                @NamedAttributeNode("story"),
-                @NamedAttributeNode("service")
+        attributeNodes = {@NamedAttributeNode(value = "subServices", subgraph = "subServices"),
+                @NamedAttributeNode(value = "story", subgraph = "story"),
+                @NamedAttributeNode(value = "service", subgraph = "service")
+        },
+        subgraphs = {@NamedSubgraph(name = "subServices", attributeNodes = @NamedAttributeNode("subService")),
+                @NamedSubgraph(name = "story", attributeNodes = @NamedAttributeNode("service"))
         }
 )
 public class OrderEntity {

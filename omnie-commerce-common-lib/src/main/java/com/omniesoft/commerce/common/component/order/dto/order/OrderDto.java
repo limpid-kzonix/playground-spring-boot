@@ -1,6 +1,6 @@
 package com.omniesoft.commerce.common.component.order.dto.order;
 
-import lombok.AllArgsConstructor;
+import com.omniesoft.commerce.common.component.order.dto.story.OrderStoryDto;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -13,9 +13,8 @@ import java.util.List;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@AllArgsConstructor
 @NoArgsConstructor
 public class OrderDto extends AbstractOrderDto {
     private List<OrderSubServicesDto> subServices;
-    private OrderDto prevOrder;
+    private OrderStoryDto orderStory;
 }

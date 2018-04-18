@@ -9,6 +9,8 @@ import com.omniesoft.commerce.common.component.order.dto.price.OrderFullPriceDto
 import com.omniesoft.commerce.common.component.order.dto.price.OrderPriceDto;
 import com.omniesoft.commerce.common.component.order.dto.price.OrderSubServiceFullPriceDto;
 import com.omniesoft.commerce.common.component.order.dto.price.OrderSubServicePriceDto;
+import com.omniesoft.commerce.common.component.order.dto.story.OrderStoryDto;
+import com.omniesoft.commerce.common.component.order.dto.story.OrderSubServicesStoryDto;
 import com.omniesoft.commerce.common.order.OrderSubService;
 import com.omniesoft.commerce.persistence.entity.order.OrderEntity;
 import com.omniesoft.commerce.persistence.entity.order.OrderStoryEntity;
@@ -60,7 +62,7 @@ public class OrderConverterImpl implements OrderConverter {
     }
 
     @Override
-    public OrderDto mapToOrderDto(OrderEntity orderEntity) {
+    public OrderDto mapToOrderDto(OrderEntity orderEntity, Optional<OrderStoryEntity> story) {
         OrderDto result = new OrderDto();
 
         result.setId(orderEntity.getId());
@@ -70,17 +72,21 @@ public class OrderConverterImpl implements OrderConverter {
         result.setStatus(orderEntity.getStatus());
         result.setCustomerName(orderEntity.getCustomerName());
         result.setCustomerPhone(orderEntity.getCustomerPhone());
+        result.setServiceId(orderEntity.getService().getId());
+        result.setServiceName(orderEntity.getService().getName());
         result.setComment(orderEntity.getComment());
         result.setTotalPrice(orderEntity.getTotalPrice());
         result.setDiscountPercent(orderEntity.getDiscountPercent());
         result.setCreateTime(orderEntity.getCreateTime());
+        result.setOrderStory(story.map(this::mapStory).orElse(null));
 
         result.setSubServices(new ArrayList<>());
-        for (OrderSubServicesEntity subServicesEntity : orderEntity.getSubServices()) {
+        for (OrderSubServicesEntity subServicesEntity : SetUtils.emptyIfNull(orderEntity.getSubServices())) {
             OrderSubServicesDto subServicesDetails = new OrderSubServicesDto();
 
             subServicesDetails.setId(subServicesEntity.getId());
             subServicesDetails.setSubServiceId(subServicesEntity.getSubService().getId());
+            subServicesDetails.setSubServiceName(subServicesEntity.getSubService().getName());
             subServicesDetails.setCount(subServicesEntity.getCount());
             subServicesDetails.setDuration(subServicesEntity.getDuration());
             subServicesDetails.setDiscountPercent(subServicesEntity.getDiscountPercent());
@@ -89,6 +95,35 @@ public class OrderConverterImpl implements OrderConverter {
             result.getSubServices().add(subServicesDetails);
         }
 
+        return result;
+    }
+
+    private OrderStoryDto mapStory(OrderStoryEntity story) {
+        OrderStoryDto result = new OrderStoryDto();
+
+        result.setStart(story.getStart());
+        result.setEnd(story.getEnd());
+        result.setStatus(story.getStatus());
+        result.setCustomerName(story.getCustomerName());
+        result.setCustomerPhone(story.getCustomerPhone());
+        result.setServiceId(story.getService().getId());
+        result.setServiceName(story.getService().getName());
+        result.setComment(story.getComment());
+        result.setTotalPrice(story.getTotalPrice());
+        result.setDiscountPercent(story.getDiscountPercent());
+        result.setCreateTime(story.getCreateTime());
+
+        result.setSubServices(new ArrayList<>());
+        for (OrderSubServicesStoryEntity subServicesStory : SetUtils.emptyIfNull(story.getSubServicesStory())) {
+            OrderSubServicesStoryDto subServicesDetails = new OrderSubServicesStoryDto();
+            subServicesDetails.setSubServiceId(subServicesStory.getSubService().getId());
+            subServicesDetails.setSubServiceName(subServicesStory.getSubService().getName());
+            subServicesDetails.setCount(subServicesStory.getCount());
+            subServicesDetails.setDiscountPercent(subServicesStory.getDiscountPercent());
+            subServicesDetails.setTotalPrice(subServicesStory.getTotalPrice());
+
+            result.getSubServices().add(subServicesDetails);
+        }
         return result;
     }
 
@@ -103,6 +138,8 @@ public class OrderConverterImpl implements OrderConverter {
         result.setStatus(orderEntity.getStatus());
         result.setCustomerName(orderEntity.getCustomerName());
         result.setCustomerPhone(orderEntity.getCustomerPhone());
+        result.setServiceId(orderEntity.getService().getId());
+        result.setServiceName(orderEntity.getService().getName());
         result.setComment(orderEntity.getComment());
         result.setTotalPrice(orderEntity.getTotalPrice());
         result.setDiscountPercent(orderEntity.getDiscountPercent());
@@ -112,7 +149,7 @@ public class OrderConverterImpl implements OrderConverter {
         result.setUpdateTime(orderEntity.getUpdateTime());
 
         result.setSubServices(new ArrayList<>());
-        for (OrderSubServicesEntity subServicesEntity : orderEntity.getSubServices()) {
+        for (OrderSubServicesEntity subServicesEntity : SetUtils.emptyIfNull(orderEntity.getSubServices())) {
             OrderSubServicesWithPricesDto subServicesDetails = new OrderSubServicesWithPricesDto();
 
             subServicesDetails.setId(subServicesEntity.getId());

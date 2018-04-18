@@ -20,6 +20,7 @@ import com.omniesoft.commerce.persistence.entity.discount.DiscountEntity;
 import com.omniesoft.commerce.persistence.entity.enums.GraphNames;
 import com.omniesoft.commerce.persistence.entity.enums.OrderStatus;
 import com.omniesoft.commerce.persistence.entity.order.OrderEntity;
+import com.omniesoft.commerce.persistence.entity.order.OrderStoryEntity;
 import com.omniesoft.commerce.persistence.entity.order.OrderSubServicesEntity;
 import com.omniesoft.commerce.persistence.entity.service.ServiceTimingEntity;
 import com.omniesoft.commerce.persistence.entity.service.SubServicePriceEntity;
@@ -204,7 +205,9 @@ public class UserOrderService implements OrderService {
 
         OrderEntity orderEntity = orderRepository.findByIdAndServiceIdGraph(orderId, serviceId, GraphNames.Order.allData);
 
-        return orderConverter.mapToOrderDto(orderEntity);
+        Optional<OrderStoryEntity> max = orderEntity.getStory().stream()
+                .max(Comparator.comparing(OrderStoryEntity::getCreateTime));
+        return orderConverter.mapToOrderDto(orderEntity, max);
     }
 
     @Override

@@ -1,24 +1,16 @@
-package com.omniesoft.commerce.common.component.order.dto.order;
+package com.omniesoft.commerce.common.component.order.dto.story;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
-/**
- * @author Vitalii Martynovskyi
- * @since 19.12.17
- */
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-public class OrderSubServicesDto {
-    private UUID id;
+public class OrderSubServicesStoryDto {
     private UUID subServiceId;
     private String subServiceName;
     private Integer count;
-    private Long duration;
     private Double discountPercent;
     private Double totalPrice;
 }

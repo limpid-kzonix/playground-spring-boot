@@ -12,6 +12,7 @@ import com.omniesoft.commerce.persistence.entity.order.OrderStoryEntity;
 import com.omniesoft.commerce.persistence.entity.order.OrderSubServicesEntity;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -25,7 +26,7 @@ public interface OrderConverter {
 
     List<OrderSubService> mapSaveFullOrderSubServices(List<SaveFullOrderSubServices> subServices);
 
-    OrderDto mapToOrderDto(OrderEntity orderEntity);
+    OrderDto mapToOrderDto(OrderEntity orderEntity, Optional<OrderStoryEntity> story);
 
     OrderWithPricesDto mapOrderPricesDto(OrderEntity orderEntity);
 

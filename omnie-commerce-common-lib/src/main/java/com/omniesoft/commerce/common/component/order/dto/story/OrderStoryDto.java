@@ -1,24 +1,16 @@
-package com.omniesoft.commerce.common.component.order.dto.order;
+package com.omniesoft.commerce.common.component.order.dto.story;
 
 import com.omniesoft.commerce.persistence.entity.enums.OrderStatus;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
-/**
- * @author Vitalii Martynovskyi
- * @since 12.12.17
- */
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public abstract class AbstractOrderDto {
-    private UUID id;
-
-    private Integer number;
+public class OrderStoryDto {
 
     private OrderStatus status;
 
@@ -42,4 +34,5 @@ public abstract class AbstractOrderDto {
 
     private LocalDateTime createTime;
 
+    private List<OrderSubServicesStoryDto> subServices;
 }
