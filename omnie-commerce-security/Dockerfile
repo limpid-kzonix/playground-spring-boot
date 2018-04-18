@@ -1,5 +1,11 @@
 FROM openjdk:8-jre-alpine
 
+RUN apk add --update --no-cache tzdata && \
+    ln -sf /usr/share/zoneinfo/Europe/Kiev /etc/localtime && \
+    echo "Europe/Kiev" > /etc/timezone && \
+    date && \
+    rm -fr /tmp/* /var/cache/apk/*
+
 RUN apk add --no-cache curl
 
 COPY target/omniecom-security.jar  app.jar
