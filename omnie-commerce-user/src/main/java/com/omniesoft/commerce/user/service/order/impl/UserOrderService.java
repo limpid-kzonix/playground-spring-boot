@@ -66,7 +66,7 @@ public class UserOrderService implements OrderService {
 
 
     @Override
-    public Timesheet createTimesheet(UUID serviceId, LocalDate date) {
+    public Timesheet createTimesheet(final UUID serviceId, final LocalDate date) {
 
         LocalDateTime start = LocalDateTime.of(date, LocalTime.of(0, 0));
 
@@ -200,7 +200,7 @@ public class UserOrderService implements OrderService {
     }
 
     @Override
-    public OrderDto getOrderDetails(UUID serviceId, UUID orderId) {
+    public OrderDto getOrderDetails(final UUID serviceId, final UUID orderId) {
 
         OrderEntity orderEntity = orderRepository.findByIdAndServiceIdGraph(orderId, serviceId, GraphNames.Order.allData);
 
@@ -208,7 +208,7 @@ public class UserOrderService implements OrderService {
     }
 
     @Override
-    public void confirmOrder(UUID serviceId, UUID orderId, UserEntity user) {
+    public void confirmOrder(final UUID serviceId, final UUID orderId, UserEntity user) {
 
         OrderEntity orderEntity = orderRepository.findByIdAndServiceId(orderId, serviceId);
 
@@ -234,6 +234,7 @@ public class UserOrderService implements OrderService {
                 timesheet.getEnd(),
                 orderEntity.getService().getId());
 
+        orders.removeIf(o -> orderId.equals(o.getId()));
         timesheetService.insertAllOrdersNoDetails(timesheet, orders);
 
         TimesheetBuilder builder = new SingleDayTimesheetBuilder(timesheet);
@@ -262,7 +263,7 @@ public class UserOrderService implements OrderService {
 
 
     @Override
-    public void cancelOrder(UUID serviceId, UUID orderId, UserEntity user) {
+    public void cancelOrder(final UUID serviceId, final UUID orderId, UserEntity user) {
         OrderEntity orderEntity = orderRepository.findByIdAndServiceId(orderId, serviceId);
 
         if (PENDING_FOR_ADMIN.equals(orderEntity.getStatus()) || PENDING_FOR_USER.equals(orderEntity.getStatus())) {
@@ -275,13 +276,17 @@ public class UserOrderService implements OrderService {
     }
 
     @Override
-    public List<LocalDate> fetchDateWithOrdersByStartDateAndEndDateAndUser(LocalDate startDate, LocalDate endDate, UserEntity userEntity) {
+    public List<LocalDate> fetchDateWithOrdersByStartDateAndEndDateAndUser(final LocalDate startDate,
+                                                                           final LocalDate endDate,
+                                                                           UserEntity userEntity) {
         List<LocalDateTime> allDayDateWithOrders = orderRepository.findAllDayDateWithOrders(userEntity.getId(), startDate, endDate);
         return allDayDateWithOrders.stream().map(localDateTime -> localDateTime.toLocalDate()).distinct().collect(Collectors.toList());
     }
 
     @Override
-    public Page<OrderUserSummary> fetchOrdersByDateAndUser(LocalDate date, UserEntity userEntity, Pageable pageable) {
+    public Page<OrderUserSummary> fetchOrdersByDateAndUser(final LocalDate date,
+                                                           UserEntity userEntity,
+                                                           Pageable pageable) {
         return orderRepository.findAllByUserIdAndStartBetween(userEntity.getId(), LocalDateTime.of(date, LocalTime.MIN), LocalDateTime.of(date, LocalTime.MAX), pageable);
     }
 

@@ -425,7 +425,7 @@ public class OwnerOrderService implements OrderService {
 
 
     @Override
-    public void confirmOrder(UUID serviceId, UUID orderId, UserEntity admin) {
+    public void confirmOrder(final UUID serviceId, final UUID orderId, UserEntity admin) {
         OrderEntity orderEntity = orderRepository.findByIdAndServiceId(orderId, serviceId);
 
         LocalDateTime start = LocalDateTime.of(orderEntity.getStart().toLocalDate(), LocalTime.of(0, 0));
@@ -448,6 +448,7 @@ public class OwnerOrderService implements OrderService {
                 timesheet.getStart(),
                 timesheet.getEnd(),
                 orderEntity.getService().getId());
+        orders.removeIf(o -> orderId.equals(o.getId()));
 
         timesheetService.insertAllOrdersWithDetails(timesheet, orders);
 

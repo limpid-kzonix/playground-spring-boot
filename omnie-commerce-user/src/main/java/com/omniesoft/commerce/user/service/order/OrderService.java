@@ -18,21 +18,21 @@ import java.util.UUID;
  * @since 20.12.17
  */
 public interface OrderService {
-    Timesheet createTimesheet(UUID serviceId, LocalDate date);
+    Timesheet createTimesheet(final UUID serviceId, final LocalDate date);
 
     UUID makeOrder(SaveOrderDto order, UserEntity user);
 
     OrderPriceDto orderPrice(SaveOrderDto order, UserEntity user);
 
-    OrderDto getOrderDetails(UUID serviceId, UUID orderId);
+    OrderDto getOrderDetails(final UUID serviceId, final UUID orderId);
 
-    void confirmOrder(UUID serviceId, UUID orderId, UserEntity user);
+    void confirmOrder(final UUID serviceId, final UUID orderId, UserEntity user);
 
-    void cancelOrder(UUID serviceId, UUID orderId, UserEntity user);
+    void cancelOrder(final UUID serviceId, final UUID orderId, UserEntity user);
 
-    List<LocalDate> fetchDateWithOrdersByStartDateAndEndDateAndUser(LocalDate startDate, LocalDate endDate, UserEntity userEntity);
+    List<LocalDate> fetchDateWithOrdersByStartDateAndEndDateAndUser(final LocalDate startDate, final LocalDate endDate, UserEntity userEntity);
 
-    Page<OrderUserSummary> fetchOrdersByDateAndUser(LocalDate date, UserEntity userEntity, Pageable pageable);
+    Page<OrderUserSummary> fetchOrdersByDateAndUser(final LocalDate date, UserEntity userEntity, Pageable pageable);
 
 
 }
