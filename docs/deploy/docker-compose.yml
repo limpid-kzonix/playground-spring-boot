@@ -1,0 +1,126 @@
+version: '3.3'
+networks:
+  default:
+    external:
+      name: omnie-bridge
+services:
+#########################################
+  omnie-discovery:
+    build: /var/prod/omnie-commerce-parent/omnie-commerce-discovery/
+    image: omnie_discovery
+    restart: always
+    ports:
+      - "9998:9998"
+    environment:
+      - JAVA_OPTS=-server -Xmx2g -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap
+      - APP_OPTS=--spring.profiles.active=dev
+    volumes:
+      - /var/prod/logs/discovery/:/log
+#########################################
+  omnie-gateway:
+    build: /var/prod/omnie-commerce-parent/omnie-commerce-gateway/
+    image: omnie_gateway
+    restart: always
+    ports:
+      - "9999:9999"
+    environment:
+      - JAVA_OPTS=-server -Xmx2g -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap
+      - APP_OPTS=--spring.profiles.active=prod --spring.redis.password=<pwd-redis>
+    volumes:
+      - /var/prod/logs/gateway/:/log
+#########################################
+  omnie-security:
+    build: /var/prod/omnie-commerce-parent/omnie-commerce-security/
+    image: omnie_security
+    restart: always
+    ports:
+      - "9010:9010"
+    environment:
+      - JAVA_OPTS=-server -Xmx2g -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap
+      - APP_OPTS=--spring.profiles.active=prod --spring.datasource.password=<pwd-postgre>
+    volumes:
+       - /var/prod/logs/security/:/log
+#########################################
+  omnie-user:
+    build: /var/prod/omnie-commerce-parent/omnie-commerce-user/
+    image: omnie_user
+    restart: always
+    ports:
+      - "9030:9030"
+    environment:
+      - JAVA_OPTS=-server -Xmx3g -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap
+      - APP_OPTS=--spring.profiles.active=prod --spring.datasource.password=<pwd-postgre>
+    volumes:
+      - /var/prod/logs/user/:/log
+    depends_on:
+      - omnie-security
+#########################################
+  omnie-support:
+    build: /var/prod/omnie-commerce-parent/omnie-commerce-support/
+    image: omnie_support
+    restart: always
+    ports:
+      - "9020:9020"
+    environment:
+      - JAVA_OPTS=-server -Xmx3g -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap
+      - APP_OPTS=--spring.profiles.active=prod --spring.datasource.password=<pwd-postgre>
+    volumes:
+      - /var/prod/logs/support/:/log
+    depends_on:
+      - omnie-security
+########################################
+  omnie-owner:
+    build: /var/prod/omnie-commerce-parent/omnie-commerce-owner/
+    image: omnie_owner
+    restart: always
+    ports:
+      - "9050:9050"
+    environment:
+      - JAVA_OPTS=-server -Xmx3g -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap
+      - APP_OPTS=--spring.profiles.active=prod --spring.datasource.password=<pwd-postgre>
+    volumes:
+      - /var/prod/logs/owner/:/log
+    depends_on:
+      - omnie-security
+########################################
+  omnie-notification:
+    build: /var/prod/omnie-commerce-parent/omnie-commerce-notification/
+    image: omnie_notification
+    restart: always
+    ports:
+      - "9090:9090"
+    environment:
+      - JAVA_OPTS=-server -Xmx1g -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap
+      - APP_OPTS=--spring.profiles.active=prod --spring.datasource.password=<pwd-postgre>
+    volumes:
+      - /var/prod/logs/notification/:/log
+    depends_on:
+      - omnie-security
+#######################################
+  omnie-statistic:
+    build: /var/prod/omnie-commerce-parent/omnie-commerce-statistic/
+    image: omnie_statistic
+    restart: always
+    ports:
+      - "9070:9070"
+    environment:
+      - JAVA_OPTS=-server -Xmx1g -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap
+      - APP_OPTS=--spring.profiles.active=prod --spring.datasource.password=<pwd-postgre>
+    volumes:
+      - /var/prod/logs/statistic/:/log
+    depends_on:
+      - omnie-security
+####################################
+  omnie-imagestorage:
+    build: /var/prod/omnie-commerce-parent/omnie-commerce-imagestorage/
+    image: omnie_imagestorage
+    restart: always
+    ports:
+      - "9110:9110"
+    environment:
+      - JAVA_OPTS=-server -Xmx1g -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap
+      - APP_OPTS=--spring.profiles.active=prod --spring.datasource.password=<pwd-postgre>
+    volumes:
+      - /var/prod/logs/imagestorage/:/log
+    depends_on:
+      - omnie-security
