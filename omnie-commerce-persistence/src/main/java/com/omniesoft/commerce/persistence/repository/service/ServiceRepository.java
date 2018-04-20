@@ -165,7 +165,10 @@ public interface ServiceRepository extends PagingAndSortingRepository<ServiceEnt
             "    is not null then true else false end)," +
             "  coalesce( mark.rating, 0)," +
             "  organization.id," +
-            "  organization.name" +
+            "  organization.name," +
+            "  organization.placeId," +
+            "  organization.longitude," +
+            "  organization.latitude" +
             " )" +
             " from ServiceEntity service" +
             "    left  join  service.mark mark" +
