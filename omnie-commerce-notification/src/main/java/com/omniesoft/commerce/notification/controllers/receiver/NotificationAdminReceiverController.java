@@ -37,8 +37,7 @@ public class NotificationAdminReceiverController extends AbstractNotificationCon
 
     @PostMapping(path = "/admin/order")
     public void handleOrderNotification(
-            @Valid @RequestBody OrderMessage orderMessage
-    ) {
+            @Valid @RequestBody OrderMessage orderMessage) {
 
         eventPublisher.publishEvent(new OnOrderAdminNotifyEvent(orderMessage));
 
@@ -47,25 +46,21 @@ public class NotificationAdminReceiverController extends AbstractNotificationCon
     @PostMapping(path = "/admin/conversation")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void handleConversationNotification(
-            @RequestBody ConversationMessage conversationMessage
-    ) {
+            @RequestBody ConversationMessage conversationMessage) {
         log.info("Receive notification {}", conversationMessage.toString());
         eventPublisher.publishEvent(new OnConversationAdminNotifyEvent(conversationMessage));
     }
 
     @PostMapping(path = "/admin/review")
     public void handleReviewNotification(
-            @Valid @RequestBody ReviewMessage reviewMessage
-    ) {
-
+            @Valid @RequestBody ReviewMessage reviewMessage) {
         eventPublisher.publishEvent(new OnReviewAdminNotifyEvent(reviewMessage));
     }
 
 
     @PostMapping(path = "/admin/general")
     public void handleGeneralNotification(
-            @Valid @RequestBody ConversationMessage conversationMessage
-    ) {
+            @Valid @RequestBody ConversationMessage conversationMessage) {
 
 
     }

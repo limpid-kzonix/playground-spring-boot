@@ -28,10 +28,20 @@ public class ServiceRowUserExtendDto {
 
     private OrganizationInnerInfo organizationInnerInfo;
 
-    public ServiceRowUserExtendDto(UUID id, String name, String description, String logo, Boolean freeze,
-                                   String inaccessibilityReason, LocalDateTime createTime, Boolean isFavorite,
-                                   Double rating, UUID organizationId, String organizationName) {
-
+    public ServiceRowUserExtendDto(UUID id,
+                                   String name,
+                                   String description,
+                                   String logo,
+                                   Boolean freeze,
+                                   String inaccessibilityReason,
+                                   LocalDateTime createTime,
+                                   Boolean isFavorite,
+                                   Double rating,
+                                   UUID organizationId,
+                                   String organizationName,
+                                   String organizationPlaceId,
+                                   Double organizationLongitude,
+                                   Double organizationLatitude) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -44,6 +54,10 @@ public class ServiceRowUserExtendDto {
         organizationInnerInfo = new OrganizationInnerInfo();
         this.organizationInnerInfo.setOrganizationId(organizationId);
         this.organizationInnerInfo.setOrganizationName(organizationName);
+        this.organizationInnerInfo.setPlaceId(organizationPlaceId);
+        this.organizationInnerInfo.setLongitude(organizationLongitude);
+        this.organizationInnerInfo.setLatitude(organizationLatitude);
+
     }
 
     public UUID getId() {
@@ -148,6 +162,9 @@ public class ServiceRowUserExtendDto {
     private static class OrganizationInnerInfo {
         private UUID organizationId;
         private String organizationName;
+        private String placeId;
+        private Double longitude;
+        private Double latitude;
 
         public OrganizationInnerInfo() {
 
@@ -172,6 +189,30 @@ public class ServiceRowUserExtendDto {
 
         public void setOrganizationName(String organizationName) {
             this.organizationName = organizationName;
+        }
+
+        public String getPlaceId() {
+            return placeId;
+        }
+
+        public void setPlaceId(String placeId) {
+            this.placeId = placeId;
+        }
+
+        public Double getLongitude() {
+            return longitude;
+        }
+
+        public void setLongitude(Double longitude) {
+            this.longitude = longitude;
+        }
+
+        public Double getLatitude() {
+            return latitude;
+        }
+
+        public void setLatitude(Double latitude) {
+            this.latitude = latitude;
         }
     }
 }
