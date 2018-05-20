@@ -29,6 +29,7 @@ public class BeanDefinition {
     }
 
     @Bean
+//    @Profile("!default")
     public CorsFilter corsFilter() {
         // TODO: 16.03.18 make configurable
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

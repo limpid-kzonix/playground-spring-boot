@@ -1,5 +1,8 @@
-package com.omniesoft.commerce.common.ws.notification.payload;
+package com.omniesoft.commerce.common.ws.notification.payload.order;
 
+import com.omniesoft.commerce.common.ws.notification.payload.NotificationMessage;
+import com.omniesoft.commerce.common.ws.notification.payload.Service;
+import com.omniesoft.commerce.common.ws.notification.payload.User;
 import com.omniesoft.commerce.persistence.entity.enums.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,7 +19,7 @@ public class OrderMessage extends NotificationMessage {
 
     /**
      * @param userName May blank or null if it isn`t direct message (if you don`t know username of recipient)
-     * @param order Use {@link OrderMessageFactory} for prepare {@link Order} instance
+     * @param order Use {@link OrderNotificationMapper} for prepare {@link Order} instance
      */
 
     private String userName;

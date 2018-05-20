@@ -12,6 +12,6 @@ public class StompConnectionListener implements ApplicationListener<SessionConne
     @Override
     public void onApplicationEvent(SessionConnectEvent event) {
         StompHeaderAccessor wrap = StompHeaderAccessor.wrap(event.getMessage());
-        log.info("Connection logging :: {}. ", wrap);
+        log.debug("Connection logging :: {}. ", wrap);
     }
 }

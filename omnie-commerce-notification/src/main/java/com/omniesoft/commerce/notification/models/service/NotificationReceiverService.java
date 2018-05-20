@@ -2,7 +2,7 @@ package com.omniesoft.commerce.notification.models.service;
 
 
 import com.omniesoft.commerce.common.ws.notification.payload.ConversationMessage;
-import com.omniesoft.commerce.common.ws.notification.payload.OrderMessage;
+import com.omniesoft.commerce.common.ws.notification.payload.order.OrderMessage;
 
 public interface NotificationReceiverService {
 

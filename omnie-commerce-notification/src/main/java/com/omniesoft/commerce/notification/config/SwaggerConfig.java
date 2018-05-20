@@ -36,14 +36,14 @@ import static springfox.documentation.schema.AlternateTypeRules.newRule;
 
 @Configuration
 @EnableSwagger2
-public class SwaggerConfiguration {
+public class SwaggerConfig {
 
     private static final String ERROR = "Error";
 
     private final TypeResolver typeResolver;
 
     @Autowired
-    public SwaggerConfiguration(TypeResolver typeResolver) {
+    public SwaggerConfig(TypeResolver typeResolver) {
         this.typeResolver = typeResolver;
     }
 

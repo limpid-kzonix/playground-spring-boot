@@ -12,8 +12,8 @@
 package com.omniesoft.commerce.notification.controllers.receiver;
 
 import com.omniesoft.commerce.common.ws.notification.payload.ConversationMessage;
-import com.omniesoft.commerce.common.ws.notification.payload.OrderMessage;
 import com.omniesoft.commerce.common.ws.notification.payload.ReviewMessage;
+import com.omniesoft.commerce.common.ws.notification.payload.order.OrderMessage;
 import com.omniesoft.commerce.notification.util.event.admin.events.OnConversationAdminNotifyEvent;
 import com.omniesoft.commerce.notification.util.event.admin.events.OnOrderAdminNotifyEvent;
 import com.omniesoft.commerce.notification.util.event.admin.events.OnReviewAdminNotifyEvent;

@@ -1,4 +1,4 @@
-package com.omniesoft.commerce.notification.config;
+package com.omniesoft.commerce.notification.config.ws;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,29 +15,29 @@ import javax.annotation.Nonnull;
 @Configuration
 @EnableWebSocketMessageBroker
 @AllArgsConstructor
-public class ApplicationWebSocketConfiguration extends AbstractWebSocketMessageBrokerConfigurer {
+public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 
     @Getter
-    private static final String[] TOPICS = {"/topic", "/queue"};
-
-    private static final String END_POINT = "/broker";
+    private static final String[] TOPICS = {"/queue", "/topic", "/owner", "/user"};
 
     private final StompChannelInterceptorAdapter stompChannelInterceptorAdapter;
 
     @Override
     public void registerStompEndpoints(@Nonnull StompEndpointRegistry registry) {
 
-        registry.addEndpoint(END_POINT); //without support of SockJS : Android
-        registry.addEndpoint(END_POINT).withSockJS(); //with support of SockJS : Web
+        registry.addEndpoint("/handshake-mobile"); //without support of SockJS : Android
+        // TODO: 10.05.18 configurable origins
+        registry.addEndpoint("/handshake").setAllowedOrigins("*").withSockJS(); //with support of SockJS : Web
     }
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-
         registry.enableSimpleBroker(TOPICS);
-        registry.setApplicationDestinationPrefixes("/app");
-        registry.setUserDestinationPrefix("/user");
+        registry.setApplicationDestinationPrefixes("/ws-api");
+        registry.setUserDestinationPrefix("/ws-per");
     }
+
+    ;
 
     @Override
     public void configureWebSocketTransport(WebSocketTransportRegistration registration) {
@@ -53,4 +53,5 @@ public class ApplicationWebSocketConfiguration extends AbstractWebSocketMessageB
         registration.setInterceptors(stompChannelInterceptorAdapter);
         super.configureClientInboundChannel(registration);
     }
+
 }

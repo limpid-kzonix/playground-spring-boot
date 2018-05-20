@@ -8,7 +8,7 @@ import com.omniesoft.commerce.persistence.entity.service.ServiceEntity;
 public class EnhancedMessageFactory {
 
 
-    static User extract(UserEntity userEntity) {
+    public static User extract(UserEntity userEntity) {
 
         UserProfileEntity profile = userEntity.getProfile();
 
@@ -23,7 +23,7 @@ public class EnhancedMessageFactory {
         return user;
     }
 
-    static Service extract(ServiceEntity serviceEntity) {
+    public static Service extract(ServiceEntity serviceEntity) {
 
         Service service = new Service();
 
@@ -35,7 +35,7 @@ public class EnhancedMessageFactory {
         return service;
     }
 
-    static Organization extract(OrganizationEntity organizationEntity) {
+    public static Organization extract(OrganizationEntity organizationEntity) {
 
         Organization organization = new Organization();
 

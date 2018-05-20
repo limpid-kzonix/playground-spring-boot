@@ -1,8 +1,9 @@
-package com.omniesoft.commerce.common.ws.notification.payload;
+package com.omniesoft.commerce.common.ws.notification.payload.order;
 
+import com.omniesoft.commerce.common.ws.notification.payload.EnhancedMessageFactory;
 import com.omniesoft.commerce.persistence.entity.order.OrderEntity;
 
-public class OrderMessageFactory {
+public class OrderNotificationMapper {
 
     private static Order create(OrderEntity orderEntity) {
 

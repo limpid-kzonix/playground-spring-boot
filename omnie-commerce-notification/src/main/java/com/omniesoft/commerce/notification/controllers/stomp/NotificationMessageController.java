@@ -1,7 +1,7 @@
 package com.omniesoft.commerce.notification.controllers.stomp;
 
 import com.omniesoft.commerce.common.ws.notification.payload.NotificationMessage;
-import com.omniesoft.commerce.common.ws.notification.payload.OrderMessage;
+import com.omniesoft.commerce.common.ws.notification.payload.order.OrderMessage;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;

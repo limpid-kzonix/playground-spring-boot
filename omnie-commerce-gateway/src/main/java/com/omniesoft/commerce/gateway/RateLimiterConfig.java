@@ -35,7 +35,7 @@ public class RateLimiterConfig {
 
             final StringJoiner joiner = new StringJoiner("_AND_");
             joiner.add(extractPrincipalName(request));
-            joiner.add(extractRouteId(route));
+//            joiner.add(extractRouteId(route));
             joiner.add(extractURI(request));
             joiner.add(extractRemoteHost(request));
             return joiner.toString();

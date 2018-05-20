@@ -20,8 +20,7 @@ public class AdminSender {
                 .findRecipientByOrganizationId(lookupSource.getOrganizationId());
 
         recipientByOrganizationId.parallelStream().forEach(
-                userEntity -> notificationService
-                        .sendToUser(userEntity.getLogin(), destination, lookupSource));
+                userEntity -> notificationService.sendToUser(userEntity.getLogin(), destination, lookupSource));
 
     }
 
