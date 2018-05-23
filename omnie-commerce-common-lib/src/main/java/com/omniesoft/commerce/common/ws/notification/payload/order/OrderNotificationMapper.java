@@ -1,6 +1,5 @@
 package com.omniesoft.commerce.common.ws.notification.payload.order;
 
-import com.omniesoft.commerce.common.ws.notification.payload.EnhancedMessageFactory;
 import com.omniesoft.commerce.persistence.entity.order.OrderEntity;
 
 public class OrderNotificationMapper {
@@ -17,8 +16,8 @@ public class OrderNotificationMapper {
         order.setEnd(orderEntity.getEnd());
         order.setStart(orderEntity.getStart());
 
-        order.setService(EnhancedMessageFactory.extract(orderEntity.getService()));
-        order.setUser(EnhancedMessageFactory.extract(orderEntity.getUser()));
+//        order.setService(EnhancedMessageFactory.extract(orderEntity.getService()));
+//        order.setUser(EnhancedMessageFactory.extract(orderEntity.getUser()));
 
         order.setStatus(orderEntity.getStatus());
         order.setNumber(orderEntity.getNumber());

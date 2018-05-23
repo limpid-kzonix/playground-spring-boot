@@ -73,4 +73,9 @@ public interface HandbookRepository extends PagingAndSortingRepository<HandbookE
     Page<HandbookSummary> findAllByUserEntity(@Param("filter") String filter, @Param("user") UserEntity user, Pageable pageable);
 
     HandbookEntity findByUserEntityAndId(UserEntity userEntity, UUID id);
+
+    HandbookSummary findById(UUID id);
+
+    @Query("select h from HandbookEntity h join fetch h.phones p join fetch h.tags t where h.id=:id")
+    HandbookEntity findFetchAll(@Param("id") UUID id);
 }

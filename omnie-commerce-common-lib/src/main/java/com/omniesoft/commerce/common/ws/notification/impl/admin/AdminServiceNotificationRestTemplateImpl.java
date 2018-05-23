@@ -17,8 +17,9 @@ import java.util.concurrent.CompletableFuture;
  * Used by services which work with admin entities (for sending notification for users)
  */
 @Service("adminServiceNotificationRestTemplate")
-public class AdminServiceNotificationRestTemplateImpl extends SecuredRestTemplateAbstraction implements
-        NotificationRestTemplate<NotificationMessage> {
+public class AdminServiceNotificationRestTemplateImpl
+        extends SecuredRestTemplateAbstraction
+        implements NotificationRestTemplate<NotificationMessage> {
 
     public AdminServiceNotificationRestTemplateImpl(String baseUrl, RestTemplate restTemplate,
                                                     TokenRestTemplate tokenRestTemplate) {

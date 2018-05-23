@@ -15,6 +15,9 @@ import com.omniesoft.commerce.common.order.schedule.ScheduleSetting;
 import com.omniesoft.commerce.common.order.timesheet.OrderPeriod;
 import com.omniesoft.commerce.common.order.timesheet.SingleDayTimesheetBuilder;
 import com.omniesoft.commerce.common.order.timesheet.TimesheetBuilder;
+import com.omniesoft.commerce.common.ws.notification.NotificationRestTemplate;
+import com.omniesoft.commerce.common.ws.notification.payload.order.OrderMessage;
+import com.omniesoft.commerce.common.ws.notification.payload.order.OrderNotificationMapper;
 import com.omniesoft.commerce.persistence.entity.account.UserEntity;
 import com.omniesoft.commerce.persistence.entity.discount.DiscountEntity;
 import com.omniesoft.commerce.persistence.entity.enums.GraphNames;
@@ -34,7 +37,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -51,7 +53,7 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
  */
 @Service
 @RequiredArgsConstructor
-@Transactional
+//@Transactional
 public class UserOrderService implements OrderService {
     private final ServiceRepository serviceRepository;
     private final ServiceTimingRepository serviceTimingRepository;
@@ -64,6 +66,7 @@ public class UserOrderService implements OrderService {
     private final SubServiceRepository subServiceRepository;
     private final SubServicePriceRepository subServicePriceRepository;
     private final DiscountService discountService;
+    private final NotificationRestTemplate<OrderMessage> orderNotificationsService;
 
 
     @Override
@@ -127,7 +130,7 @@ public class UserOrderService implements OrderService {
                 null,
                 orderConverter.transformSaveOrderSubServices(order.getSubServices())
         );
-
+        orderNotificationsService.sendOrderNotification(OrderNotificationMapper.compact(createOrderEntityWithoutPrices(order, user, PENDING_FOR_ADMIN)));
         if (builder.put(op)) {
             OrderEntity orderEntity = createOrderEntityWithoutPrices(order, user, PENDING_FOR_ADMIN);
 
@@ -138,6 +141,7 @@ public class UserOrderService implements OrderService {
             orderPriceService.calculatePrice(orderEntity, timesheet);
 
             orderRepository.save(orderEntity);
+            orderNotificationsService.sendOrderNotification(OrderNotificationMapper.compact(orderEntity));
             return orderEntity.getId();
 
         } else {

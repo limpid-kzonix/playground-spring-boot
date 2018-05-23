@@ -45,7 +45,6 @@ public class HandbookEntity {
     private UserEntity userEntity;
 
     @OneToMany(mappedBy = "handbook", cascade = CascadeType.ALL)
-
     private Set<HandbookPhoneEntity> phones;
 
     @OneToMany(mappedBy = "handbook", cascade = CascadeType.ALL)

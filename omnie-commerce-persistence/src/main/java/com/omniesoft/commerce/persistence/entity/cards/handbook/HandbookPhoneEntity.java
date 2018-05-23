@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -51,5 +52,20 @@ public class HandbookPhoneEntity {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        HandbookPhoneEntity that = (HandbookPhoneEntity) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(phone, that.phone);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, phone);
     }
 }

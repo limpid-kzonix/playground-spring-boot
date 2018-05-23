@@ -56,7 +56,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
             ClientAuthenticationException.class})
     protected ResponseEntity<Object> handleOAuthException(Exception ex, WebRequest request) {
 
-        log.error("Exception during processing req for {} {}", request.getUserPrincipal().getName(), request.getContextPath());
+        log.error("Exception during processing req for {} : {}", request.getUserPrincipal().getName(), request.getDescription(true));
         log.error(this.getClass().getSimpleName(), ex);
 
         ApiError apiError = new ApiError(HttpStatus.CONFLICT);

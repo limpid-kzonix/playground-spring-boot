@@ -21,6 +21,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -35,9 +36,10 @@ public class NotificationAdminReceiverController extends AbstractNotificationCon
 
     private final ApplicationEventPublisher eventPublisher;
 
-    @PostMapping(path = "/admin/order")
-    public void handleOrderNotification(
-            @Valid @RequestBody OrderMessage orderMessage) {
+    @PostMapping(path = "/admin/order", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void handleOrderNotification(@RequestBody OrderMessage orderMessage) {
+
+        log.info(orderMessage.toString());
 
         eventPublisher.publishEvent(new OnOrderAdminNotifyEvent(orderMessage));
 
@@ -45,8 +47,7 @@ public class NotificationAdminReceiverController extends AbstractNotificationCon
 
     @PostMapping(path = "/admin/conversation")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void handleConversationNotification(
-            @RequestBody ConversationMessage conversationMessage) {
+    public void handleConversationNotification(@RequestBody ConversationMessage conversationMessage) {
         log.info("Receive notification {}", conversationMessage.toString());
         eventPublisher.publishEvent(new OnConversationAdminNotifyEvent(conversationMessage));
     }

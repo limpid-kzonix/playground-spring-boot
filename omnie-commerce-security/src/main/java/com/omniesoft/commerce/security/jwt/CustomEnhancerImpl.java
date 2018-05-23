@@ -47,8 +47,6 @@ public class CustomEnhancerImpl implements CustomEnhancer {
 
         final Map<String, Object> additionalInfo = new HashMap<>();
         additionalInfo.put("userId", byLoginOrEmail.getId());
-        additionalInfo.put("userEmail", byLoginOrEmail.getEmail());
-        additionalInfo.put("roles", byLoginOrEmail.getAuthorities());
         verify(additionalInfo, byLoginOrEmail);
         oAuth2Authentication.setDetails(userDetails);
         oAuth2AccessToken.setAdditionalInformation(additionalInfo);

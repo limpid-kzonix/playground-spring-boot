@@ -39,9 +39,9 @@ public class TokenRestTemplateImpl extends RestTemplateAbstraction implements To
 
         URI uri = UriComponentsBuilder.fromUriString(baseUrl)
                 .queryParam("grant_type", "client_credentials").build().toUri();
+
         log.info("Inter-service secured call {}" + uri.toString());
-        return restTemplate
-                .exchange(uri, HttpMethod.POST, new HttpEntity<>(httpHeaders), OAuth2AccessToken.class)
+        return restTemplate.exchange(uri, HttpMethod.POST, new HttpEntity<>(httpHeaders), OAuth2AccessToken.class)
                 .getBody();
     }
 

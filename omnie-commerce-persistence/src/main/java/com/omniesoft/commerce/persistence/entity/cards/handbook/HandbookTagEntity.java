@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -52,5 +53,20 @@ public class HandbookTagEntity {
 
     public void setTag(String tag) {
         this.tag = tag;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        HandbookTagEntity that = (HandbookTagEntity) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(tag, that.tag);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, tag);
     }
 }

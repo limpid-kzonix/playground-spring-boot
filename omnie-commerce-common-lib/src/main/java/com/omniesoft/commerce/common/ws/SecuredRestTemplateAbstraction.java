@@ -1,11 +1,12 @@
 package com.omniesoft.commerce.common.ws;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
@@ -25,9 +26,13 @@ public abstract class SecuredRestTemplateAbstraction extends RestTemplateAbstrac
     protected void send(URI uri, HttpMethod method, Object payload) {
 
         HttpEntity httpEntity = getHttpEntity(payload);
-        log.info("URI call {} \n" +
-                "Prepared HTTP entity :\n {}", uri.toString(), httpEntity.toString());
-        restTemplate.exchange(uri, method, httpEntity, Object.class);
+        log.info("URI call {} {}  Prepared HTTP entity hasBody {}", method.name(), uri.toString(), httpEntity.hasBody());
+
+        log.info("################################################");
+        ResponseEntity<String> s = restTemplate.exchange(uri, method, httpEntity, String.class);
+        log.info("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^{}", s.getStatusCode());
+        log.info("RESPONCE: {}", s.getBody());
+
     }
 
 
@@ -36,18 +41,22 @@ public abstract class SecuredRestTemplateAbstraction extends RestTemplateAbstrac
      */
 
     private HttpEntity getHttpEntity(Object payload) {
-
-        return new HttpEntity<>(payload,
-                getTokenForRequest());
+        return new HttpEntity<>(payload, getTokenForRequest());
     }
 
     private HttpHeaders getTokenForRequest() {
-
-        OAuth2AccessToken exchange = tokenRestTemplate.exchange();
         HttpHeaders headers = new HttpHeaders();
-        headers.set(HttpHeaders.AUTHORIZATION, exchange.getTokenType() + " " + exchange.toString());
-        headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        OAuth2Authentication oauth = (OAuth2Authentication) securityContext.getAuthentication();
+        if (oauth.getDetails() instanceof OAuth2AuthenticationDetails) {
+            OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails) oauth.getDetails();
+            headers.set(HttpHeaders.AUTHORIZATION, details.getTokenType() + " " + details.getTokenValue());
+            headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+        } else {
+            OAuth2AccessToken exchange = tokenRestTemplate.exchange();
+            headers.set(HttpHeaders.AUTHORIZATION, exchange.getTokenType() + " " + exchange.toString());
+            headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+        }
         return headers;
     }
 

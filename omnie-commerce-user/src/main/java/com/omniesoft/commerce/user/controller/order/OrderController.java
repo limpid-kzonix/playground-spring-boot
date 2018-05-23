@@ -18,6 +18,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
@@ -58,6 +62,12 @@ public class OrderController {
     public ResponseMessage.Created makeOrder(@PathVariable("service-id") UUID serviceId,
                                              @RequestBody @Valid SaveOrderDto order,
                                              @ApiIgnore UserEntity user) {
+
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        OAuth2Authentication oauth = (OAuth2Authentication) securityContext.getAuthentication();
+        String token = ((OAuth2AuthenticationDetails) oauth.getDetails()).getTokenValue();
+
+        log.info(token);
 
         order.setServiceId(serviceId);
         UUID id = orderService.makeOrder(order, user);
