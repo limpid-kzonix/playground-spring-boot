@@ -23,7 +23,7 @@ public class HandbookTagEntity {
     @Type(type = "pg-uuid")
     private UUID id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "handbook_id")
     @JsonBackReference
     private HandbookEntity handbook;
