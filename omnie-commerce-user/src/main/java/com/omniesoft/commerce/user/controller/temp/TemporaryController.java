@@ -53,7 +53,7 @@ public class TemporaryController {
     }
 
     @PutMapping(path = "/{handbook-id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public HandbookSummary addHandbook(
+    public HandbookSummary updateHandbook(
             @PathVariable(name = "handbook-id") UUID id,
             @Valid @RequestBody UpdateHandbookPl payload,
             @ApiIgnore UserEntity userEntity) {
