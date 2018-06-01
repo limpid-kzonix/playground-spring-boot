@@ -52,6 +52,15 @@ public class TemporaryController {
         return tempHandbookService.save(payload);
     }
 
+    @PutMapping(path = "/{handbook-id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public HandbookSummary addHandbook(
+            @PathVariable(name = "handbook-id") UUID id,
+            @Valid @RequestBody UpdateHandbookPl payload,
+            @ApiIgnore UserEntity userEntity) {
+
+        return tempHandbookService.update(id, payload);
+    }
+
     @DeleteMapping(path = "/{handbook-id}")
     public void deleteHandbook(
             @PathVariable(name = "handbook-id") UUID id,
@@ -88,7 +97,7 @@ public class TemporaryController {
     }
 
     @DeleteMapping(path = "/{handbook-id}/tags/{tag-id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public HandbookSummary getHandbook(
+    public HandbookSummary deleteTag(
             @PathVariable(name = "handbook-id") UUID handbookId,
             @PathVariable(name = "tag-id") UUID tagId,
             @ApiIgnore UserEntity userEntity) {

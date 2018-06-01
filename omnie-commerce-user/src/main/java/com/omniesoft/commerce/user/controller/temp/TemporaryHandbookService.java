@@ -102,6 +102,16 @@ public class TemporaryHandbookService implements ITemporaryHandbookService {
         return handbookRepository.findById(save.getId());
     }
 
+    @Override
+    public HandbookSummary update(UUID id, UpdateHandbookPl pl) {
+        HandbookEntity handbook = handbookRepository.findOne(id);
+        handbook.setName(pl.getName());
+        handbook.setImageId(pl.getImageId());
+        handbook.setAddress(pl.getAddress());
+        handbookRepository.save(handbook);
+        return handbookRepository.findById(id);
+    }
+
     private HandbookEntity map(@NotNull HandbookEntity handbook, SaveHandbookPl payload, boolean acceptStatus) {
 
         handbook.setName(payload.getName());

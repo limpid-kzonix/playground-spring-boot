@@ -18,4 +18,6 @@ public interface ITemporaryHandbookService {
     HandbookSummary deleteTag(UUID handbookId, UUID tagId);
 
     HandbookSummary save(SaveHandbookPl payload);
+
+    HandbookSummary update(UUID id, UpdateHandbookPl payload);
 }
