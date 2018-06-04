@@ -24,6 +24,12 @@ public interface ServiceRepository extends PagingAndSortingRepository<ServiceEnt
             "and s.deleteStatus = false ")
     ServiceEntity findOne(@Param("sid") UUID id);
 
+    @Query("select s from ServiceEntity s" +
+            " join fetch s.organization" +
+            " where s.id = :sid" +
+            " and s.deleteStatus = false")
+    ServiceEntity findOneFetchOrganization(@Param("sid") UUID id);
+
     @Query("select s from ServiceEntity s " +
             "where s.organization.id = :id " +
             "and s.deleteStatus = false")

@@ -368,7 +368,7 @@ public class UserOrderService implements OrderService {
         orderEntity.setStatus(status);
         orderEntity.setComment(order.getComment());
 
-        orderEntity.setService(serviceRepository.findOne(order.getServiceId()));
+        orderEntity.setService(serviceRepository.findOneFetchOrganization(order.getServiceId()));
 
         orderEntity.setUser(customer);
         orderEntity.setCustomerName(customer.getProfile().getFullName());

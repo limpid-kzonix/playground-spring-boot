@@ -1,4 +1,4 @@
-package com.omniesoft.commerce.user.config;
+package com.omniesoft.commerce.user.config.beans;
 
 import com.omniesoft.commerce.common.component.url.UrlBuilder;
 import com.omniesoft.commerce.common.component.url.UrlBuilderImpl;
@@ -11,6 +11,8 @@ import com.omniesoft.commerce.common.converter.impl.ServicePriceConverterImpl;
 import com.omniesoft.commerce.common.converter.impl.ServicePriceListConverterImpl;
 import com.omniesoft.commerce.common.converter.impl.SubServicePriceConverterImpl;
 import com.omniesoft.commerce.common.handler.exception.handler.RestResponseEntityExceptionHandler;
+import com.omniesoft.commerce.common.notification.order.IOrderNotifRT;
+import com.omniesoft.commerce.common.notification.order.OrderNotifFromUserRT;
 import com.omniesoft.commerce.common.ws.TokenRestTemplate;
 import com.omniesoft.commerce.common.ws.TokenRestTemplateImpl;
 import com.omniesoft.commerce.common.ws.imagestorage.ImageService;
@@ -36,13 +38,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.util.concurrent.Executor;
 
 @Configuration
 @Import(MailConfiguration.class)
@@ -152,33 +152,9 @@ public class BeanDefinitionConfig {
     public TokenRestTemplate tokenRestTemplate(
             final @Value("${communication.services.token-service.api.baseUrl}") String baseUrl,
             final @Value("${security.oauth2.client.clientId}") String clientId,
-            final @Value("${security.oauth2.client.clientSecret}") String secret
-    ) {
+            final @Value("${security.oauth2.client.clientSecret}") String secret) {
 
         return new TokenRestTemplateImpl(baseUrl, restTemplate(), clientId, secret);
-    }
-
-
-    @Bean(name = "httpThreadPoolExecutor")
-    public Executor httpThreadPoolExecutor() {
-        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(8);
-        executor.setMaxPoolSize(64);
-        executor.setQueueCapacity(1500);
-        executor.setThreadNamePrefix("RestTemplateServiceLookup-");
-        executor.initialize();
-        return executor;
-    }
-
-    @Bean(name = "scheduleThreadPoolExecutor")
-    public Executor scheduleThreadPoolExecutor() {
-        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(1);
-        executor.setMaxPoolSize(2);
-        executor.setQueueCapacity(500);
-        executor.setThreadNamePrefix("ScheduleTemplateServiceLookup-");
-        executor.initialize();
-        return executor;
     }
 
     @Bean
@@ -187,7 +163,11 @@ public class BeanDefinitionConfig {
         return new UrlBuilderImpl(host, port);
     }
 
-    public TokenRestTemplate getTokenRestTemplate() {
-        return tokenRestTemplate;
+
+    @Bean
+    public IOrderNotifRT getNotifService(final @Value("${communication.services.notification-service.api.baseUrl}")
+                                                 String apiHost) {
+        return new OrderNotifFromUserRT(restTemplate(), apiHost);
     }
+
 }

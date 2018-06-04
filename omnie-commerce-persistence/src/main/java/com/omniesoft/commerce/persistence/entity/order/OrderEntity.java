@@ -40,6 +40,7 @@ public class OrderEntity {
     @Type(type = "pg-uuid")
     private UUID id;
 
+    //Customer
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private UserEntity user;

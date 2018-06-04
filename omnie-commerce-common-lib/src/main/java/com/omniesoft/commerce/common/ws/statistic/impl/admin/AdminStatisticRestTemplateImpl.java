@@ -26,7 +26,7 @@ public class AdminStatisticRestTemplateImpl extends SecuredRestTemplateAbstracti
         super(baseUrl, restTemplate, tokenRestTemplate);
     }
 
-    @Async(value = "httpThreadPoolExecutor")
+    @Async(value = Constants.Executors.ASYNC_HTTP)
     @Override
     public CompletableFuture<Void> logAdminOrganizationChanges(UUID userId, UUID orgId) {
 
@@ -34,7 +34,7 @@ public class AdminStatisticRestTemplateImpl extends SecuredRestTemplateAbstracti
         return wrap(() -> send(uri, HttpMethod.POST, prepareAdminLogPayload(userId, null, orgId)));
     }
 
-    @Async(value = "httpThreadPoolExecutor")
+    @Async(value = Constants.Executors.ASYNC_HTTP)
     @Override
     public CompletableFuture<Void> logAdminServiceChanges(UUID userId, UUID serviceId, UUID org) {
 
@@ -42,7 +42,7 @@ public class AdminStatisticRestTemplateImpl extends SecuredRestTemplateAbstracti
         return wrap(() -> send(uri, HttpMethod.POST, prepareAdminLogPayload(userId, serviceId, org)));
     }
 
-    @Async(value = "httpThreadPoolExecutor")
+    @Async(value = Constants.Executors.ASYNC_HTTP)
     @Override
     public CompletableFuture<Void> logAdminNewsChanges(UUID userId, UUID orgId) {
 
@@ -51,7 +51,7 @@ public class AdminStatisticRestTemplateImpl extends SecuredRestTemplateAbstracti
 
     }
 
-    @Async(value = "httpThreadPoolExecutor")
+    @Async(value = Constants.Executors.ASYNC_HTTP)
     @Override
     public CompletableFuture<Void> logAdminDiscountChanges(UUID userId, UUID orgId) {
 
@@ -59,7 +59,7 @@ public class AdminStatisticRestTemplateImpl extends SecuredRestTemplateAbstracti
         return wrap(() -> send(uri, HttpMethod.POST, prepareAdminLogPayload(userId, null, orgId)));
     }
 
-    @Async(value = "httpThreadPoolExecutor")
+    @Async(value = Constants.Executors.ASYNC_HTTP)
     @Override
     public CompletableFuture<Void> logAdminOrderChanges(UUID userId, UUID orgId) {
 
@@ -68,7 +68,7 @@ public class AdminStatisticRestTemplateImpl extends SecuredRestTemplateAbstracti
 
     }
 
-    @Async(value = "httpThreadPoolExecutor")
+    @Async(value = Constants.Executors.ASYNC_HTTP)
     @Override
     public CompletableFuture<Void> logAdminClientGroupChanges(UUID userId, UUID orgId) {
 

@@ -21,6 +21,6 @@ public class ConversationEventListener extends UserSender implements
     @EventListener
     public void onApplicationEvent(OnConversationUserNotifyEvent event) {
 
-        send(event.getLookupSource(), "/topic/message/user");
+//        send(event.getLookupSource(), "/topic/message/user");
     }
 }

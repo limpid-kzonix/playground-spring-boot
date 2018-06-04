@@ -25,8 +25,6 @@ public class StompController {
         log.debug("SUBSCRIBED::::: {}", principal.getName());
 
         NotifMessage orderNotifpl = new NotifMessage();
-        orderNotifpl.setType(NotifType.NEW_ORDER);
-        orderNotifpl.setId(UUID.randomUUID());
 
         return orderNotifpl;
     }

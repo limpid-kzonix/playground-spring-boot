@@ -2,9 +2,7 @@ package com.omniesoft.commerce.notification.controllers.receiver;
 
 import com.omniesoft.commerce.common.ws.notification.payload.ConversationMessage;
 import com.omniesoft.commerce.common.ws.notification.payload.ReviewMessage;
-import com.omniesoft.commerce.common.ws.notification.payload.order.OrderMessage;
 import com.omniesoft.commerce.notification.util.event.user.events.OnConversationUserNotifyEvent;
-import com.omniesoft.commerce.notification.util.event.user.events.OnOrderUserNotifyEvent;
 import com.omniesoft.commerce.notification.util.event.user.events.OnReviewUserNotifyEvent;
 import lombok.AllArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;

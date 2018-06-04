@@ -6,7 +6,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
-@Service("userReviewEventListener")
+@Service
 public class ReviewEventListener extends UserSender implements ApplicationListener<OnReviewUserNotifyEvent> {
 
 
@@ -19,7 +19,7 @@ public class ReviewEventListener extends UserSender implements ApplicationListen
     @EventListener
     public void onApplicationEvent(OnReviewUserNotifyEvent event) {
 
-        send(event.getLookupSource(), "/topic/review/user");
+//        send(event.getLookupSource(), "/topic/review/user");
 
     }
 

@@ -45,6 +45,7 @@ public class NotificationAdminReceiverController extends AbstractNotificationCon
 
     }
 
+
     @PostMapping(path = "/admin/conversation")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void handleConversationNotification(@RequestBody ConversationMessage conversationMessage) {
