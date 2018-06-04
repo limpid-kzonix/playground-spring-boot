@@ -17,7 +17,7 @@ spring:
     show-sql: true
     database: postgresql
     hibernate:
-      ddl-auto: validate
+      ddl-auto: none
       naming:
         strategy: org.hibernate.cfg.ImprovedNamingStrategy
     properties:
@@ -26,9 +26,9 @@ spring:
   datasource:
     platform: POSTGRESQL
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/omnie_commerce
+    url: jdbc:postgresql://omniecom.com:5432/omnie_commerce
     username: postgres
-    password: geek
+    password: WrMlCyebTMF7frgT
   jackson:
     date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
   output:
@@ -84,11 +84,11 @@ logging:
 #    root: info
     com.omniesoft: debug
     org.springframework: info
-#    org.springframework.security: debug
+    org.springframework.security: debug
     org.hibernate: info
     org.apache: info
-#    jdbc: warn
-#    jdbc.resultsettable: info
+    jdbc: warn
+    jdbc.resultsettable: info
 
 #
 # [ Rest Templates ]

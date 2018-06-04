@@ -25,8 +25,8 @@ public abstract class SecuredRestTemplateAbstraction extends RestTemplateAbstrac
 
     protected void send(URI uri, HttpMethod method, Object payload) {
 
-        HttpEntity httpEntity = getHttpEntity(payload);
-        log.info("URI call {} {}  Prepared HTTP entity hasBody {}", method.name(), uri.toString(), httpEntity.hasBody());
+        HttpEntity httpEntity = createHttpEntity(payload);
+        log.info("{} : {}  Prepared HTTP entity hasBody {}", method.name(), uri.toString(), httpEntity.hasBody());
 
         log.info("################################################");
         ResponseEntity<String> s = restTemplate.exchange(uri, method, httpEntity, String.class);
@@ -40,24 +40,28 @@ public abstract class SecuredRestTemplateAbstraction extends RestTemplateAbstrac
      * @param payload Users data for logging
      */
 
-    private HttpEntity getHttpEntity(Object payload) {
-        return new HttpEntity<>(payload, getTokenForRequest());
+    private HttpEntity createHttpEntity(Object payload) {
+        return new HttpEntity<>(payload, createHeaders());
     }
 
-    private HttpHeaders getTokenForRequest() {
+    private HttpHeaders createHeaders() {
         HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+        insertSecurityToken(headers);
+        return headers;
+    }
+
+    private void insertSecurityToken(HttpHeaders headers) {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         OAuth2Authentication oauth = (OAuth2Authentication) securityContext.getAuthentication();
         if (oauth.getDetails() instanceof OAuth2AuthenticationDetails) {
             OAuth2AuthenticationDetails details = (OAuth2AuthenticationDetails) oauth.getDetails();
             headers.set(HttpHeaders.AUTHORIZATION, details.getTokenType() + " " + details.getTokenValue());
-            headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         } else {
             OAuth2AccessToken exchange = tokenRestTemplate.exchange();
             headers.set(HttpHeaders.AUTHORIZATION, exchange.getTokenType() + " " + exchange.toString());
-            headers.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+
         }
-        return headers;
     }
 
     protected CompletableFuture<Void> wrap(Runnable runnable) {

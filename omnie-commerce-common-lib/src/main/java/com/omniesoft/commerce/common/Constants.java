@@ -5,4 +5,12 @@ public interface Constants {
         String TYPE_OWNER = "owner";
         String TYPE_ADMIN = "admin";
     }
+
+    interface Executors {
+        String ASYNC_HTTP = "httpThreadPoolExecutor";
+    }
+
+    interface WS {
+        String NOTIFICATION = "/user/notification";
+    }
 }

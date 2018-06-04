@@ -25,15 +25,12 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableEurekaClient
 public class NotificationApplication extends SpringBootServletInitializer {
 
-
     public static void main(String[] args) {
-
         SpringApplication.run(NotificationApplication.class, args);
     }
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-
         return application.sources(NotificationApplication.class);
     }
 

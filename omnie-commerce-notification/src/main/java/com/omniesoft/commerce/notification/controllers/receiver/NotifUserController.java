@@ -14,14 +14,14 @@ import javax.validation.Valid;
 
 @RestController
 @AllArgsConstructor
-public class NotificationUserReceiverController extends AbstractNotificationController {
+public class NotifUserController extends AbstractNotifController {
 
     private final ApplicationEventPublisher eventPublisher;
 
-    @PostMapping(path = "/user/order")
-    public void handleOrderNotification(@Valid @RequestBody OrderMessage orderMessage) {
-        eventPublisher.publishEvent(new OnOrderUserNotifyEvent(orderMessage));
-    }
+//    @PostMapping(path = "/user/order")
+//    public void handleOrderNotification(@RequestBody NotifMessage<OrderNotifPl> orderMessage) {
+//        eventPublisher.publishEvent(new UserNotifyEvent(orderMessage));
+//    }
 
     @PostMapping(path = "/user/conversation")
     public void handleConversationNotification(

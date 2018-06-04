@@ -11,37 +11,43 @@
 
 package com.omniesoft.commerce.notification.controllers.receiver;
 
+import com.omniesoft.commerce.common.notification.NotifMessage;
+import com.omniesoft.commerce.common.notification.order.payload.OrderNotifPl;
 import com.omniesoft.commerce.common.ws.notification.payload.ConversationMessage;
 import com.omniesoft.commerce.common.ws.notification.payload.ReviewMessage;
-import com.omniesoft.commerce.common.ws.notification.payload.order.OrderMessage;
+import com.omniesoft.commerce.notification.event.UserEventScope;
 import com.omniesoft.commerce.notification.util.event.admin.events.OnConversationAdminNotifyEvent;
-import com.omniesoft.commerce.notification.util.event.admin.events.OnOrderAdminNotifyEvent;
 import com.omniesoft.commerce.notification.util.event.admin.events.OnReviewAdminNotifyEvent;
+import com.omniesoft.commerce.notification.util.event.admin.events.OrderNotifEvent;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.security.Principal;
+
+import static com.omniesoft.commerce.common.Constants.WS.NOTIFICATION;
 
 @Slf4j
 @RestController
 @AllArgsConstructor
-public class NotificationAdminReceiverController extends AbstractNotificationController {
+public class NotifAdminController extends AbstractNotifController {
 
     private final ApplicationEventPublisher eventPublisher;
 
-    @PostMapping(path = "/admin/order", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void handleOrderNotification(@RequestBody OrderMessage orderMessage) {
+    @PostMapping(path = "/admin/order")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void orderNotification(Principal emitter,
+                                  @RequestBody NotifMessage<OrderNotifPl> message) {
 
-        log.info(orderMessage.toString());
-
-        eventPublisher.publishEvent(new OnOrderAdminNotifyEvent(orderMessage));
+        log.info(message.toString());
+        UserEventScope scope = UserEventScope.of(emitter, NOTIFICATION, message.getContent().getOrgId());
+        eventPublisher.publishEvent(new OrderNotifEvent(message, scope));
 
     }
 

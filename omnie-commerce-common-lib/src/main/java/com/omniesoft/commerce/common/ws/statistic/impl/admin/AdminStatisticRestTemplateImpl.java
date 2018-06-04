@@ -1,6 +1,7 @@
 package com.omniesoft.commerce.common.ws.statistic.impl.admin;
 
 import com.google.common.collect.Lists;
+import com.omniesoft.commerce.common.Constants;
 import com.omniesoft.commerce.common.ws.SecuredRestTemplateAbstraction;
 import com.omniesoft.commerce.common.ws.TokenRestTemplate;
 import com.omniesoft.commerce.common.ws.statistic.impl.AdminStatisticRestTemplate;

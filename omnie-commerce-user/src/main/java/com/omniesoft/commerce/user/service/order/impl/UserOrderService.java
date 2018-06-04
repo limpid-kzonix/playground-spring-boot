@@ -10,14 +10,12 @@ import com.omniesoft.commerce.common.component.order.dto.price.OrderPriceDto;
 import com.omniesoft.commerce.common.converter.ServicePriceConverter;
 import com.omniesoft.commerce.common.handler.exception.custom.UsefulException;
 import com.omniesoft.commerce.common.handler.exception.custom.enums.OwnerModuleErrorCodes;
+import com.omniesoft.commerce.common.notification.order.IOrderNotifRT;
 import com.omniesoft.commerce.common.order.Timesheet;
 import com.omniesoft.commerce.common.order.schedule.ScheduleSetting;
 import com.omniesoft.commerce.common.order.timesheet.OrderPeriod;
 import com.omniesoft.commerce.common.order.timesheet.SingleDayTimesheetBuilder;
 import com.omniesoft.commerce.common.order.timesheet.TimesheetBuilder;
-import com.omniesoft.commerce.common.ws.notification.NotificationRestTemplate;
-import com.omniesoft.commerce.common.ws.notification.payload.order.OrderMessage;
-import com.omniesoft.commerce.common.ws.notification.payload.order.OrderNotificationMapper;
 import com.omniesoft.commerce.persistence.entity.account.UserEntity;
 import com.omniesoft.commerce.persistence.entity.discount.DiscountEntity;
 import com.omniesoft.commerce.persistence.entity.enums.GraphNames;
@@ -33,10 +31,12 @@ import com.omniesoft.commerce.persistence.repository.service.*;
 import com.omniesoft.commerce.user.service.order.OrderService;
 import com.omniesoft.commerce.user.service.organization.DiscountService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -51,9 +51,10 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
  * @author Vitalii Martynovskyi
  * @since 20.12.17
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
-//@Transactional
+@Transactional
 public class UserOrderService implements OrderService {
     private final ServiceRepository serviceRepository;
     private final ServiceTimingRepository serviceTimingRepository;
@@ -66,7 +67,7 @@ public class UserOrderService implements OrderService {
     private final SubServiceRepository subServiceRepository;
     private final SubServicePriceRepository subServicePriceRepository;
     private final DiscountService discountService;
-    private final NotificationRestTemplate<OrderMessage> orderNotificationsService;
+    private final IOrderNotifRT notifRT;
 
 
     @Override
@@ -130,7 +131,7 @@ public class UserOrderService implements OrderService {
                 null,
                 orderConverter.transformSaveOrderSubServices(order.getSubServices())
         );
-        orderNotificationsService.sendOrderNotification(OrderNotificationMapper.compact(createOrderEntityWithoutPrices(order, user, PENDING_FOR_ADMIN)));
+        notifRT.newOrder(createOrderEntityWithoutPrices(order, user, PENDING_FOR_ADMIN));
         if (builder.put(op)) {
             OrderEntity orderEntity = createOrderEntityWithoutPrices(order, user, PENDING_FOR_ADMIN);
 
@@ -140,8 +141,8 @@ public class UserOrderService implements OrderService {
 
             orderPriceService.calculatePrice(orderEntity, timesheet);
 
-            orderRepository.save(orderEntity);
-            orderNotificationsService.sendOrderNotification(OrderNotificationMapper.compact(orderEntity));
+            OrderEntity savedOrder = orderRepository.save(orderEntity);
+            notifRT.newOrder(savedOrder);
             return orderEntity.getId();
 
         } else {

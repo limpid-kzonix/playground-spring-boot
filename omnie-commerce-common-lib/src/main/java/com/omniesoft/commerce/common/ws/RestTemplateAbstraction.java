@@ -9,9 +9,7 @@ public abstract class RestTemplateAbstraction {
     protected RestTemplate restTemplate;
 
     public RestTemplateAbstraction(String baseUrl, RestTemplate restTemplate) {
-
         this.baseUrl = baseUrl;
         this.restTemplate = restTemplate;
-
     }
 }
