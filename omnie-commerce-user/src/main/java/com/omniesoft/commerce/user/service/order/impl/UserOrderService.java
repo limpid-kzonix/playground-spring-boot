@@ -131,7 +131,6 @@ public class UserOrderService implements OrderService {
                 null,
                 orderConverter.transformSaveOrderSubServices(order.getSubServices())
         );
-        notifRT.newOrder(createOrderEntityWithoutPrices(order, user, PENDING_FOR_ADMIN));
         if (builder.put(op)) {
             OrderEntity orderEntity = createOrderEntityWithoutPrices(order, user, PENDING_FOR_ADMIN);
 
