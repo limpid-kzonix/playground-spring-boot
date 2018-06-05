@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 import java.security.Principal;
 
-import static com.omniesoft.commerce.common.Constants.WS.NOTIFICATION;
+import static com.omniesoft.commerce.common.Constants.WS.Owner.NOTIFICATION;
 
 @Slf4j
 @RestController
