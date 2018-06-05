@@ -11,6 +11,12 @@ public interface Constants {
     }
 
     interface WS {
-        String NOTIFICATION = "/user/notification";
+        interface User {
+            String NOTIFICATION = "/user/notification";
+        }
+
+        interface Owner {
+            String NOTIFICATION = "/owner/notification";
+        }
     }
 }

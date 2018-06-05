@@ -20,7 +20,7 @@ public class OrderEventListener implements ApplicationListener<UserNotifyEvent> 
     @EventListener
     public void onApplicationEvent(UserNotifyEvent event) {
         String owner = findAdmin.getOwner(event.getScope().getOrganizationReceiver());
-        ws.convertAndSendToUser(owner, Constants.WS.NOTIFICATION, event.getSource());
+        ws.convertAndSendToUser(owner, Constants.WS.Owner.NOTIFICATION, event.getSource());
 
     }
 }
