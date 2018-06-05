@@ -53,7 +53,7 @@ public class SwaggerConfiguration {
                 .groupName("image-api")
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.omniesoft.commerce.imagestorage.controllers"))
+                .apis(RequestHandlerSelectors.basePackage("com.omniesoft.commerce.imagestorage.controller"))
                 .paths(PathSelectors.any())
                 .build()
                 .pathMapping("/")

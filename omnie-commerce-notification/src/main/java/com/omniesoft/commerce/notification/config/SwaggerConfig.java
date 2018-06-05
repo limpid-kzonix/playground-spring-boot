@@ -53,7 +53,7 @@ public class SwaggerConfig {
                 .groupName("notification-api")
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.omniesoft.commerce.notification.controllers"))
+                .apis(RequestHandlerSelectors.basePackage("com.omniesoft.commerce.notification.controller"))
                 .paths(PathSelectors.any())
                 .build()
                 .pathMapping("/")

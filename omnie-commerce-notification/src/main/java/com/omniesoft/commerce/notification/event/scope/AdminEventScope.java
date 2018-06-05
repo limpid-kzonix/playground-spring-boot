@@ -1,6 +1,5 @@
-package com.omniesoft.commerce.notification.event.admin.events;
+package com.omniesoft.commerce.notification.event.scope;
 
-import com.omniesoft.commerce.notification.event.EventScope;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

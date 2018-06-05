@@ -1,4 +1,4 @@
-package com.omniesoft.commerce.notification.controllers.stomp;
+package com.omniesoft.commerce.notification.controller.stomp;
 
 import com.omniesoft.commerce.common.notification.NotifMessage;
 import com.omniesoft.commerce.common.notification.order.payload.OrderNotifPl;

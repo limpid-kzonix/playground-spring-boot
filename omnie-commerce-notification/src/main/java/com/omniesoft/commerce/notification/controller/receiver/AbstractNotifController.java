@@ -1,4 +1,4 @@
-package com.omniesoft.commerce.notification.controllers.receiver;
+package com.omniesoft.commerce.notification.controller.receiver;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 

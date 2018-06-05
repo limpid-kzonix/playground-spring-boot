@@ -1,16 +1,18 @@
-package com.omniesoft.commerce.notification.event.admin.events;
+package com.omniesoft.commerce.notification.listener;
 
 import com.omniesoft.commerce.common.Constants;
-import com.omniesoft.commerce.notification.ISearchAdminService;
-import com.omniesoft.commerce.notification.event.UserEventScope;
-import com.omniesoft.commerce.notification.util.event.admin.events.OrderNotifEvent;
+import com.omniesoft.commerce.notification.event.OrderNotifEvent;
+import com.omniesoft.commerce.notification.event.scope.AdminEventScope;
+import com.omniesoft.commerce.notification.event.scope.UserEventScope;
+import com.omniesoft.commerce.notification.service.ISearchAdminService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
 
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class OrderEventListener implements ApplicationListener<OrderNotifEvent> {
@@ -20,7 +22,7 @@ public class OrderEventListener implements ApplicationListener<OrderNotifEvent> 
     @Override
     @EventListener
     public void onApplicationEvent(OrderNotifEvent event) {
-
+        log.debug("New event from: {}", event.getScope().getEventEmitter().getName());
         if (event.getScope() instanceof UserEventScope) {
             UserEventScope scope = (UserEventScope) event.getScope();
             String owner = findAdmin.getOwner(scope.getOrganizationReceiver());

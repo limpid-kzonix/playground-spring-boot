@@ -1,8 +1,8 @@
-package com.omniesoft.commerce.notification.util.event.admin.events;
+package com.omniesoft.commerce.notification.event;
 
 import com.omniesoft.commerce.common.notification.NotifMessage;
 import com.omniesoft.commerce.common.notification.order.payload.OrderNotifPl;
-import com.omniesoft.commerce.notification.event.EventScope;
+import com.omniesoft.commerce.notification.event.scope.EventScope;
 import lombok.Getter;
 import org.springframework.context.ApplicationEvent;
 

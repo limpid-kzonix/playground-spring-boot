@@ -1,4 +1,4 @@
-package com.omniesoft.commerce.notification;
+package com.omniesoft.commerce.notification.service;
 
 import com.omniesoft.commerce.persistence.repository.organization.OrganizationRepository;
 import lombok.RequiredArgsConstructor;

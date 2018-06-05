@@ -9,16 +9,16 @@
  * “Attention: Permissions Coordinator,” at the address below.
  */
 
-package com.omniesoft.commerce.notification.controllers.receiver;
+package com.omniesoft.commerce.notification.controller.receiver;
 
 import com.omniesoft.commerce.common.notification.NotifMessage;
 import com.omniesoft.commerce.common.notification.order.payload.OrderNotifPl;
 import com.omniesoft.commerce.common.ws.notification.payload.ConversationMessage;
 import com.omniesoft.commerce.common.ws.notification.payload.ReviewMessage;
-import com.omniesoft.commerce.notification.event.UserEventScope;
+import com.omniesoft.commerce.notification.event.OrderNotifEvent;
+import com.omniesoft.commerce.notification.event.scope.UserEventScope;
 import com.omniesoft.commerce.notification.util.event.admin.events.OnConversationAdminNotifyEvent;
 import com.omniesoft.commerce.notification.util.event.admin.events.OnReviewAdminNotifyEvent;
-import com.omniesoft.commerce.notification.util.event.admin.events.OrderNotifEvent;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;

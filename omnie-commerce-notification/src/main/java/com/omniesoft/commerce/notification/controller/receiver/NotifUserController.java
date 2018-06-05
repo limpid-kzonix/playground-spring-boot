@@ -1,4 +1,4 @@
-package com.omniesoft.commerce.notification.controllers.receiver;
+package com.omniesoft.commerce.notification.controller.receiver;
 
 import com.omniesoft.commerce.common.ws.notification.payload.ConversationMessage;
 import com.omniesoft.commerce.common.ws.notification.payload.ReviewMessage;
@@ -20,7 +20,7 @@ public class NotifUserController extends AbstractNotifController {
 
 //    @PostMapping(path = "/user/order")
 //    public void handleOrderNotification(@RequestBody NotifMessage<OrderNotifPl> orderMessage) {
-//        eventPublisher.publishEvent(new UserNotifyEvent(orderMessage));
+//
 //    }
 
     @PostMapping(path = "/user/conversation")
