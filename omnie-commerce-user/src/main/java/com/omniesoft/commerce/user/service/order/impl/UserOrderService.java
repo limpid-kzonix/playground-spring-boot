@@ -258,7 +258,8 @@ public class UserOrderService implements OrderService {
         if (builder.put(op)) {
             if (PENDING_FOR_USER.equals(orderEntity.getStatus())) {
                 orderEntity.setStatus(CONFIRM_BY_USER);
-                orderRepository.save(orderEntity);
+                OrderEntity savedOrder = orderRepository.save(orderEntity);
+                notifRT.confirmOrder(savedOrder);
             } else {
                 throw new UsefulException("Current status not PENDING_FOR_USER",
                         OwnerModuleErrorCodes.ORDER_STATUS_NOT_CHANGEABLE);
@@ -277,7 +278,8 @@ public class UserOrderService implements OrderService {
         if (PENDING_FOR_ADMIN.equals(orderEntity.getStatus()) || PENDING_FOR_USER.equals(orderEntity.getStatus())) {
             orderEntity.setStatus(CANCEL_BY_USER);
             orderEntity.setUpdateTime(LocalDateTime.now());
-            orderRepository.save(orderEntity);
+            OrderEntity savedOrder = orderRepository.save(orderEntity);
+            notifRT.cancelOrder(savedOrder);
         } else {
             throw new UsefulException("Current not PENDING...", OwnerModuleErrorCodes.ORDER_STATUS_NOT_CHANGEABLE);
         }

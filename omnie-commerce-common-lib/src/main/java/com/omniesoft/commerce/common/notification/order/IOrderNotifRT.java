@@ -11,4 +11,6 @@ public interface IOrderNotifRT {
     void changedOrder(OrderEntity order);
 
     void doneOrder(OrderEntity order);
+
+    void cancelOrder(OrderEntity order);
 }

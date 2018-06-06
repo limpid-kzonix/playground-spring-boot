@@ -13,6 +13,8 @@ import com.omniesoft.commerce.common.converter.impl.SubServicePriceConverterImpl
 import com.omniesoft.commerce.common.handler.exception.handler.RestResponseEntityExceptionHandler;
 import com.omniesoft.commerce.common.notification.order.IOrderNotifRT;
 import com.omniesoft.commerce.common.notification.order.OrderNotifFromUserRT;
+import com.omniesoft.commerce.common.rest.ITokenRT;
+import com.omniesoft.commerce.common.rest.TokenRT;
 import com.omniesoft.commerce.common.ws.TokenRestTemplate;
 import com.omniesoft.commerce.common.ws.TokenRestTemplateImpl;
 import com.omniesoft.commerce.common.ws.imagestorage.ImageService;
@@ -51,6 +53,9 @@ public class BeanDefinitionConfig {
 
     @Autowired
     private TokenRestTemplate tokenRestTemplate;
+
+    @Autowired
+    private UrlBuilder urlBuilder;
 
 
     @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -159,15 +164,20 @@ public class BeanDefinitionConfig {
 
     @Bean
     public UrlBuilder urlBuilder(final @Value("${application.host}") String host,
-                                 final @Value("${application.port}") int port) {
-        return new UrlBuilderImpl(host, port);
+                                 final @Value("${application.port}") int port,
+                                 final @Value("${communication.services.notification-service.api.baseUrl}")
+                                         String notifApiHost) {
+        return new UrlBuilderImpl(host, port, notifApiHost);
     }
 
+    @Bean
+    public ITokenRT tokenRT() {
+        return new TokenRT(restTemplate());
+    }
 
     @Bean
-    public IOrderNotifRT getNotifService(final @Value("${communication.services.notification-service.api.baseUrl}")
-                                                 String apiHost) {
-        return new OrderNotifFromUserRT(restTemplate(), apiHost);
+    public IOrderNotifRT getNotifService() {
+        return new OrderNotifFromUserRT(tokenRT(), urlBuilder);
     }
 
 }

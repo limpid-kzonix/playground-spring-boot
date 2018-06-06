@@ -6,4 +6,7 @@ public interface UrlBuilder {
     URI confirmAccountUrl(String token);
 
     URI changeEmailUrl(String token);
+
+    URI orderNotifForAdmin();
+
 }
