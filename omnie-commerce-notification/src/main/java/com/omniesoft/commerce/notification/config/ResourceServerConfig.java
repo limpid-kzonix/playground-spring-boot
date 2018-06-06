@@ -16,17 +16,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 @Configuration
 @EnableResourceServer
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
-
-//    @Autowired
-//    @Qualifier("remoteTokenServices")
-//    private RemoteTokenServices remoteTokenServices;
-
-//    @Override
-//    public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-//
-//        resources.tokenServices(remoteTokenServices);
-//    }
-
     @Override
     public void configure(HttpSecurity http) throws Exception {
 
@@ -48,19 +37,4 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .authorizeRequests()
                 .anyRequest().authenticated();
     }
-
-//    @Bean("remoteTokenServices")
-//    public RemoteTokenServices remoteTokenServices(
-//            final @Value("${security.oauth2.client.accessTokenUri}") String checkTokenUrl,
-//            final @Value("${security.oauth2.client.clientId}") String clientId,
-//            final @Value("${security.oauth2.client.clientSecret}") String clientSecret) {
-//
-//        final RemoteTokenServices remoteTokenServices = new RemoteTokenServices();
-//        remoteTokenServices.setCheckTokenEndpointUrl(checkTokenUrl);
-//        remoteTokenServices.setClientId(clientId);
-//        remoteTokenServices.setClientSecret(clientSecret);
-//        return remoteTokenServices;
-//    }
-
-
 }

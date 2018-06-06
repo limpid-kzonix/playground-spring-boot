@@ -25,8 +25,8 @@ public class ExecutorBeanDefinition {
     public Executor scheduleThreadPoolExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(1);
-        executor.setMaxPoolSize(2);
-        executor.setQueueCapacity(500);
+        executor.setMaxPoolSize(1);
+        executor.setQueueCapacity(50);
         executor.setThreadNamePrefix("ScheduleTemplateServiceLookup-");
         executor.initialize();
         return executor;

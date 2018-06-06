@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
@@ -55,12 +54,12 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        // TODO: 16.03.18 make configurable
-        registry.addMapping("/api/**")
-                .allowedOrigins("*")
-                .allowedHeaders("*")
-                .allowedMethods("*");
-    }
+//    @Override
+//    public void addCorsMappings(CorsRegistry registry) {
+//        // TODO: 16.03.18 make configurable
+//        registry.addMapping("/api/**")
+//                .allowedOrigins("*")
+//                .allowedHeaders("*")
+//                .allowedMethods("*");
+//    }
 }

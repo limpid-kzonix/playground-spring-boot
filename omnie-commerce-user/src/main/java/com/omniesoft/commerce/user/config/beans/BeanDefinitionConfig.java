@@ -91,15 +91,14 @@ public class BeanDefinitionConfig {
         return new MailContentBuilder();
     }
 
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
-    }
-
-    @Bean
-    public ServicePriceConverter servicePriceConverter() {
-        return new ServicePriceConverterImpl(modelMapper());
     }
 
     @Bean
@@ -108,14 +107,18 @@ public class BeanDefinitionConfig {
     }
 
     @Bean
-    public ServicePriceListConverter servicePriceListConverter() {
-        return new ServicePriceListConverterImpl(servicePriceConverter());
-    }
-
-
-    @Bean
     public OrganizationTimeSheetConverter organizationTimeSheetConverter() {
         return new OrganizationTimeSheetConverterImpl();
+    }
+
+    @Bean
+    public ServicePriceConverter servicePriceConverter() {
+        return new ServicePriceConverterImpl(modelMapper());
+    }
+
+    @Bean
+    public ServicePriceListConverter servicePriceListConverter() {
+        return new ServicePriceListConverterImpl(servicePriceConverter());
     }
 
 
@@ -143,11 +146,6 @@ public class BeanDefinitionConfig {
             final @Value("${communication.services.notification-service.api.baseUrl}") String baseUrl) {
 
         return new UserServiceNotificationRestTemplateImpl(baseUrl, restTemplate(), tokenRestTemplate);
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 
     /*
