@@ -84,10 +84,12 @@ public class UserOrderService implements OrderService {
 
         Timesheet timesheet = timesheetService.buildSingleDaySchedule(serviceId, date, serviceTiming, schedule);
 
-        List<OrderEntity> orders = orderRepository.findReadyToProcessing(
+        // TODO: 06.06.18 : add merging with existing user orders with any status for this service
+        List<OrderEntity> orders = orderRepository.findAccepted(
                 timesheet.getStart(),
                 timesheet.getEnd(),
                 serviceId);
+
 
         timesheetService.insertAllOrdersNoDetails(timesheet, orders);
         return timesheet;

@@ -77,6 +77,29 @@ public class OrderRepositoryImpl implements OrderRepositoryCustom {
     }
 
     @Override
+    public List<OrderEntity> findConfictedForUser(LocalDateTime start, LocalDateTime end, UUID serviceId) {
+        return em.createQuery(
+                "select o" +
+                        " from OrderEntity o" +
+                        " inner join fetch o.service" +
+                        " left join fetch o.user" +
+                        " left join fetch o.subServices" +
+                        " where o.service.id = :serviceId" +
+                        " and o.end between :start and :ends" +
+                        " and ( o.status = :CBU" +
+                        " or  o.status = :CBA" +
+                        " or  o.status = :DONE)",
+                OrderEntity.class)
+                .setParameter("serviceId", serviceId)
+                .setParameter("start", start)
+                .setParameter("ends", end)
+                .setParameter("CBU", CONFIRM_BY_USER)
+                .setParameter("CBA", CONFIRM_BY_ADMIN)
+                .setParameter("DONE", DONE)
+                .getResultList();
+    }
+
+    @Override
     public OrderEntity findByIdAndServiceIdGraph(UUID id, UUID serviceId, String graphName) {
         return em.createQuery(
                 "select o" +
