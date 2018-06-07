@@ -25,6 +25,7 @@ public class OrderEventListener implements ApplicationListener<OrderNotifEvent> 
         String userName;
         if (event.getScope() instanceof UserEventScope) {
             UserEventScope scope = (UserEventScope) event.getScope();
+            // TODO: 07.06.18 : impl sending for online users and admins
             userName = findAdmin.getOwner(scope.getOrganizationReceiver());
         } else {
             AdminEventScope scope = (AdminEventScope) event.getScope();
