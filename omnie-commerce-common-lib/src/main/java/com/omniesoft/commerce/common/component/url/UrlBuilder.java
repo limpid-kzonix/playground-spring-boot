@@ -9,4 +9,5 @@ public interface UrlBuilder {
 
     URI orderNotifForAdmin();
 
+    URI orderNotifForUser(String username);
 }

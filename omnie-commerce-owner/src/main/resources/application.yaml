@@ -6,6 +6,10 @@ server:
  port: 9050
  context-path: /api
 
+application:
+  host: http://dev.omniecom.com
+  port: 9999
+
 #
 # [ Spring Database Configuration]
 #
@@ -203,6 +207,10 @@ service:
 ###
 ### Profile: prod
 ###
+application:
+    host: http://omniecom.com.ua
+    port: 0
+
 spring:
     profiles: prod
     datasource:

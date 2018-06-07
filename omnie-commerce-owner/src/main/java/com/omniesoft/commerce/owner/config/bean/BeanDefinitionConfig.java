@@ -1,5 +1,7 @@
-package com.omniesoft.commerce.owner.config;
+package com.omniesoft.commerce.owner.config.bean;
 
+import com.omniesoft.commerce.common.component.url.UrlBuilder;
+import com.omniesoft.commerce.common.component.url.UrlBuilderImpl;
 import com.omniesoft.commerce.common.converter.OrganizationTimeSheetConverter;
 import com.omniesoft.commerce.common.converter.ServicePriceConverter;
 import com.omniesoft.commerce.common.converter.SubServicePriceConverter;
@@ -7,6 +9,10 @@ import com.omniesoft.commerce.common.converter.impl.OrganizationTimeSheetConvert
 import com.omniesoft.commerce.common.converter.impl.ServicePriceConverterImpl;
 import com.omniesoft.commerce.common.converter.impl.SubServicePriceConverterImpl;
 import com.omniesoft.commerce.common.handler.exception.handler.RestResponseEntityExceptionHandler;
+import com.omniesoft.commerce.common.notification.order.IOrderNotifRT;
+import com.omniesoft.commerce.common.notification.order.OrderNotifFromAdminRT;
+import com.omniesoft.commerce.common.rest.ITokenRT;
+import com.omniesoft.commerce.common.rest.TokenRT;
 import com.omniesoft.commerce.common.ws.TokenRestTemplate;
 import com.omniesoft.commerce.common.ws.TokenRestTemplateImpl;
 import com.omniesoft.commerce.common.ws.imagestorage.ImageService;
@@ -23,12 +29,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
-import java.util.concurrent.Executor;
 
 @Configuration
 @ComponentScan({"com.omniesoft.commerce.common.component.order"})
@@ -39,6 +42,9 @@ public class BeanDefinitionConfig {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private UrlBuilder urlBuilder;
 
     @Bean
     public MethodValidationPostProcessor methodValidationPostProcessor() {
@@ -106,16 +112,21 @@ public class BeanDefinitionConfig {
         return new ImageServiceImpl(baseUrl, restTemplate(), tokenRestTemplate);
     }
 
+    @Bean
+    public UrlBuilder urlBuilder(final @Value("${application.host}") String host,
+                                 final @Value("${application.port}") int port,
+                                 final @Value("${communication.services.notification-service.api.baseUrl}")
+                                         String notifApiHost) {
+        return new UrlBuilderImpl(host, port, notifApiHost);
+    }
 
-    @Bean(name = "httpThreadPoolExecutor")
-    public Executor httpThreadPoolExecutor() {
+    @Bean
+    public ITokenRT tokenRT() {
+        return new TokenRT(restTemplate());
+    }
 
-        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(8);
-        executor.setMaxPoolSize(64);
-        executor.setQueueCapacity(1500);
-        executor.setThreadNamePrefix("RestTemplateServiceLookup-");
-        executor.initialize();
-        return executor;
+    @Bean
+    public IOrderNotifRT getNotifService() {
+        return new OrderNotifFromAdminRT(tokenRT(), urlBuilder);
     }
 }

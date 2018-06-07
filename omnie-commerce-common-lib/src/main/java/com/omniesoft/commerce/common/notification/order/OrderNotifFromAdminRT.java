@@ -16,17 +16,16 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class OrderNotifFromUserRT implements IOrderNotifRT {
+public class OrderNotifFromAdminRT implements IOrderNotifRT {
     private final ITokenRT rt;
     private final UrlBuilder urls;
 
     @Override
     @Async(Constants.Executors.ASYNC_HTTP)
     public void newOrder(OrderEntity order) {
-
         if (order.getUser() != null) {
             NotifMessage<OrderNotifPl> message = createOrderNotif(order, NotifType.ORDER_NEW);
-            rt.sentHttpRequest(message, urls.orderNotifForAdmin());
+            rt.sentHttpRequest(message, urls.orderNotifForUser(order.getUser().getLogin()));
         }
     }
 
@@ -35,7 +34,7 @@ public class OrderNotifFromUserRT implements IOrderNotifRT {
     public void confirmOrder(OrderEntity order) {
         if (order.getUser() != null) {
             NotifMessage<OrderNotifPl> message = createOrderNotif(order, NotifType.ORDER_CONFIRM);
-            rt.sentHttpRequest(message, urls.orderNotifForAdmin());
+            rt.sentHttpRequest(message, urls.orderNotifForUser(order.getUser().getLogin()));
         }
     }
 
@@ -44,7 +43,7 @@ public class OrderNotifFromUserRT implements IOrderNotifRT {
     public void changedOrder(OrderEntity order) {
         if (order.getUser() != null) {
             NotifMessage<OrderNotifPl> message = createOrderNotif(order, NotifType.ORDER_CHANGE);
-            rt.sentHttpRequest(message, urls.orderNotifForAdmin());
+            rt.sentHttpRequest(message, urls.orderNotifForUser(order.getUser().getLogin()));
         }
     }
 
@@ -53,7 +52,7 @@ public class OrderNotifFromUserRT implements IOrderNotifRT {
     public void doneOrder(OrderEntity order) {
         if (order.getUser() != null) {
             NotifMessage<OrderNotifPl> message = createOrderNotif(order, NotifType.ORDER_DONE);
-            rt.sentHttpRequest(message, urls.orderNotifForAdmin());
+            rt.sentHttpRequest(message, urls.orderNotifForUser(order.getUser().getLogin()));
         }
     }
 
@@ -62,7 +61,7 @@ public class OrderNotifFromUserRT implements IOrderNotifRT {
     public void cancelOrder(OrderEntity order) {
         if (order.getUser() != null) {
             NotifMessage<OrderNotifPl> message = createOrderNotif(order, NotifType.ORDER_CANCEL);
-            rt.sentHttpRequest(message, urls.orderNotifForAdmin());
+            rt.sentHttpRequest(message, urls.orderNotifForUser(order.getUser().getLogin()));
         }
     }
 
@@ -71,7 +70,7 @@ public class OrderNotifFromUserRT implements IOrderNotifRT {
     public void failOrder(OrderEntity order) {
         if (order.getUser() != null) {
             NotifMessage<OrderNotifPl> message = createOrderNotif(order, NotifType.ORDER_FAIL);
-            rt.sentHttpRequest(message, urls.orderNotifForAdmin());
+            rt.sentHttpRequest(message, urls.orderNotifForUser(order.getUser().getLogin()));
         }
     }
 

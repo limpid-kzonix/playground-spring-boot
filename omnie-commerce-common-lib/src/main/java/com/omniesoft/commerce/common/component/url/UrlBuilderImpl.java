@@ -42,4 +42,9 @@ public class UrlBuilderImpl implements UrlBuilder {
     public URI orderNotifForAdmin() {
         return ORDER_NOTIF_FOR_ADMIN;
     }
+
+    @Override
+    public URI orderNotifForUser(String userName) {
+        return URI.create(notifHost + "/receiver/user/" + userName + "/order");
+    }
 }

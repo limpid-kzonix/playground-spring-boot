@@ -13,4 +13,6 @@ public interface IOrderNotifRT {
     void doneOrder(OrderEntity order);
 
     void cancelOrder(OrderEntity order);
+
+    void failOrder(OrderEntity failedOrder);
 }

@@ -10,6 +10,7 @@ import com.omniesoft.commerce.common.component.order.dto.price.OrderFullPriceDto
 import com.omniesoft.commerce.common.converter.ServicePriceConverter;
 import com.omniesoft.commerce.common.handler.exception.custom.UsefulException;
 import com.omniesoft.commerce.common.handler.exception.custom.enums.OwnerModuleErrorCodes;
+import com.omniesoft.commerce.common.notification.order.IOrderNotifRT;
 import com.omniesoft.commerce.common.order.Timesheet;
 import com.omniesoft.commerce.common.order.schedule.ScheduleSetting;
 import com.omniesoft.commerce.common.order.timesheet.OrderPeriod;
@@ -47,10 +48,10 @@ import static org.apache.commons.collections4.ListUtils.emptyIfNull;
  * @author Vitalii Martynovskyi
  * @since 20.11.17
  */
-@Service
-@RequiredArgsConstructor
 @Slf4j
+@Service
 @Transactional
+@RequiredArgsConstructor
 public class OwnerOrderService implements OrderService {
 
     private final OrderRepository orderRepository;
@@ -66,6 +67,7 @@ public class OwnerOrderService implements OrderService {
     private final ServicePriceRepository servicePriceRepository;
     private final ServicePriceConverter servicePriceConverter;
     private final OrderTimesheetService timesheetService;
+    private final IOrderNotifRT notifRT;
 
     @Override
     public Timesheet createTimesheetForAdministrator(UUID serviceId, LocalDate date) {
@@ -162,7 +164,8 @@ public class OwnerOrderService implements OrderService {
             chooseAndValidateDiscount(orderEntity, discountForService, subServicesDiscounts, serviceTiming);
 
             orderPriceService.calculatePrice(orderEntity, timesheet);
-            orderRepository.save(orderEntity);
+            OrderEntity editedOrder = orderRepository.save(orderEntity);
+            notifRT.changedOrder(editedOrder);
             orderStoryEntity.setChangeByUser(admin);
             orderStoryRepository.save(orderStoryEntity);
 
@@ -223,8 +226,9 @@ public class OwnerOrderService implements OrderService {
 
             orderPriceService.calculatePrice(orderEntity, timesheet);
 
-            orderRepository.save(orderEntity);
-            return orderEntity.getId();
+            OrderEntity savedOrder = orderRepository.save(orderEntity);
+            notifRT.newOrder(savedOrder);
+            return savedOrder.getId();
 
         } else throw new UsefulException(OwnerModuleErrorCodes.ORDER_TIMESHEET_CONFLICT);
     }
@@ -468,7 +472,8 @@ public class OwnerOrderService implements OrderService {
                 orderEntity.setStatus(CONFIRM_BY_ADMIN);
                 orderEntity.setUpdateTime(LocalDateTime.now());
                 orderEntity.setUpdateBy(admin);
-                orderRepository.save(orderEntity);
+                OrderEntity confirmedOrder = orderRepository.save(orderEntity);
+                notifRT.confirmOrder(confirmedOrder);
             } else {
                 throw new UsefulException("Current status not PENDING_FOR_ADMIN", OwnerModuleErrorCodes.ORDER_STATUS_NOT_CHANGEABLE);
             }
@@ -483,7 +488,8 @@ public class OwnerOrderService implements OrderService {
             orderEntity.setStatus(CANCEL_BY_ADMIN);
             orderEntity.setUpdateTime(LocalDateTime.now());
             orderEntity.setUpdateBy(admin);
-            orderRepository.save(orderEntity);
+            OrderEntity canceledOrder = orderRepository.save(orderEntity);
+            notifRT.cancelOrder(canceledOrder);
         } else {
             throw new UsefulException("Current status DONE", OwnerModuleErrorCodes.ORDER_STATUS_NOT_CHANGEABLE);
         }
@@ -497,7 +503,8 @@ public class OwnerOrderService implements OrderService {
             orderEntity.setStatus(DONE);
             orderEntity.setUpdateTime(LocalDateTime.now());
             orderEntity.setDoneBy(admin);
-            orderRepository.save(orderEntity);
+            OrderEntity doneOrder = orderRepository.save(orderEntity);
+            notifRT.doneOrder(doneOrder);
         } else
             throw new UsefulException("Current status not CONFIRM_BY_USER or CONFIRM_BY_ADMIN", OwnerModuleErrorCodes.ORDER_STATUS_NOT_CHANGEABLE);
     }
@@ -510,7 +517,8 @@ public class OwnerOrderService implements OrderService {
             orderEntity.setStatus(OrderStatus.FAIL_BY_USER);
             orderEntity.setUpdateTime(LocalDateTime.now());
             orderEntity.setDoneBy(admin);
-            orderRepository.save(orderEntity);
+            OrderEntity failedOrder = orderRepository.save(orderEntity);
+            notifRT.failOrder(failedOrder);
         } else
             throw new UsefulException("Current status not CONFIRM_BY_USER or CONFIRM_BY_ADMIN", OwnerModuleErrorCodes.ORDER_STATUS_NOT_CHANGEABLE);
     }

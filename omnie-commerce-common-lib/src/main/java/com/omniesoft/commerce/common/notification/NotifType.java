@@ -5,5 +5,6 @@ public enum NotifType {
     ORDER_CHANGE,
     ORDER_CONFIRM,
     ORDER_CANCEL,
-    ORDER_DONE
+    ORDER_DONE,
+    ORDER_FAIL;
 }
