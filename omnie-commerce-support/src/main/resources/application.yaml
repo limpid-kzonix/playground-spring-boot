@@ -27,7 +27,7 @@ spring:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/omnie_commerce
     username: postgres
-    password: geek
+    password: password
 
   jackson:
     date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
@@ -67,23 +67,14 @@ security:
 #
 # [ Logging Configuration Attributes ]
 #
-#log4jdbc:
-#  trim:
-#    sql: false
-#  dump:
-#    sql:
-#      maxlinelength: 90
-#      select: true
 
 logging:
   level:
-#    ROOT: DEBUG
+    ROOT: info
     com.omniesoft: info
     org.springframework: info
     org.hibernate: info
     org.apache: info
-#    jdbc: warn
-#    jdbc.resultsettable: info
 
 
 #

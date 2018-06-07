@@ -64,16 +64,11 @@ security:
 
 logging:
   level:
-#    root: info
+    root: info
     com.omniesoft: debug
     org.springframework: info
-    org.springframework.security: debug
-    org.springframework.cache: debug
     org.hibernate: info
     org.apache: info
-#    jdbc: warn
-#    jdbc.resultsettable: info
-
 
 #
 # [ Eureka]

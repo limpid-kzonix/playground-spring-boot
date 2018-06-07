@@ -83,15 +83,11 @@ security:
 
 logging:
   level:
-#    root: info
-    com.omniesoft: debug
+    root: info
+    com.omniesoft: info
     org.springframework: info
-    org.springframework.security: debug
-    org.springframework.cache: debug
     org.hibernate: info
     org.apache: info
-#    jdbc: warn
-#    jdbc.resultsettable: info
 
 
 #

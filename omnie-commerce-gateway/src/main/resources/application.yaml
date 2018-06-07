@@ -55,7 +55,6 @@ logging:
     com.omniesoft: info
     org.springframework.cloud: info
     org.springframework: info
-    org.springframework.security: warn
 
 server.error.whitelabel.enabled: false
 spring.mvc.throw-exception-if-no-handler-found: true
