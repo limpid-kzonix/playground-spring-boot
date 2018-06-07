@@ -161,6 +161,8 @@ security:
 #
 
 logging:
+  level:
+    ROOT: error
   config: classpath:log-config/dev.xml
 
 
@@ -235,6 +237,8 @@ security:
 #
 
 logging:
+  level:
+    ROOT: error
   config: classpath:log-config/prod.xml
 
 
