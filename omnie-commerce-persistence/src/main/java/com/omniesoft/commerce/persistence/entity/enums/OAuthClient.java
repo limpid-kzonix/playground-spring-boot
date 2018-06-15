@@ -6,5 +6,6 @@ package com.omniesoft.commerce.persistence.entity.enums;
  */
 public enum OAuthClient {
     FACEBOOK,
-    GOOGLE
+    GOOGLE,
+    FCM
 }

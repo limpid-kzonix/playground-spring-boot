@@ -1,6 +1,7 @@
 package com.omniesoft.commerce.common.notification.order.payload;
 
 import com.omniesoft.commerce.persistence.entity.order.OrderEntity;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -8,7 +9,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class OrderNotifPl {
     private UUID orderId;
     private Integer orderNumber;

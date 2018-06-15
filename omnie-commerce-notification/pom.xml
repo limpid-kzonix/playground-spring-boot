@@ -63,6 +63,12 @@
             <optional>true</optional>
         </dependency>
 
+        <dependency>
+            <groupId>com.google.firebase</groupId>
+            <artifactId>firebase-admin</artifactId>
+            <version>6.2.0</version>
+        </dependency>
+
         <!-- Loggers -->
         <dependency>
             <groupId>com.integralblue</groupId>
