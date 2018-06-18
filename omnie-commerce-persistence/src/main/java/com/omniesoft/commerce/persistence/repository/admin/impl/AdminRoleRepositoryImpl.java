@@ -52,9 +52,9 @@ public class AdminRoleRepositoryImpl implements AdminRoleRepositoryCustom {
                 "select u" +
                         " from UserEntity u" +
                         " left join u.roles r" +
-                        " join fetch u.oAuth" +
+                        " join fetch u.oAuth uoa" +
                         " where r.organization.id = :organizationId" +
-                        " group by u.id",
+                        " group by u.id, uoa.id",
                 UserEntity.class)
                 .setParameter("organizationId", organizationId)
                 .getResultList();

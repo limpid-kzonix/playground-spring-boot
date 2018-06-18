@@ -35,7 +35,6 @@ public class OrderEventListener implements ApplicationListener<OrderNotifEvent> 
         Set<UserEntity> admins;
         if (event.getScope() instanceof UserEventScope) {
             UserEventScope scope = (UserEventScope) event.getScope();
-            // TODO: 07.06.18 : impl sending for online users and admins
             admins = search.getAdminsAndOwner(scope.getOrganizationReceiver());
             Set<String> onlineAdmins = onlineUsersCheck.filterOffline(admins.stream().map(UserEntity::getLogin).collect(Collectors.toSet()));
             if (!isEmpty(onlineAdmins)) {
