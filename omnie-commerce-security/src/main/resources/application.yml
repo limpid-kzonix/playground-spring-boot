@@ -80,7 +80,7 @@ log4jdbc:
 
 logging:
   level:
-    root: debug
+    root: info
     com.omniesoft: info
     org.springframework: info
     org.hibernate: info
