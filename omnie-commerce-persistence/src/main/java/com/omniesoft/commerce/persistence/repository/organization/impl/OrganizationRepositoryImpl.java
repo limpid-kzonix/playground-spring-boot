@@ -210,6 +210,32 @@ public class OrganizationRepositoryImpl implements OrganizationRepositoryCustom 
                 .getSingleResult();
     }
 
+    @Override
+    public String findOwnerLogin(UUID organizationId) {
+        return em.createQuery(
+                "select u.login" +
+                        " from OrganizationEntity o  " +
+                        " inner join o.owner owner" +
+                        " inner join owner.user u" +
+                        " where o.id = :id",
+                String.class)
+                .setParameter("id", organizationId)
+                .getSingleResult();
+    }
+
+    @Override
+    public UserEntity findOwnerFetchOauth(UUID organizationId) {
+        return em.createQuery(
+                "select u" +
+                        " from OrganizationEntity o  " +
+                        " inner join o.owner owner" +
+                        " inner join owner.user u" +
+                        " join fetch u.oAuth" +
+                        " where o.id = :id",
+                UserEntity.class)
+                .setParameter("id", organizationId)
+                .getSingleResult();
+    }
 
     @Override
     public OrganizationEntity findByIdWithSettingPhonesTimesheetGallery(UUID organizationId) {

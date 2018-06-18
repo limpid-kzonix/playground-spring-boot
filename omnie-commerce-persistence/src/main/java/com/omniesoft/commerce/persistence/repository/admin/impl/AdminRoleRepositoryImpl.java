@@ -47,6 +47,22 @@ public class AdminRoleRepositoryImpl implements AdminRoleRepositoryCustom {
     }
 
     @Override
+    public Set<UserEntity> findAdminsByOrganizationIdFetchOauth(UUID organizationId) {
+        List<UserEntity> list = em.createQuery(
+                "select u" +
+                        " from UserEntity u" +
+                        " left join u.roles r" +
+                        " join fetch u.oAuth" +
+                        " where r.organization.id = :organizationId" +
+                        " group by u.id",
+                UserEntity.class)
+                .setParameter("organizationId", organizationId)
+                .getResultList();
+
+        return new HashSet<>(list);
+    }
+
+    @Override
     public Set<AdminRoleEntity> findByOrganizationIdWithPermissionsAndAdmins(UUID organizationId) {
         List<AdminRoleEntity> roles = em.createQuery(
                 "select r from AdminRoleEntity r" +

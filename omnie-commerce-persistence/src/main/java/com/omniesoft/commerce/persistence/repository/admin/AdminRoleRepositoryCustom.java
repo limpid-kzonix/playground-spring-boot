@@ -16,6 +16,8 @@ public interface AdminRoleRepositoryCustom {
 
     Set<AdminRoleEntity> findByRolesOrganizationId(UUID organizationId);
 
+    Set<UserEntity> findAdminsByOrganizationIdFetchOauth(UUID organizationId);
+
     AdminRoleEntity findByOrganizationAndUser(OrganizationEntity org, UserEntity admin);
 
     Set<AdminRoleEntity> findByOrganizationIdWithPermissionsAndAdmins(UUID organizationId);

@@ -3,7 +3,10 @@ package com.omniesoft.commerce.notification.listener;
 import com.omniesoft.commerce.notification.event.OrderNotifEvent;
 import com.omniesoft.commerce.notification.event.scope.AdminEventScope;
 import com.omniesoft.commerce.notification.event.scope.UserEventScope;
-import com.omniesoft.commerce.notification.service.ISearchAdminService;
+import com.omniesoft.commerce.notification.service.IFCMSenderService;
+import com.omniesoft.commerce.notification.service.IOnlineUsersCheckService;
+import com.omniesoft.commerce.notification.service.ISearchUsersService;
+import com.omniesoft.commerce.persistence.entity.account.UserEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
@@ -11,26 +14,48 @@ import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import static org.apache.commons.collections4.CollectionUtils.isEmpty;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class OrderEventListener implements ApplicationListener<OrderNotifEvent> {
     private final SimpMessageSendingOperations ws;
-    private final ISearchAdminService findAdmin;
+    private final ISearchUsersService search;
+    private final IOnlineUsersCheckService onlineUsersCheck;
+    private final IFCMSenderService fcm;
 
     @Override
     @EventListener
     public void onApplicationEvent(OrderNotifEvent event) {
         log.debug("New event from: {}", event.getScope().getEventEmitter().getName());
-        String userName;
+        Set<UserEntity> admins;
         if (event.getScope() instanceof UserEventScope) {
             UserEventScope scope = (UserEventScope) event.getScope();
             // TODO: 07.06.18 : impl sending for online users and admins
-            userName = findAdmin.getOwner(scope.getOrganizationReceiver());
+            admins = search.getAdminsAndOwner(scope.getOrganizationReceiver());
+            Set<String> onlineAdmins = onlineUsersCheck.filterOffline(admins.stream().map(UserEntity::getLogin).collect(Collectors.toSet()));
+            if (!isEmpty(onlineAdmins)) {
+                broadcast(onlineAdmins, event);
+                return;
+            }
+            fcm.orderNotif(admins, event);
         } else {
             AdminEventScope scope = (AdminEventScope) event.getScope();
-            userName = scope.getUserReceiver();
+            if (onlineUsersCheck.isOnline(scope.getUserReceiver())) {
+                ws.convertAndSendToUser(scope.getUserReceiver(), event.getScope().getDestination(), event.getSource());
+                return;
+            }
+            fcm.orderNotif(search.getUser(scope.getUserReceiver()), event);
+
         }
-        ws.convertAndSendToUser(userName, event.getScope().getDestination(), event.getSource());
+
+    }
+
+    private void broadcast(Iterable<String> userNames, OrderNotifEvent event) {
+        userNames.forEach(u -> ws.convertAndSendToUser(u, event.getScope().getDestination(), event.getSource()));
     }
 }

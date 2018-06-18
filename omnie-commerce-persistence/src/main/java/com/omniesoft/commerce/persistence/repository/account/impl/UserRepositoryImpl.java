@@ -53,6 +53,17 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
     }
 
     @Override
+    public UserEntity findByLoginFetchOAuth(String login) {
+        return em.createQuery("select u" +
+                        " from UserEntity u" +
+                        " join fetch u.oAuth" +
+                        " where u.login=:login",
+                UserEntity.class)
+                .setParameter("login", login)
+                .getSingleResult();
+    }
+
+    @Override
     public UserEntity merge(UserEntity user) {
         return em.merge(user);
     }

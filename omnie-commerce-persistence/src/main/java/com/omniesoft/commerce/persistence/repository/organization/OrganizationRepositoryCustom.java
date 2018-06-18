@@ -39,4 +39,9 @@ public interface OrganizationRepositoryCustom {
     OrganizationEntity findByDiscountId(UUID discountId);
 
     OrganizationEntity findByServiceId(UUID serviceId);
+
+    String findOwnerLogin(UUID organizationId);
+
+    UserEntity findOwnerFetchOauth(UUID organizationId);
+
 }

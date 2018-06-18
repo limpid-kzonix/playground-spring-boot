@@ -17,5 +17,5 @@ public interface UserRepositoryCustom {
 
     UserEntity getUserSecurityDetails(String id);
 
-
+    UserEntity findByLoginFetchOAuth(String login);
 }
