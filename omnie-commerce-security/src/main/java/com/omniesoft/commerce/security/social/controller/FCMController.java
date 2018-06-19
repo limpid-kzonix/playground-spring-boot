@@ -19,7 +19,7 @@ public class FCMController {
 
     @PutMapping(path = "/link/{fcm-token}")
     public void linkFCMToUser(
-            @PathVariable("fcm_token") String fcmToken,
+            @PathVariable("fcm-token") String fcmToken,
             @ApiIgnore UserEntity user) {
         fcmService.link(user, fcmToken);
     }
