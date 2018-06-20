@@ -13,6 +13,7 @@ RUN apk add --no-cache curl
 
 COPY target/omniecom-notification.jar  app.jar
 COPY start.sh start.sh
+COPY /var/develop/apps/omni-141514-firebase-secrets.json omni-141514-firebase-secrets.json
 
 RUN chmod +x start.sh start.sh
 

@@ -13,7 +13,6 @@ ENV JAVA_OPTS="-server -Xmx1g -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMem
 
 COPY target/omniecom-user.jar  app.jar
 COPY start.sh start.sh
-COPY /var/develop/apps/omni-141514-firebase-secrets.json omni-141514-firebase-secrets.json
 
 RUN chmod +x start.sh start.sh
 
