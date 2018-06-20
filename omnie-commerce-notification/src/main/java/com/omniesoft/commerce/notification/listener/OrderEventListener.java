@@ -3,7 +3,7 @@ package com.omniesoft.commerce.notification.listener;
 import com.omniesoft.commerce.notification.event.OrderNotifEvent;
 import com.omniesoft.commerce.notification.event.scope.AdminEventScope;
 import com.omniesoft.commerce.notification.event.scope.UserEventScope;
-import com.omniesoft.commerce.notification.service.IFCMSenderService;
+import com.omniesoft.commerce.notification.service.IFcmSenderService;
 import com.omniesoft.commerce.notification.service.IOnlineUsersCheckService;
 import com.omniesoft.commerce.notification.service.ISearchUsersService;
 import com.omniesoft.commerce.persistence.entity.account.UserEntity;
@@ -26,7 +26,7 @@ public class OrderEventListener implements ApplicationListener<OrderNotifEvent> 
     private final SimpMessageSendingOperations ws;
     private final ISearchUsersService search;
     private final IOnlineUsersCheckService onlineUsersCheck;
-    private final IFCMSenderService fcm;
+    private final IFcmSenderService fcm;
 
     @Override
     @EventListener
