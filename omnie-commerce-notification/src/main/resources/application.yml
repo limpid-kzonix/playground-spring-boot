@@ -114,7 +114,7 @@ security:
       clientSecret: secret
     resource:
       jwt:
-        keyUri: http://localhost:9999/omnie-security/api/oauth/token_key
+        keyUri: http://omnie-gateway:9999/omnie-security/api/oauth/token_key
 
 #
 # [ Logging Configuration Attributes ]
@@ -166,7 +166,7 @@ security:
       clientSecret: secret
     resource:
       jwt:
-        keyUri: http://localhost:9999/omnie-security/api/oauth/token_key
+        keyUri: http://omnie-gateway:9999/omnie-security/api/oauth/token_key
 
 #
 # [ Logging Configuration Attributes ]
