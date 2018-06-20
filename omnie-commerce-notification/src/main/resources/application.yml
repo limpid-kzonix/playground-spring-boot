@@ -9,7 +9,7 @@ server:
 
 application:
   firebase:
-    admin-sdk-secret-file: classpath:omni-141514-firebase-secrets.json
+    admin-sdk-secret-file: file:/tmp/omni-141514-firebase-secrets.json
     database-url: https://omni-141514.firebaseio.com/
 # [ Database Configuration Attributes ]
 #
@@ -101,7 +101,7 @@ spring:
 
 application:
   firebase:
-    admin-sdk-secret-file: file:/tmp/omni-141514-firebase-secrets.json
+    admin-sdk-secret-file: file:/omni-141514-firebase-secrets.json
 #
 # [ Security Configuration Attributes ]
 #
