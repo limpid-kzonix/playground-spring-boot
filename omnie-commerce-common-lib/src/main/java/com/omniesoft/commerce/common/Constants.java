@@ -32,4 +32,10 @@ public final class Constants {
 
         }
     }
+
+    public final class FCM {
+
+        public static final String PAYLOAD_KEY = "payload";
+        public static final String TARGET_KEY = "target";
+    }
 }

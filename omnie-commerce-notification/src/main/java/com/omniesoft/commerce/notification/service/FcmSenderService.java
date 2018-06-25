@@ -2,10 +2,9 @@ package com.omniesoft.commerce.notification.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.FirebaseMessagingException;
-import com.google.firebase.messaging.Message;
-import com.google.firebase.messaging.Notification;
+import com.google.firebase.messaging.*;
+import com.omniesoft.commerce.common.Constants;
+import com.omniesoft.commerce.common.notification.order.payload.OrderNotifPl;
 import com.omniesoft.commerce.notification.event.OrderNotifEvent;
 import com.omniesoft.commerce.persistence.entity.account.UserEntity;
 import com.omniesoft.commerce.persistence.entity.account.UserOAuthEntity;
@@ -25,20 +24,20 @@ public class FcmSenderService implements IFcmSenderService {
 
     @Override
     public void orderNotif(Set<UserEntity> admins, OrderNotifEvent event) {
-
         Set<String> tokens = getFcmTokens(admins);
-
         tokens.forEach(t -> sendFcmMessage(t, event));
+    }
 
+    @Override
+    public void orderNotif(UserEntity user, OrderNotifEvent event) {
+        user.getoAuth().stream()
+                .filter(this::isFcmToken)
+                .forEach(t -> sendFcmMessage(t.getProfileId(), event));
     }
 
     private void sendFcmMessage(String token, OrderNotifEvent event) {
         try {
-            Message message = Message.builder()
-                    .setNotification(new Notification("Order", mapper.writeValueAsString(event)))
-                    .setToken(token)
-                    .build();
-
+            Message message = buildMessage(token, event);
             String response = FirebaseMessaging.getInstance().send(message);
             log.debug("Successfully sent message: " + response);
         } catch (JsonProcessingException e) {
@@ -46,6 +45,24 @@ public class FcmSenderService implements IFcmSenderService {
         } catch (FirebaseMessagingException e) {
             log.error("Sending FCM message failed", e);
         }
+    }
+
+    private Message buildMessage(String token, OrderNotifEvent event) throws JsonProcessingException {
+        String title = "Omnie Commerce";
+        String body = ((OrderNotifPl) event.getSource()).getOrgName();
+
+        WebpushConfig webpushConfig = WebpushConfig.builder()
+                .setNotification(new WebpushNotification(title, body))
+                .build();
+
+        Notification notification = new Notification(title, body);
+
+        return Message.builder()
+                .setNotification(notification)
+                .setWebpushConfig(webpushConfig)
+                .putData(Constants.FCM.PAYLOAD_KEY, mapper.writeValueAsString(event))
+                .setToken(token)
+                .build();
     }
 
     private Set<String> getFcmTokens(Set<UserEntity> admins) {
@@ -60,11 +77,4 @@ public class FcmSenderService implements IFcmSenderService {
         return OAuthClient.FCM.equals(oa.getOauthClient());
     }
 
-    @Override
-    public void orderNotif(UserEntity user, OrderNotifEvent event) {
-        user.getoAuth().stream()
-                .filter(this::isFcmToken)
-                .forEach(t -> sendFcmMessage(t.getProfileId(), event));
-
-    }
 }

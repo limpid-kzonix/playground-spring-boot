@@ -34,5 +34,4 @@ public class FCMConfig {
         FirebaseApp.initializeApp(options);
         log.info("FCM successfully configured for: {}", props.firebase.databaseUrl);
     }
-
 }

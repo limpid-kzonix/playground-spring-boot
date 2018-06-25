@@ -1,18 +1,23 @@
 package com.omniesoft.commerce.notification.event.scope;
 
+import com.omniesoft.commerce.notification.util.event.NotifTarget;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.security.Principal;
 import java.util.UUID;
 
+/**
+ * Generates by user
+ * Target admin
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class UserEventScope extends EventScope {
     private UUID organizationReceiver;
 
     private UserEventScope(Principal emitter, String destanation, UUID orgId) {
-        super(emitter, destanation);
+        super(emitter, destanation, NotifTarget.ADMIN);
         this.organizationReceiver = orgId;
     }
 
