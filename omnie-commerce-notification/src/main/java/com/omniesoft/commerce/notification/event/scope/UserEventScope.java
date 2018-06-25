@@ -1,6 +1,6 @@
 package com.omniesoft.commerce.notification.event.scope;
 
-import com.omniesoft.commerce.notification.util.event.NotifTarget;
+import com.omniesoft.commerce.notification.util.NotifTarget;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
