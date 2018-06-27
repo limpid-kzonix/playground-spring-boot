@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.firebase.messaging.*;
 import com.omniesoft.commerce.common.Constants;
+import com.omniesoft.commerce.common.notification.NotifMessage;
 import com.omniesoft.commerce.common.notification.order.payload.OrderNotifPl;
 import com.omniesoft.commerce.notification.event.OrderNotifEvent;
 import com.omniesoft.commerce.persistence.entity.account.UserEntity;
@@ -49,7 +50,7 @@ public class FcmSenderService implements IFcmSenderService {
 
     private Message buildMessage(String token, OrderNotifEvent event) throws JsonProcessingException {
         String title = "Omnie Commerce";
-        String body = ((OrderNotifPl) event.getSource()).getOrgName();
+        String body = ((NotifMessage<OrderNotifPl>) event.getSource()).getContent().getOrgName();
 
         WebpushConfig webpushConfig = WebpushConfig.builder()
                 .setNotification(new WebpushNotification(title, body))
