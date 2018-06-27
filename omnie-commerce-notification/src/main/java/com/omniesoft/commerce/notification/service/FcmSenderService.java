@@ -61,7 +61,7 @@ public class FcmSenderService implements IFcmSenderService {
         return Message.builder()
                 .setNotification(notification)
                 .setWebpushConfig(webpushConfig)
-                .putData(Constants.FCM.PAYLOAD_KEY, mapper.writeValueAsString(event))
+                .putData(Constants.FCM.PAYLOAD_KEY, mapper.writeValueAsString(event.getSource()))
                 .setToken(token)
                 .build();
     }
