@@ -16,7 +16,7 @@ public class AdminEventScope extends EventScope {
     private String userReceiver;
 
     private AdminEventScope(Principal emitter, String destanation, String userReceiver) {
-        super(emitter, destanation, NotifTarget.ADMIN);
+        super(emitter, destanation, NotifTarget.USER);
         this.userReceiver = userReceiver;
     }
 
