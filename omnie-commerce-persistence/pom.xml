@@ -16,7 +16,6 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -31,6 +30,11 @@
             <artifactId>postgresql</artifactId>
         </dependency>
 
+        <!--<dependency>-->
+        <!--<groupId>com.integralblue</groupId>-->
+        <!--<artifactId>log4jdbc-spring-boot-starter</artifactId>-->
+        <!--<version>${log4jdbc-spring-boot-starter.version}</version>-->
+        <!--</dependency>-->
 
     </dependencies>
 

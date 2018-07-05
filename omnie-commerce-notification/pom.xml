@@ -24,7 +24,6 @@
         <spring.version>4.3.11.RELEASE</spring.version>
         <junit4.version>4.12</junit4.version>
         <guava.version>23.0</guava.version>
-        <log4jdbc-spring-boot-starter.version>1.0.1</log4jdbc-spring-boot-starter.version>
         <spring-cloud.version>Edgware.SR1</spring-cloud.version>
     </properties>
 
@@ -68,13 +67,6 @@
             <artifactId>firebase-admin</artifactId>
             <version>6.2.0</version>
         </dependency>
-
-        <dependency>
-            <groupId>com.integralblue</groupId>
-            <artifactId>log4jdbc-spring-boot-starter</artifactId>
-            <version>${log4jdbc-spring-boot-starter.version}</version>
-        </dependency>
-
         <dependency>
             <groupId>com.omniesoft.commerce.root</groupId>
             <artifactId>omnie-commerce-secured-parent</artifactId>

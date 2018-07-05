@@ -32,6 +32,8 @@ public class OrderEventListener implements ApplicationListener<OrderNotifEvent> 
     @EventListener
     public void onApplicationEvent(OrderNotifEvent event) {
         log.debug("New event from: {}", event.getScope().getEventEmitter().getName());
+        log.debug("Event: {}", event.getSource());
+
         Set<UserEntity> admins;
         if (event.getScope() instanceof UserEventScope) {
             UserEventScope scope = (UserEventScope) event.getScope();

@@ -27,11 +27,6 @@
         </dependency>
         <!---->
         <!-- Loggers -->
-        <dependency>
-            <groupId>com.integralblue</groupId>
-            <artifactId>log4jdbc-spring-boot-starter</artifactId>
-            <version>${log4jdbc-spring-boot-starter.version}</version>
-        </dependency>
 
         <!--Database-->
         <dependency>
