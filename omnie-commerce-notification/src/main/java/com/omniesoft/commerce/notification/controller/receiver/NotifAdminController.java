@@ -45,7 +45,7 @@ public class NotifAdminController extends AbstractNotifController {
     public void orderNotification(Principal emitter,
                                   @RequestBody NotifMessage<OrderNotifPl> message) {
 
-        log.info(message.toString());
+        log.debug(message.toString());
         UserEventScope scope = UserEventScope.of(emitter, NOTIFICATION, message.getContent().getOrgId());
         eventPublisher.publishEvent(new OrderNotifEvent(message, scope));
 

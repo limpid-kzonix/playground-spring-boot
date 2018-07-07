@@ -1,5 +1,6 @@
 package com.omniesoft.commerce.common.notification;
 
+import com.omniesoft.commerce.persistence.entity.enums.NotifType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

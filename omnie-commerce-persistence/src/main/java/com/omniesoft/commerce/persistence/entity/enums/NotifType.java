@@ -1,4 +1,4 @@
-package com.omniesoft.commerce.common.notification;
+package com.omniesoft.commerce.persistence.entity.enums;
 
 public enum NotifType {
     ORDER_NEW,

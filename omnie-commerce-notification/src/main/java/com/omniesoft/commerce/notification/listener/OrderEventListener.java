@@ -4,6 +4,7 @@ import com.omniesoft.commerce.notification.event.OrderNotifEvent;
 import com.omniesoft.commerce.notification.event.scope.AdminEventScope;
 import com.omniesoft.commerce.notification.event.scope.UserEventScope;
 import com.omniesoft.commerce.notification.service.IFcmSenderService;
+import com.omniesoft.commerce.notification.service.INotifService;
 import com.omniesoft.commerce.notification.service.IOnlineUsersCheckService;
 import com.omniesoft.commerce.notification.service.ISearchUsersService;
 import com.omniesoft.commerce.persistence.entity.account.UserEntity;
@@ -27,6 +28,7 @@ public class OrderEventListener implements ApplicationListener<OrderNotifEvent> 
     private final ISearchUsersService search;
     private final IOnlineUsersCheckService onlineUsersCheck;
     private final IFcmSenderService fcm;
+    private final INotifService notifSaving;
 
     @Override
     @EventListener
@@ -47,16 +49,22 @@ public class OrderEventListener implements ApplicationListener<OrderNotifEvent> 
         } else {
             AdminEventScope scope = (AdminEventScope) event.getScope();
             if (onlineUsersCheck.isOnline(scope.getUserReceiver())) {
+                log.debug("Send event wia WS: {} \n {}", scope.getUserReceiver(), event);
                 ws.convertAndSendToUser(scope.getUserReceiver(), event.getScope().getDestination(), event.getSource());
                 return;
             }
-            fcm.orderNotif(search.getUser(scope.getUserReceiver()), event);
+            UserEntity users = search.getUser(scope.getUserReceiver());
+            fcm.orderNotif(users, event);
 
         }
 
     }
 
     private void broadcast(Iterable<String> userNames, OrderNotifEvent event) {
-        userNames.forEach(u -> ws.convertAndSendToUser(u, event.getScope().getDestination(), event.getSource()));
+        userNames.forEach(u -> {
+                    log.debug("Broadcast event wia WS: {} \n {}", u, event);
+                    ws.convertAndSendToUser(u, event.getScope().getDestination(), event.getSource());
+                }
+        );
     }
 }
