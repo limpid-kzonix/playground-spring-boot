@@ -230,7 +230,7 @@ public class OrganizationRepositoryImpl implements OrganizationRepositoryCustom 
                         " from OrganizationEntity o  " +
                         " inner join o.owner owner" +
                         " inner join owner.user u" +
-                        " join fetch u.oAuth" +
+                        " left join fetch u.oAuth" +
                         " where o.id = :id",
                 UserEntity.class)
                 .setParameter("id", organizationId)
