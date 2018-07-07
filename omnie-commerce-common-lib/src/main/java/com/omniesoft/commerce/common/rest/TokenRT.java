@@ -25,7 +25,7 @@ public class TokenRT implements ITokenRT {
 
         HttpEntity httpEntity = createHttpEntity(message);
 
-        log.debug("User Notif:  {} entity hasBody {}", uri.toString(), httpEntity.hasBody());
+        log.info("User Notif:  {} entity hasBody {}", uri.toString(), httpEntity.hasBody());
         ResponseEntity<String> resp = rt.exchange(uri, HttpMethod.POST, httpEntity, String.class);
         if (!resp.getStatusCode().is2xxSuccessful()) {
             log.error("Notification Request fail");

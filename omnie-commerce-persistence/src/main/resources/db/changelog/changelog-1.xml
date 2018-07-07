@@ -350,5 +350,10 @@
         </rollback>
         <comment></comment>
     </changeSet>
+    <changeSet id="25" author="omnie46">
+        <sql dbms="postgresql">
+            ALTER TABLE notification DROP CONSTRAINT "notification_receiver_id_key";
+        </sql>
+    </changeSet>
 
 </databaseChangeLog>
