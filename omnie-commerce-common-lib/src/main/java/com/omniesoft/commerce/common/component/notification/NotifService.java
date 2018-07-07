@@ -1,8 +1,8 @@
-package com.omniesoft.commerce.notification.service;
+package com.omniesoft.commerce.common.component.notification;
 
 import com.omniesoft.commerce.common.notification.NotifMessage;
+import com.omniesoft.commerce.common.notification.order.OrderNotifEvent;
 import com.omniesoft.commerce.common.notification.order.payload.OrderNotifPl;
-import com.omniesoft.commerce.notification.event.OrderNotifEvent;
 import com.omniesoft.commerce.persistence.entity.account.UserEntity;
 import com.omniesoft.commerce.persistence.entity.notification.NotifEntity;
 import com.omniesoft.commerce.persistence.entity.order.OrderEntity;
@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,7 +43,7 @@ public class NotifService implements INotifService {
     }
 
     @Override
-    public Page<NotifMessage<OrderNotifPl>> find(UUID organizationId, UUID serviceId, UserEntity user, Pageable pageable) {
+    public Page<NotifMessage<OrderNotifPl>> findAdminNotif(UserEntity user, Pageable pageable) {
         Page<NotifEntity> page = notifRepository.findAll(pageable);
         List<NotifMessage<OrderNotifPl>> collect = page.getContent()
                 .stream()
@@ -64,12 +63,14 @@ public class NotifService implements INotifService {
     }
 
     private OrderEntity getOrder(NotifEntity notif) {
+        // TODO: 07.07.18: add logic if notification will be related not only for orders
         return orderRepository.findOne(notif.getItem());
     }
 
     private NotifEntity map(UserEntity user, OrderNotifEvent event) {
         NotifEntity notifEntity = new NotifEntity();
         notifEntity.setReceiver(user);
+        // TODO: 07.07.18: add logic if notification will be related not only for orders
         NotifMessage<OrderNotifPl> source = (NotifMessage<OrderNotifPl>) event.getSource();
         notifEntity.setItem(source.getContent().getOrderId());
         notifEntity.setTarget(event.getScope().getTarget());

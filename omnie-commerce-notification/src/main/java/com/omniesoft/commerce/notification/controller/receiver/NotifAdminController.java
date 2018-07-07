@@ -12,11 +12,11 @@
 package com.omniesoft.commerce.notification.controller.receiver;
 
 import com.omniesoft.commerce.common.notification.NotifMessage;
+import com.omniesoft.commerce.common.notification.order.OrderNotifEvent;
 import com.omniesoft.commerce.common.notification.order.payload.OrderNotifPl;
+import com.omniesoft.commerce.common.notification.scope.UserEventScope;
 import com.omniesoft.commerce.common.ws.notification.payload.ConversationMessage;
 import com.omniesoft.commerce.common.ws.notification.payload.ReviewMessage;
-import com.omniesoft.commerce.notification.event.OrderNotifEvent;
-import com.omniesoft.commerce.notification.event.scope.UserEventScope;
 import com.omniesoft.commerce.notification.util.event.admin.events.OnConversationAdminNotifyEvent;
 import com.omniesoft.commerce.notification.util.event.admin.events.OnReviewAdminNotifyEvent;
 import lombok.AllArgsConstructor;

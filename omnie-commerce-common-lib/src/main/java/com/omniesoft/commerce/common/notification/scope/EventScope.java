@@ -1,4 +1,4 @@
-package com.omniesoft.commerce.notification.event.scope;
+package com.omniesoft.commerce.common.notification.scope;
 
 import com.omniesoft.commerce.persistence.entity.enums.NotifTarget;
 import lombok.AllArgsConstructor;

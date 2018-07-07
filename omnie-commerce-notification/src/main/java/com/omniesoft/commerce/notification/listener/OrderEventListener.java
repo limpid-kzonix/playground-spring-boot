@@ -1,10 +1,10 @@
 package com.omniesoft.commerce.notification.listener;
 
-import com.omniesoft.commerce.notification.event.OrderNotifEvent;
-import com.omniesoft.commerce.notification.event.scope.AdminEventScope;
-import com.omniesoft.commerce.notification.event.scope.UserEventScope;
+import com.omniesoft.commerce.common.component.notification.INotifService;
+import com.omniesoft.commerce.common.notification.order.OrderNotifEvent;
+import com.omniesoft.commerce.common.notification.scope.AdminEventScope;
+import com.omniesoft.commerce.common.notification.scope.UserEventScope;
 import com.omniesoft.commerce.notification.service.IFcmSenderService;
-import com.omniesoft.commerce.notification.service.INotifService;
 import com.omniesoft.commerce.notification.service.IOnlineUsersCheckService;
 import com.omniesoft.commerce.notification.service.ISearchUsersService;
 import com.omniesoft.commerce.persistence.entity.account.UserEntity;
