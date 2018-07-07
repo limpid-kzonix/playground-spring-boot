@@ -23,7 +23,7 @@ public class OrderNotifFromUserRT implements IOrderNotifRT {
     @Override
     @Async(Constants.Executors.ASYNC_HTTP)
     public void newOrder(OrderEntity order) {
-
+        log.debug("Triggered newOrder");
         if (order.getUser() != null) {
             NotifMessage<OrderNotifPl> message = createOrderNotif(order, NotifType.ORDER_NEW);
             rt.sentHttpRequest(message, urls.orderNotifForAdmin());
@@ -33,6 +33,7 @@ public class OrderNotifFromUserRT implements IOrderNotifRT {
     @Override
     @Async(Constants.Executors.ASYNC_HTTP)
     public void confirmOrder(OrderEntity order) {
+        log.debug("Triggered confirmOrder");
         if (order.getUser() != null) {
             NotifMessage<OrderNotifPl> message = createOrderNotif(order, NotifType.ORDER_CONFIRM);
             rt.sentHttpRequest(message, urls.orderNotifForAdmin());
@@ -42,6 +43,7 @@ public class OrderNotifFromUserRT implements IOrderNotifRT {
     @Override
     @Async(Constants.Executors.ASYNC_HTTP)
     public void changedOrder(OrderEntity order) {
+        log.debug("Triggered changedOrder");
         if (order.getUser() != null) {
             NotifMessage<OrderNotifPl> message = createOrderNotif(order, NotifType.ORDER_CHANGE);
             rt.sentHttpRequest(message, urls.orderNotifForAdmin());
@@ -51,6 +53,7 @@ public class OrderNotifFromUserRT implements IOrderNotifRT {
     @Override
     @Async(Constants.Executors.ASYNC_HTTP)
     public void doneOrder(OrderEntity order) {
+        log.debug("Triggered doneOrder");
         if (order.getUser() != null) {
             NotifMessage<OrderNotifPl> message = createOrderNotif(order, NotifType.ORDER_DONE);
             rt.sentHttpRequest(message, urls.orderNotifForAdmin());
@@ -60,6 +63,7 @@ public class OrderNotifFromUserRT implements IOrderNotifRT {
     @Override
     @Async(Constants.Executors.ASYNC_HTTP)
     public void cancelOrder(OrderEntity order) {
+        log.debug("Triggered cancelOrder");
         if (order.getUser() != null) {
             NotifMessage<OrderNotifPl> message = createOrderNotif(order, NotifType.ORDER_CANCEL);
             rt.sentHttpRequest(message, urls.orderNotifForAdmin());
@@ -69,6 +73,7 @@ public class OrderNotifFromUserRT implements IOrderNotifRT {
     @Override
     @Async(Constants.Executors.ASYNC_HTTP)
     public void failOrder(OrderEntity order) {
+        log.debug("Triggered failOrder");
         if (order.getUser() != null) {
             NotifMessage<OrderNotifPl> message = createOrderNotif(order, NotifType.ORDER_FAIL);
             rt.sentHttpRequest(message, urls.orderNotifForAdmin());

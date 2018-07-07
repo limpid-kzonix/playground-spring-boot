@@ -16,7 +16,7 @@ public class ExecutorBeanDefinition {
         executor.setCorePoolSize(8);
         executor.setMaxPoolSize(16);
         executor.setQueueCapacity(1500);
-        executor.setThreadNamePrefix("RestTemplateServiceLookup-");
+        executor.setThreadNamePrefix("RestTemplateExecutor-");
         executor.initialize();
         return executor;
     }
@@ -27,7 +27,7 @@ public class ExecutorBeanDefinition {
         executor.setCorePoolSize(1);
         executor.setMaxPoolSize(1);
         executor.setQueueCapacity(50);
-        executor.setThreadNamePrefix("ScheduleTemplateServiceLookup-");
+        executor.setThreadNamePrefix("ScheduleTemplateExecutor-");
         executor.initialize();
         return executor;
     }

@@ -4,11 +4,13 @@ import com.omniesoft.commerce.persistence.entity.order.OrderEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
+@ToString
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class OrderNotifPl {
     private UUID orderId;

@@ -61,7 +61,6 @@ public class OrderController {
                                              @RequestBody @Valid SaveOrderDto order,
                                              @ApiIgnore UserEntity user) {
 
-        log.info("Make order: {}", request.getMethod());
 
         order.setServiceId(serviceId);
         UUID id = orderService.makeOrder(order, user);
