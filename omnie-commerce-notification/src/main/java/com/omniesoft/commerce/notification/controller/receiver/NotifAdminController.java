@@ -19,7 +19,7 @@ import com.omniesoft.commerce.common.ws.notification.payload.ConversationMessage
 import com.omniesoft.commerce.common.ws.notification.payload.ReviewMessage;
 import com.omniesoft.commerce.notification.util.event.admin.events.OnConversationAdminNotifyEvent;
 import com.omniesoft.commerce.notification.util.event.admin.events.OnReviewAdminNotifyEvent;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
@@ -35,7 +35,7 @@ import static com.omniesoft.commerce.common.Constants.WS.Owner.NOTIFICATION;
 
 @Slf4j
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class NotifAdminController extends AbstractNotifController {
 
     private final ApplicationEventPublisher eventPublisher;
