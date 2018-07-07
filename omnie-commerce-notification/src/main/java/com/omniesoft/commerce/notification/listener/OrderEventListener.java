@@ -11,7 +11,6 @@ import com.omniesoft.commerce.persistence.entity.account.UserEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
-import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +30,6 @@ public class OrderEventListener implements ApplicationListener<OrderNotifEvent> 
     private final INotifService notifSaving;
 
     @Override
-    @EventListener
     public void onApplicationEvent(OrderNotifEvent event) {
         log.debug("New event from: {}", event.getScope().getEventEmitter().getName());
         log.debug("Event: {}", event.getSource());
