@@ -17,12 +17,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
@@ -56,12 +56,12 @@ public class OrderController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "services/{service-id}/orders/timesheet", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public ResponseMessage.Created makeOrder(HttpRequest request,
+    public ResponseMessage.Created makeOrder(HttpServletRequest request,
                                              @PathVariable("service-id") UUID serviceId,
                                              @RequestBody @Valid SaveOrderDto order,
                                              @ApiIgnore UserEntity user) {
 
-        log.info("Make order: {}", request.getMethod().name());
+        log.info("Make order: {}", request.getMethod());
 
         order.setServiceId(serviceId);
         UUID id = orderService.makeOrder(order, user);
