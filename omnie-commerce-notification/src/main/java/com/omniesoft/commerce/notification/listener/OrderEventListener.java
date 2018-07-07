@@ -43,18 +43,20 @@ public class OrderEventListener implements ApplicationListener<OrderNotifEvent> 
             Set<String> onlineAdmins = onlineUsersCheck.filterOffline(admins.stream().map(UserEntity::getLogin).collect(Collectors.toSet()));
             if (!isEmpty(onlineAdmins)) {
                 broadcast(onlineAdmins, event);
-                return;
+            } else {
+                fcm.orderNotif(admins, event);
             }
-            fcm.orderNotif(admins, event);
+            notifSaving.save(admins, event);
         } else {
             AdminEventScope scope = (AdminEventScope) event.getScope();
+            UserEntity user = search.getUser(scope.getUserReceiver());
             if (onlineUsersCheck.isOnline(scope.getUserReceiver())) {
                 log.debug("Send event wia WS: {} \n {}", scope.getUserReceiver(), event);
                 ws.convertAndSendToUser(scope.getUserReceiver(), event.getScope().getDestination(), event.getSource());
-                return;
+            } else {
+                fcm.orderNotif(user, event);
             }
-            UserEntity users = search.getUser(scope.getUserReceiver());
-            fcm.orderNotif(users, event);
+            notifSaving.save(user, event);
 
         }
 
