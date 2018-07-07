@@ -44,7 +44,7 @@ public class NotifService implements INotifService {
 
     @Override
     public Page<NotifMessage<OrderNotifPl>> findAdminNotif(UserEntity user, Pageable pageable) {
-        Page<NotifEntity> page = notifRepository.findAll(pageable);
+        Page<NotifEntity> page = notifRepository.findAdminNotif(user.getId(), pageable);
         List<NotifMessage<OrderNotifPl>> collect = page.getContent()
                 .stream()
                 .map(this::map)

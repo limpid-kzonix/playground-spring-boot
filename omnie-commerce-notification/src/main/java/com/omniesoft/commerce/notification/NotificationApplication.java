@@ -8,6 +8,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
@@ -20,6 +21,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EntityScan(basePackages = "com.omniesoft.commerce.persistence")
 @EnableJpaRepositories("com.omniesoft.commerce.persistence")
+@ComponentScan({"com.omniesoft.commerce.common.component.notification"})
 @EnableScheduling
 @EnableDiscoveryClient
 @EnableEurekaClient

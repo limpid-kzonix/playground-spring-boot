@@ -25,7 +25,6 @@ public class NotifController {
     @GetMapping(path = "/notifications")
     public Page<NotifMessage<OrderNotifPl>> findNotifications(@ApiIgnore UserEntity user,
                                                               @Valid PageableRequest pageableRequest, Pageable pageable) {
-
         return notifService.findAdminNotif(user, pageable);
     }
 }

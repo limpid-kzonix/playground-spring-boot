@@ -35,6 +35,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @Configuration
 @ComponentScan({"com.omniesoft.commerce.common.component.order"})
+@ComponentScan({"com.omniesoft.commerce.common.component.notification"})
 public class BeanDefinitionConfig {
 
     @Autowired
