@@ -13,7 +13,7 @@ import java.util.UUID;
 @Transactional
 public interface NotifRepository extends PagingAndSortingRepository<NotifEntity, UUID> {
 
-    @Query("select n from NotifEntity n where n.receiver= :id and n.target=ADMIN")
+    @Query("select n from NotifEntity n where n.receiver.id= :id and n.target=ADMIN")
     Page<NotifEntity> findAdminNotif(@Param("id") UUID id, Pageable pageable);
 
 }
