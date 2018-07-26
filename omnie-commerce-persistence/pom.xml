@@ -3,6 +3,9 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <properties>
+        <liquibase-db.url>jdbc:postgresql://localhost:5432/omnie_commerce</liquibase-db.url>
+    </properties>
 
     <parent>
         <groupId>com.omniesoft.commerce.root</groupId>
@@ -38,6 +41,15 @@
 
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <liquibase-db.url>jdbc:postgresql://localhost:5432/omnie_commerce_prod</liquibase-db.url>
+            </properties>
+        </profile>
+    </profiles>
+
     <build>
         <plugins>
             <plugin>
@@ -46,7 +58,7 @@
                 <version>3.5.3</version>
                 <configuration>
                     <propertyFileWillOverride>false</propertyFileWillOverride>
-                    <url>jdbc:postgresql://localhost:5432/omnie_commerce</url>
+                    <url>${liquibase-db.url}</url>
                     <server>server.database</server>
                     <changeLogFile>db/changelog/master-changelog.xml</changeLogFile>
                 </configuration>
