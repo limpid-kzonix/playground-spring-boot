@@ -161,5 +161,37 @@ eureka:
       enabled: true
 
 
+---
+###
+### Profile: prod-local
+###
+
+server:
+  port: 19999
+
+spring:
+  profiles: prod-local
+  redis:
+    host: redis
+    port: 6379
+
+logging:
+  config: classpath:log-config/prod.xml
+
+service:
+  discovery:
+    host: omnie-discovery
+    client:
+      user: eureka-client
+      password: EuReKaPasSs
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    securePortEnabled: false
+    prefer-ip-address: true
+  client:
+    healthcheck:
+      enabled: true
+
 
 

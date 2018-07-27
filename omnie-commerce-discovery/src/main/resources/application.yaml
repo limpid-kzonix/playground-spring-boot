@@ -49,4 +49,23 @@ eureka:
 logging:
   config: classpath:logger-to-file.xml
 
+---
+###
+### Profile: prod-local
+###
+
+server:
+  port: 19998
+
+spring:
+  profiles: prod-local
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    securePortEnabled: true
+    prefer-ip-address: true
+    hostname: omnie-discovery
+logging:
+  config: classpath:logger-to-file.xml
+
 

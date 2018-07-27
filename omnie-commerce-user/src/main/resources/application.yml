@@ -272,3 +272,84 @@ service:
     client:
       user: eureka-client
       password: EuReKaPasSs
+
+---
+###
+### Profile: prod-local
+###
+spring:
+  profiles: prod-local
+  jpa:
+    generate-ddl: false
+    show-sql: false
+    database: postgresql
+    hibernate:
+      ddl-auto: validate
+      naming:
+        strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    properties:
+      hibernate:
+        format_sql: false
+  datasource:
+    url: jdbc:postgresql://localhost:5432/omnie_commerce_prod
+
+#
+# [ Security Configuration Attributes ]
+#
+server:
+  port: 19030
+
+security:
+  oauth2:
+    client:
+      clientId: web-client
+      clientSecret: secret
+    resource:
+      jwt:
+        keyUri: http://omnie-gateway:19999/omnie-security/api/oauth/token_key
+
+#
+# [ Logging Configuration Attributes ]
+#
+
+logging:
+  config: classpath:log-config/prod.xml
+
+
+#
+# [ Rest Templates ]
+#
+communication:
+  services:
+    token-service:
+      api:
+        baseUrl: http://omnie-gateway:19999/omnie-security/api/oauth/token
+    image-service:
+      api:
+        baseUrl: http://omnie-gateway:19999/omnie-imagestorage/api
+    statistic-service:
+      api:
+        baseUrl: http://omnie-gateway:19999/omnie-statistic/api
+    notification-service:
+      api:
+        baseUrl: http://omnie-gateway:19999/omnie-notification/api
+
+application:
+  host: http://omniecom.com
+  port: 0
+
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    securePortEnabled: false
+    prefer-ip-address: true
+  client:
+    healthcheck:
+      enabled: true
+
+service:
+  discovery:
+    host: omnie-discovery
+    client:
+      user: eureka-client
+      password: EuReKaPasSs

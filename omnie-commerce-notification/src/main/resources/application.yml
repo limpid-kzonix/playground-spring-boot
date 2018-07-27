@@ -197,3 +197,59 @@ service:
       user: eureka-client
       password: EuReKaPasSs
 
+---
+###
+### Profile: prod-local
+###
+spring:
+  profiles: prod-local
+  datasource:
+    url: jdbc:postgresql://localhost:5432/omnie_commerce_prod
+
+#
+# [ Security Configuration Attributes ]
+#
+server:
+  port: 19090
+
+security:
+  basic:
+    enabled: false
+  oauth2:
+    client:
+      clientId: web-client
+      clientSecret: secret
+    resource:
+      jwt:
+        keyUri: http://omnie-gateway:19999/omnie-security/api/oauth/token_key
+
+#
+# [ Logging Configuration Attributes ]
+#
+log4jdbc:
+  trim:
+    sql: false
+  dump:
+    sql:
+      maxlinelength: 120
+      select: true
+logging:
+  config: classpath:log-config/prod.xml
+
+eureka:
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    securePortEnabled: false
+    prefer-ip-address: true
+  client:
+    healthcheck:
+      enabled: true
+
+service:
+  discovery:
+    host: omnie-discovery
+    client:
+      user: eureka-client
+      password: EuReKaPasSs
+
+
