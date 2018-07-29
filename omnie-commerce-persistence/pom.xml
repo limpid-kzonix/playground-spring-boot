@@ -45,7 +45,7 @@
         <profile>
             <id>prod</id>
             <properties>
-                <liquibase-db.url>jdbc:postgresql://localhost:5432/omnie_commerce_prod</liquibase-db.url>
+                <liquibase-db.url>jdbc:postgresql://localhost:15432/omnie_commerce</liquibase-db.url>
             </properties>
         </profile>
     </profiles>
