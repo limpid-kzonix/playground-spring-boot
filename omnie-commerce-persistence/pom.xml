@@ -5,6 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <properties>
         <liquibase-db.url>jdbc:postgresql://localhost:5432/omnie_commerce</liquibase-db.url>
+        <liquibase-maven.server.creds>server.database</liquibase-maven.server.creds>
     </properties>
 
     <parent>
@@ -46,6 +47,7 @@
             <id>prod</id>
             <properties>
                 <liquibase-db.url>jdbc:postgresql://localhost:15432/omnie_commerce</liquibase-db.url>
+                <liquibase-maven.server.creds>prod.database</liquibase-maven.server.creds>
             </properties>
         </profile>
     </profiles>
@@ -59,7 +61,7 @@
                 <configuration>
                     <propertyFileWillOverride>false</propertyFileWillOverride>
                     <url>${liquibase-db.url}</url>
-                    <server>server.database</server>
+                    <server>${liquibase-maven.server.creds}</server>
                     <changeLogFile>db/changelog/master-changelog.xml</changeLogFile>
                 </configuration>
                 <executions>
