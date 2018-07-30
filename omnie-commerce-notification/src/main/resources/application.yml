@@ -154,6 +154,10 @@ spring:
     datasource:
       url: jdbc:postgresql://postgres:5432/omnie_commerce
 
+application:
+  firebase:
+    admin-sdk-secret-file: file:/firebase-secrets.json
+
 #
 # [ Security Configuration Attributes ]
 #
