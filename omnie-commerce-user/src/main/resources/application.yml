@@ -254,8 +254,8 @@ communication:
         baseUrl: http://omnie-gateway:9999/omnie-notification/api
 
 application:
-    host: http://omniecom.com.ua
-    port: 0
+  host: http://omniecom.com
+  port: 19999
 
 eureka:
   instance:

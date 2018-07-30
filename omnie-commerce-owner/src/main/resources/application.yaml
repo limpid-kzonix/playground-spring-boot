@@ -205,8 +205,8 @@ service:
 ### Profile: prod
 ###
 application:
-    host: http://omniecom.com.ua
-    port: 0
+  host: http://omniecom.com
+  port: 19999
 
 spring:
     profiles: prod
